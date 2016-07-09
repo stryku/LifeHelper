@@ -18,7 +18,7 @@ set(CMAKE_INSTALL_PREFIX "${bin_dir}" CACHE INTERNAL "Prefix prepended to instal
 include_directories (${inc_dir} 
 					 ${Qt5UiTools_INCLUDE_DIRS})
 
-set (Program1Lib_src ${internals_dir}/view/P2ConsoleView.cpp
+set (Program2Lib_src ${internals_dir}/view/P2ConsoleView.cpp
 					 ${internals_dir}/view/P2QtView.cpp
 					 ${internals_dir}/view/P2View.cpp
 					 ${internals_dir}/view/detail/P2QtWidgetManager.cpp
@@ -30,32 +30,32 @@ set (Program1Lib_src ${internals_dir}/view/P2ConsoleView.cpp
 					 ${internals_dir}/controller/P2QtController.cpp
 					 ${internals_dir}/controller/P2Controller.cpp)
 					 
-set (Program1_src  	${src_dir}/main.cpp
+set (Program2_src  	${src_dir}/main.cpp
 					${src_dir}/mainwindow.cpp
 					 ${src_dir}/ProgramFactory.cpp
 					 ${src_dir}/ViewFactory.cpp)
 					 
-set (Program1Lib_hdr ${inc_dir}/mainwindow.h)
-set (Program1Lib_ui  ${ui_dir}/mainwindow.ui)
-set (Program1Bin_src ${src_dir}/main.cpp)
+set (Program2Lib_hdr ${inc_dir}/mainwindow.h)
+set (Program2Lib_ui  ${ui_dir}/mainwindow.ui)
+set (Program2Bin_src ${src_dir}/main.cpp)
 
-qt5_wrap_cpp(Program1Lib_hdr_moc ${Program1Lib_hdr})
-qt5_wrap_ui (Program1Lib_ui_moc  ${Program1Lib_ui})
+qt5_wrap_cpp(Program2Lib_hdr_moc ${Program2Lib_hdr})
+qt5_wrap_ui (Program2Lib_ui_moc  ${Program2Lib_ui})
 
 include_directories (${PROJECT_SOURCE_DIR})
 include_directories (${PROJECT_BINARY_DIR})
 
-add_library (Program1Lib STATIC 
-    ${Program1Lib_src}
-    ${Program1Lib_hdr_moc}
-    ${Program1Lib_ui_moc}
+add_library (Program2Lib STATIC 
+    ${Program2Lib_src}
+    ${Program2Lib_hdr_moc}
+    ${Program2Lib_ui_moc}
 )
 
-target_link_libraries (Program1Lib Qt5::Widgets Qt5::UiTools)
+target_link_libraries (Program2Lib Qt5::Widgets Qt5::UiTools)
 
-add_executable(Program1 ${Program1_src})
-target_link_libraries (Program1 Program1Lib)
+add_executable(Program2 ${Program2_src})
+target_link_libraries (Program2 Program2Lib)
 
 
-install(TARGETS Program1Lib DESTINATION  ${lib_dir}/)
-install(TARGETS Program1 DESTINATION  ${bin_dir}/)
+install(TARGETS Program2Lib DESTINATION  ${lib_dir}/)
+install(TARGETS Program2 DESTINATION  ${bin_dir}/)
