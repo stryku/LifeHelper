@@ -1,8 +1,6 @@
 cmake_minimum_required (VERSION 2.8.12)
-project (Program1)
+project (Program2)
 
-set( CMAKE_PREFIX_PATH C:/Qt/Qt5.7.0/5.7/msvc2015/)
-set(CMAKE_INSTALL_PREFIX "${Program1_bin_src}" CACHE INTERNAL "Prefix prepended to install directories" FORCE)
 
 find_package (Qt5Widgets)
 find_package (Qt5UiTools REQUIRED)
@@ -13,6 +11,9 @@ set (inc_dir ${PROJECT_SOURCE_DIR}/sources/inc)
 set (ui_dir ${PROJECT_SOURCE_DIR}/uiforms)
 set (lib_dir ${PROJECT_SOURCE_DIR}/lib)
 set (bin_dir ${PROJECT_SOURCE_DIR}/bin)
+
+
+set(CMAKE_INSTALL_PREFIX "${bin_dir}" CACHE INTERNAL "Prefix prepended to install directories" FORCE)
 
 include_directories (${inc_dir} 
 					 ${Qt5UiTools_INCLUDE_DIRS})
