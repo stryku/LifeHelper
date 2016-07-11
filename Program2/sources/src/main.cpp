@@ -1,5 +1,5 @@
 #include "mainwindow.h"
-#include <ProgramInternalCreators.h>
+#include <ProgramInternalsCreators.h>
 #include <QApplication>
 
 #include <Windows.h>
@@ -15,7 +15,7 @@ int runQt( int argc, char *argv[] )
 
     auto internalWidgetParent = w.getWidgetContainer();
 
-    auto internals = ProgramInternalCreators::createLocalQt( internalWidgetParent );
+    auto internals = ProgramInternalsCreators::createLocalQt( internalWidgetParent );
 
     w.show();
 

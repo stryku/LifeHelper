@@ -4,7 +4,7 @@
 #include <internals/ProgramInternals.h>
 #include <QWidget>
 
-namespace ProgramInternalCreators
+namespace ProgramInternalsCreators
 {
     ProgramInternals createLocalQt(QWidget *qtViewWidgetParent);
 }
