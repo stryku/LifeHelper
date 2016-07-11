@@ -28,7 +28,7 @@ set (Program2Lib_src ${internals_dir}/view/ConsoleView.cpp
 					 
 set (Program2_src  	${src_dir}/main.cpp
 					${src_dir}/mainwindow.cpp
-					${src_dir}/ProgramFactory.cpp)
+					${src_dir}/ProgramInternalsCreators.cpp)
 					 
 set (Program2Lib_hdr ${inc_dir}/mainwindow.h)
 set (Program2Lib_ui  ${ui_dir}/mainwindow.ui)
