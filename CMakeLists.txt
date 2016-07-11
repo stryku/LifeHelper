@@ -3,11 +3,6 @@ project (GodProgram)
 
 set( CMAKE_PREFIX_PATH C:/Qt/Qt5.7.0/5.7/msvc2015/)
 
-add_subdirectory(Program2)
+set (GodProgram_install_dir ${CMAKE_CURRENT_SOURCE_DIR}/bin)
 
-
-
-install(
-    DIRECTORY "Program2/resources"
-    DESTINATION "bin/Program2"
-)
+add_subdirectory(Program2Folder)
