@@ -16,7 +16,7 @@ set (lib_dir ${src_root}/lib)
 set (install_dir ${src_root}/bin)
 set (resources_dir ${src_root}/resources)
 
-set (GodInstallDir ${GodProgram_install_dir}/${program_name})
+set (GodInstallDir ${GodProgram_programs_install_dir}/${program_name})
 
 message (${program_name} " will be installed in:")
 message (${install_dir})
