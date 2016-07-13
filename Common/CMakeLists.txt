@@ -7,11 +7,11 @@ set (inc_dir ${src_root}/sources/inc)
 
 include_directories (${inc_dir})
 
-set (Common_src ${src_dir}/...)
+set (Common_src ${src_dir}/Publisher.cpp)
                      
-set (Common_inc ${inc_dir}/...)
+set (Common_inc ${inc_dir}/Publisher.hpp)
 
-add_library (CommonLib OBJECT 
+add_library (CommonObjects OBJECT 
     ${Common_src}
 	${Common_inc}
 )

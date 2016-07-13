@@ -70,7 +70,7 @@ add_library (Program2Lib STATIC
 )
 target_link_libraries (Program2Lib Qt5::Widgets Qt5::UiTools)
 
-add_executable(Program2 ${Program2_src} ${Program2_inc})
+add_executable(Program2 ${Program2_src} ${Program2_inc} $<TARGET_OBJECTS:CommonObjects>)
 target_link_libraries (Program2 Program2Lib)
 
 
