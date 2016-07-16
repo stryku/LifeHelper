@@ -23,11 +23,11 @@ namespace Common
         template <typename Type>
         class OneWayChannel
         {
+        public:
             static_assert(!std::is_same<Type, ChannelType::Receiver>::value &&
                           !std::is_same<Type, ChannelType::Sender>::value,
                           "OneWayChannel may be one of type ChannelType::Receiver or ChannelType::Sender only");
 
-        public:
             OneWayChannel(zmq::context_t &context) :
                 m_context(context),
                 m_socket(context, Type::socketType)
@@ -48,24 +48,34 @@ namespace Common
             OneWayChannel(const OneWayChannel&) = delete;
             OneWayChannel& operator=(const OneWayChannel&) = delete;
 
-            template<typename std::enable_if<std::is_same<Type, ChannelType::Receiver>::value), int>::type = 0>
-            void recv(zmq::message_t &message)
+            auto recv(zmq::message_t &message)
             {
+                static_assert(!std::is_same<Type, ChannelType::Receiver>::value, 
+                              "Channel can recv only if its type is Receiver");
+
                 return m_socket.recv(&message);
             }
 
-            template<typename std::enable_if<std::is_same<Type, ChannelType::Sender>::value), int>::type = 0>
-            bool send(const zmq::message_t &message)
+            auto send(const zmq::message_t &message)
+            {
+                static_assert(!std::is_same<Type, ChannelType::Sender>::value, 
+                              "Channel can send only if its type is Sender");
+
+                return m_socket.send(message);
+            }
+            
+            template<typename = std::enable_if<!std::is_same<Type, ChannelType::Sender>::value) >>
+            auto send(const zmq::message_t &message)
             {
                 return m_socket.send(message);
             }
 
-            void bind(const std::string &addr)
+            auto bind(const std::string &addr)
             {
                 return m_socket.bind(addr);
             }
 
-            void connect(const std::string &addr)
+            auto connect(const std::string &addr)
             {
                 return m_socket.connect(addr);
             }
