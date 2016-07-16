@@ -49,18 +49,26 @@ namespace Common
             OneWayChannel& operator=(const OneWayChannel&) = delete;
 
             template<typename std::enable_if<std::is_same<Type, ChannelType::Receiver>::value), int>::type = 0>
-            void recv() 
-            {}
+            void recv(zmq::message_t &message)
+            {
+                return m_socket.recv(&message);
+            }
 
             template<typename std::enable_if<std::is_same<Type, ChannelType::Sender>::value), int>::type = 0>
-            void send()
-            {}
+            bool send(const zmq::message_t &message)
+            {
+                return m_socket.send(message);
+            }
 
-            void bind()
-            {}
+            void bind(const std::string &addr)
+            {
+                return m_socket.bind(addr);
+            }
 
-            void connect()
-            {}
+            void connect(const std::string &addr)
+            {
+                return m_socket.connect(addr);
+            }
 
         private:
             zmq::context_t &m_context;
