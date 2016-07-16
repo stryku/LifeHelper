@@ -3,7 +3,7 @@ project (GodProgram)
 
 set (CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/modules")
 set (HOST_LIBS_DIR "C:/moje/libs/lib/x86")
-set (HOST_INC_DIR "C:/moje/libs/include/zmq")
+set (HOST_INC_DIR "C:/moje/libs/include")
 
 find_package (ZMQ REQUIRED)
 if (NOT ZMQ_FOUND)
