@@ -24,8 +24,8 @@ namespace Common
         class OneWayChannel
         {
         public:
-            static_assert(!std::is_same<Type, ChannelType::Receiver>::value &&
-                          !std::is_same<Type, ChannelType::Sender>::value,
+            static_assert(std::is_same<Type, ChannelType::Receiver>::value ||
+                          std::is_same<Type, ChannelType::Sender>::value,
                           "OneWayChannel may be one of type ChannelType::Receiver or ChannelType::Sender only");
 
             OneWayChannel(zmq::context_t &context) :
@@ -50,26 +50,20 @@ namespace Common
 
             auto recv(zmq::message_t &message)
             {
-                static_assert(!std::is_same<Type, ChannelType::Receiver>::value, 
+                static_assert(std::is_same<Type, ChannelType::Receiver>::value, 
                               "Channel can recv only if its type is Receiver");
 
                 return m_socket.recv(&message);
             }
 
-            auto send(const zmq::message_t &message)
+            auto send(zmq::message_t &message)
             {
-                static_assert(!std::is_same<Type, ChannelType::Sender>::value, 
+                static_assert(std::is_same<Type, ChannelType::Sender>::value, 
                               "Channel can send only if its type is Sender");
 
                 return m_socket.send(message);
             }
             
-            template<typename = std::enable_if<!std::is_same<Type, ChannelType::Sender>::value) >>
-            auto send(const zmq::message_t &message)
-            {
-                return m_socket.send(message);
-            }
-
             auto bind(const std::string &addr)
             {
                 return m_socket.bind(addr);
