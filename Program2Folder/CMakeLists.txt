@@ -43,6 +43,7 @@ set (Program2Lib_inc ${internals_inc_dir}/ProgramInternals.h
                      ${internals_inc_dir}/view/ConsoleView.h
                      ${internals_inc_dir}/view/QtView.h
                      ${internals_inc_dir}/view/View.h
+                     ${internals_inc_dir}/view/SocketView.hpp
                      ${internals_inc_dir}/view/detail/QtWidgetManager.h)
                      
 set (Program2_src   ${src_dir}/main.cpp
@@ -70,8 +71,8 @@ add_library (Program2Lib STATIC
 )
 target_link_libraries (Program2Lib Qt5::Widgets Qt5::UiTools)
 
-add_executable(Program2 ${Program2_src} ${Program2_inc})
-target_link_libraries (Program2 Program2Lib)
+add_executable(Program2 ${Program2_src} ${Program2_inc} $<TARGET_OBJECTS:CommonObjects>)
+target_link_libraries (Program2 Program2Lib ${ZMQ_LIBRARIES})
 
 
 install(TARGETS Program2Lib DESTINATION  ${lib_dir}/)
