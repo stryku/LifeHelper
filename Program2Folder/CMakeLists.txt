@@ -43,6 +43,7 @@ set (Program2Lib_inc ${internals_inc_dir}/ProgramInternals.h
                      ${internals_inc_dir}/view/ConsoleView.h
                      ${internals_inc_dir}/view/QtView.h
                      ${internals_inc_dir}/view/View.h
+                     ${internals_inc_dir}/view/SocketView.hpp
                      ${internals_inc_dir}/view/detail/QtWidgetManager.h)
                      
 set (Program2_src   ${src_dir}/main.cpp

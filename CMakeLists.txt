@@ -27,6 +27,8 @@ include_directories (${ZMQ_INCLUDE_DIR})
 
 set( CMAKE_PREFIX_PATH C:/Qt/Qt5.7.0/5.7/msvc2015/)
 
+include_directories (${CMAKE_CURRENT_SOURCE_DIR}/Common/sources/inc)
+
 set (GodProgram_install_dir ${CMAKE_CURRENT_SOURCE_DIR}/bin)
 set (GodProgram_programs_install_dir ${GodProgram_install_dir}/programs)
 
