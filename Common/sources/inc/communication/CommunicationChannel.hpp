@@ -15,7 +15,7 @@ namespace Common
             CommunicationChannel(const CommunicationChannel&) = delete;
             CommunicationChannel& operator=(const CommunicationChannel&) = delete;
 
-            auto recv(zmq::message_t &message);
+            auto recv();
             auto send(zmq::message_t &message);
             auto bind(const std::string &addr);
             auto connect(const std::string &addr);

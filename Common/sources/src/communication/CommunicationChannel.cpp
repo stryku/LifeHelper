@@ -1,4 +1,5 @@
 #include <communication/CommunicationChannel.hpp>
+#include <utils/log.hpp>
 
 using namespace Common::Communication;
 
@@ -19,14 +20,35 @@ CommunicationChannel& CommunicationChannel::operator=(CommunicationChannel &&oth
     return *this;
 }
 
-auto CommunicationChannel::recv(zmq::message_t &message)
+auto CommunicationChannel::recv()
 {
-    return m_receiver.recv(message);
+    zmq::message_t message;
+    
+    while (true)
+    {
+        try
+        {
+            m_receiver.recv(message);
+            return message;
+        }
+        catch (zmq::error_t &err)
+        {
+            LOG("Exception cought at zmq::recv: " << err.what());
+        }
+    }
 }
 
 auto CommunicationChannel::send(zmq::message_t &message)
 {
-    return m_sender.send(message);
+    try
+    {
+        return m_sender.send(message);
+    }
+    catch (zmq::error_t &err)
+    {
+        LOG("Exception cought at zmq::send: " << err.what());
+        return false;
+    }
 }
 
 auto CommunicationChannel::bind(const std::string &addr)
