@@ -81,6 +81,11 @@ namespace Common
                 OneWayChannel<ChannelType::Sender>(context)
             {}
 
+            auto send(const std::string &str)
+            {
+                return m_socket.send(std::begin(str), std::end(str));
+            }
+
             auto send(zmq::message_t &message)
             {
                 return m_socket.send(message);
