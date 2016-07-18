@@ -1,25 +1,29 @@
 #pragma once
 
-#include "View.h"
+#include "ModelObserver.h"
 
+#include <communication/OneWayChannel.hpp>
 #include <utils/message_builders/XmlMessageBuilder.hpp>
-#include <communication/CommunicationChannel.hpp>
 #include <utils/ToString.hpp>
 
+#include <stdint.h>
 namespace P2
 {
-    namespace View
+    namespace Model
     {
-        class SocketView : public View
+        class SocketModelObserverSender : public ModelObserver
         {
+        private:
             using Sender = Common::Communication::SenderChannel;
 
         public:
-            SocketView(Sender &sender) :
+            SocketModelObserverSender(Sender &sender) :
                 m_sender(sender)
             {}
 
-            virtual void updateSum(size_t newSum) override
+            virtual ~SocketModelObserverSender() {}
+
+            virtual void newSumValue(size_t newSum) override
             {
                 using Elem = utils::MessageBuild::Xml::Element<std::string>;
 
@@ -27,8 +31,8 @@ namespace P2
 
                 const std::vector<Elem> elements
                 {
-                    Elem{"msg.type", "updateSum"},
-                    Elem{"msg.value", utils::toString(newSum)}
+                    Elem{ "msg.type", "updateSum" },
+                    Elem{ "msg.value", utils::toString(newSum) }
                 };
 
                 builder.addElements(elements);
