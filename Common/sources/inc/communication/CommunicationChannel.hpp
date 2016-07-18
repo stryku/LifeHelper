@@ -20,6 +20,16 @@ namespace Common
             auto bind(const std::string &addr);
             auto connect(const std::string &addr);
 
+            auto& getSender()
+            {
+                return std::ref(m_sender);
+            }
+
+            auto& getReceiver()
+            {
+                return std::ref(m_receiver);
+            }
+
         private:
             ReceiverChannel m_receiver;
             SenderChannel m_sender;
