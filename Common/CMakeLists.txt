@@ -11,13 +11,11 @@ set (Common_inc ${inc_dir}/utils/log.hpp
 				${inc_dir}/utils/ToString.hpp
 				${inc_dir}/utils/message_builders/XmlMessageBuilder.hpp
 				${inc_dir}/utils/traits/traits.hpp
-				${inc_dir}/Communication/Publisher.hpp
 				${inc_dir}/Communication/OneWayChannel.hpp
 				${inc_dir}/Communication/CommunicationChannel.hpp)
 				
 				
-set (Common_src ${src_dir}/Communication/Publisher.cpp
-				${src_dir}/Communication/CommunicationChannel.cpp)
+set (Common_src ${src_dir}/Communication/CommunicationChannel.cpp)
 
 add_library (CommonObjects OBJECT 
     ${Common_src}
