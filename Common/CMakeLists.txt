@@ -8,6 +8,7 @@ set (inc_dir ${src_root}/sources/inc)
 include_directories (${inc_dir})
 				
 set (Common_inc ${inc_dir}/utils/log.hpp
+				${inc_dir}/utils/ToString.hpp
 				${inc_dir}/utils/message_builders/XmlMessageBuilder.hpp
 				${inc_dir}/utils/traits/traits.hpp
 				${inc_dir}/Communication/Publisher.hpp
