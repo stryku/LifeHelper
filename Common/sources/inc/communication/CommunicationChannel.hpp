@@ -10,7 +10,7 @@ namespace Common
         {
         public:
             CommunicationChannel(zmq::context_t &context);
-            CommunicationChannel(CommunicationChannel &&other);
+            CommunicationChannel(CommunicationChannel &&other) noexcept;
             CommunicationChannel& operator=(CommunicationChannel &&other) noexcept;
             CommunicationChannel(const CommunicationChannel&) = delete;
             CommunicationChannel& operator=(const CommunicationChannel&) = delete;
@@ -21,8 +21,8 @@ namespace Common
             auto connect(const std::string &addr);
 
         private:
-            OneWayChannel<ChannelType::Receiver> m_receiver;
-            OneWayChannel<ChannelType::Sender> m_sender;
+            ReceiverChannel m_receiver;
+            SenderChannel m_sender;
         };
     }
 }

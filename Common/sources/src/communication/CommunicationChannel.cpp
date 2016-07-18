@@ -1,5 +1,6 @@
 #include <communication/CommunicationChannel.hpp>
 #include <utils/log.hpp>
+#include <utils/message_builders/XmlMessageBuilder.hpp>
 
 using namespace Common::Communication;
 
@@ -8,7 +9,7 @@ CommunicationChannel::CommunicationChannel(zmq::context_t &context) :
     m_sender(context)
 {}
 
-CommunicationChannel::CommunicationChannel(CommunicationChannel &&other) :
+CommunicationChannel::CommunicationChannel(CommunicationChannel &&other) noexcept :
     m_receiver(std::move(other.m_receiver)),
     m_sender(std::move(m_sender))
 {}

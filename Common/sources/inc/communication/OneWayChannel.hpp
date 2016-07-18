@@ -20,14 +20,12 @@ namespace Common
             using Sender = Type<zmq::socket_type::push>;
         };
 
-        template <typename Type>
+        template <typename Type,
+                  typename = std::enable_if_t<std::is_same_v <Type, ChannelType::Receiver> ||
+                                              std::is_same_v <Type, ChannelType::Sender>>>
         class OneWayChannel
         {
         public:
-            static_assert(std::is_same<Type, ChannelType::Receiver>::value ||
-                          std::is_same<Type, ChannelType::Sender>::value,
-                          "OneWayChannel may be one of type ChannelType::Receiver or ChannelType::Sender only");
-
             OneWayChannel(zmq::context_t &context) :
                 m_context(context),
                 m_socket(context, Type::socketType)
@@ -48,22 +46,6 @@ namespace Common
             OneWayChannel(const OneWayChannel&) = delete;
             OneWayChannel& operator=(const OneWayChannel&) = delete;
 
-            auto recv(zmq::message_t &message)
-            {
-                static_assert(std::is_same<Type, ChannelType::Receiver>::value, 
-                              "Channel can recv only if its type is Receiver");
-
-                return m_socket.recv(&message);
-            }
-
-            auto send(zmq::message_t &message)
-            {
-                static_assert(std::is_same<Type, ChannelType::Sender>::value, 
-                              "Channel can send only if its type is Sender");
-
-                return m_socket.send(message);
-            }
-            
             auto bind(const std::string &addr)
             {
                 return m_socket.bind(addr);
@@ -74,9 +56,35 @@ namespace Common
                 return m_socket.connect(addr);
             }
 
-        private:
+        protected:
             zmq::context_t &m_context;
             zmq::socket_t m_socket;
+        };
+
+        class ReceiverChannel : public OneWayChannel<ChannelType::Receiver>
+        {
+        public:
+            ReceiverChannel(zmq::context_t &context) :
+                OneWayChannel(context)
+            {}
+
+            auto recv(zmq::message_t &message)
+            {
+                return m_socket.recv(&message);
+            }
+        };
+
+        class SenderChannel : public OneWayChannel<ChannelType::Sender>
+        {
+        public:
+            SenderChannel(zmq::context_t &context) :
+                OneWayChannel<ChannelType::Sender>(context)
+            {}
+
+            auto send(zmq::message_t &message)
+            {
+                return m_socket.send(message);
+            }
         };
     }
 }
