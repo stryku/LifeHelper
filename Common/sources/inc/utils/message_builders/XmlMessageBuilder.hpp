@@ -17,6 +17,7 @@ namespace utils
             template <typename T>
             struct Element
             {
+                Element() = default;
                 Element(const std::string &path, const T &value) :
                     path(path),
                     value(value)
