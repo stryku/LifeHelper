@@ -15,10 +15,15 @@ namespace utils
         namespace Xml
         {
             template <typename T>
-            class Element
+            struct Element
             {
-                std::string m_path;
-                T m_value;
+                Element(const std::string &path, const T &value) :
+                    path(path),
+                    value(value)
+                {}
+
+                std::string path;
+                T value;
             };
 
             class Builder
@@ -28,6 +33,15 @@ namespace utils
                 Builder& addElement(const Element<T> &elem)
                 {
                     tree.put(elem.path, toString(elem.value));
+
+                    return *this;
+                }
+
+                template <typename Container>
+                Builder& addElements(const Container &elements)
+                {
+                    for (const auto &element : elements)
+                        addElement(element);
 
                     return *this;
                 }
