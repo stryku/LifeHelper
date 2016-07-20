@@ -1,22 +1,26 @@
 #include <communication/CommunicationChannel.hpp>
 #include <utils/log.hpp>
+#include <utils/message_builders/XmlMessageBuilder.hpp>
 
 using namespace Common::Communication;
 
 CommunicationChannel::CommunicationChannel(zmq::context_t &context) :
     m_receiver(context),
-    m_sender(context)
+    m_sender(context),
+    m_pubProxy(context, zmq::socket_type::pub)
 {}
 
-CommunicationChannel::CommunicationChannel(CommunicationChannel &&other) :
+CommunicationChannel::CommunicationChannel(CommunicationChannel &&other) noexcept :
     m_receiver(std::move(other.m_receiver)),
-    m_sender(std::move(m_sender))
+    m_sender(std::move(other.m_sender)),
+    m_pubProxy(std::move(other.m_pubProxy))
 {}
 
 CommunicationChannel& CommunicationChannel::operator=(CommunicationChannel &&other) noexcept
 {
     m_receiver = std::move(other.m_receiver);
     m_sender = std::move(other.m_sender);
+    m_pubProxy = std::move(other.m_pubProxy);
     return *this;
 }
 

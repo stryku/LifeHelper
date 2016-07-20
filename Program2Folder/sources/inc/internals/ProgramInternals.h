@@ -11,14 +11,8 @@
 class ProgramInternals
 {
 public:
-    ProgramInternals( P2::Model::Model *model ) :
-        m_model( model )
+    ProgramInternals()
     {}
-
-    void setModel( P2::Model::Model *model)
-    {
-        m_model = model;
-    }
 
     void addView(P2::View::View *view)
     {
@@ -39,7 +33,6 @@ public:
 private:
     std::vector < P2::Input::InputPropagator* > inputs;
     P2::Controller::Controller *m_controller;
-    P2::Model::Model *m_model;
 };
 
 #endif // PROGRAMINTERNALS_H
