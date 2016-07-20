@@ -25,6 +25,13 @@ if (NOT ZMQ_FOUND)
 endif()
 include_directories (${ZMQ_INCLUDE_DIR})
 
+set(BOOST_ROOT C:/moje/libs/boost/boost_1_61_0)
+find_package(Boost REQUIRED)
+if (NOT Boost_FOUND)
+    message (ERROR "Boost not found!")
+endif()
+include_directories (${Boost_INCLUDE_DIRS})
+
 set( CMAKE_PREFIX_PATH C:/Qt/Qt5.7.0/5.7/msvc2015/)
 
 include_directories (${CMAKE_CURRENT_SOURCE_DIR}/Common/sources/inc)

@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include <ProgramInternalsCreators.h>
+
 #include <QApplication>
 
 #include <Windows.h>
