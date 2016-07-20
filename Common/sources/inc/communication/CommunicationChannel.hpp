@@ -2,6 +2,8 @@
 
 #include "OneWayChannel.hpp"
 
+#include <string>
+
 namespace Common
 {
     namespace Communication
@@ -31,8 +33,31 @@ namespace Common
             }
 
         private:
+            static constexpr auto getInprocAddress()
+            {
+                return "inproc://publisher";
+            }
+
+            static constexpr auto getIpcAddress()
+            {
+                return "tcp://127.0.0.1";
+            }
+
+            static constexpr auto getIpcPort()
+            {
+                return "1423";
+            }
+
+            void startProxy()
+            {
+                m_pubProxy.bind(getInprocAddress());
+                m_receiver.bind("tcp://*:" + std::string( getIpcPort() ));
+            }
+
             ReceiverChannel m_receiver;
             SenderChannel m_sender;
+
+            zmq::socket_t m_pubProxy;
         };
     }
 }
