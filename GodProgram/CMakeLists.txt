@@ -37,7 +37,9 @@ include_directories (${PROJECT_BINARY_DIR})
 add_executable(GodProgram ${GodProgram_src}
 						  ${GodProgramLib_hdr_moc}
 						  ${GodProgramLib_ui_moc}
-						  ${GodProgram_inc} $<TARGET_OBJECTS:CommonObjects>)
+						  ${GodProgram_inc} 
+						  $<TARGET_OBJECTS:CommonObjects>
+						  $<TARGET_OBJECTS:Program2Objects>)
 						  
 target_link_libraries (GodProgram Qt5::Widgets Qt5::UiTools ${ZMQ_LIBRARIES})
 

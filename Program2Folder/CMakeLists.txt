@@ -27,7 +27,7 @@ include_directories (${inc_dir}
 					 ${common_inc_dir}
                      ${Qt5UiTools_INCLUDE_DIRS})
 
-set (Program2Lib_src ${internals_dir}/view/ConsoleView.cpp
+set (Program2Objects_src ${internals_dir}/view/ConsoleView.cpp
                      ${internals_dir}/view/QtView.cpp
                      ${internals_dir}/view/View.cpp
                      ${internals_dir}/view/detail/QtWidgetManager.cpp
@@ -35,7 +35,7 @@ set (Program2Lib_src ${internals_dir}/view/ConsoleView.cpp
                      ${internals_dir}/model/Model.cpp
                      ${internals_dir}/controller/Controller.cpp)
                      
-set (Program2Lib_inc ${internals_inc_dir}/ProgramInternals.h
+set (Program2Objects_inc ${internals_inc_dir}/ProgramInternals.h
                      ${internals_inc_dir}/controller/Controller.h
                      ${internals_inc_dir}/input/Input.h
                      ${internals_inc_dir}/input/InputHandler.h
@@ -58,29 +58,28 @@ set (Program2_src   ${src_dir}/main.cpp
 set (Program2_inc   ${inc_dir}/mainwindow.h
                     ${inc_dir}/ProgramInternalsCreators.h)
                      
-set (Program2Lib_hdr ${inc_dir}/mainwindow.h)
-set (Program2Lib_ui  ${ui_dir}/mainwindow.ui)
+set (Program2Objects_hdr ${inc_dir}/mainwindow.h)
+set (Program2Objects_ui  ${ui_dir}/mainwindow.ui)
 set (Program2Bin_src ${src_dir}/main.cpp)
 
-qt5_wrap_cpp(Program2Lib_hdr_moc ${Program2Lib_hdr})
-qt5_wrap_ui (Program2Lib_ui_moc  ${Program2Lib_ui})
+qt5_wrap_cpp(Program2Objects_hdr_moc ${Program2Objects_hdr})
+qt5_wrap_ui (Program2Objects_ui_moc  ${Program2Objects_ui})
 
 include_directories (${PROJECT_SOURCE_DIR})
 include_directories (${PROJECT_BINARY_DIR})
 
-add_library (Program2Lib STATIC 
-    ${Program2Lib_src}
-    ${Program2Lib_hdr_moc}
-    ${Program2Lib_ui_moc}
-	${Program2Lib_inc}
+add_library (Program2Objects OBJECT 
+    ${Program2Objects_src}
+    ${Program2Objects_hdr_moc}
+    ${Program2Objects_ui_moc}
+	${Program2Objects_inc}
 )
-target_link_libraries (Program2Lib Qt5::Widgets Qt5::UiTools)
+#target_link_libraries (Program2Objects Qt5::Widgets Qt5::UiTools)
 
-add_executable(Program2 ${Program2_src} ${Program2_inc} $<TARGET_OBJECTS:CommonObjects>)
-target_link_libraries (Program2 Program2Lib ${ZMQ_LIBRARIES})
+add_executable(Program2 ${Program2_src} ${Program2_inc} $<TARGET_OBJECTS:Program2Objects> $<TARGET_OBJECTS:CommonObjects>)
+target_link_libraries (Program2 Qt5::Widgets Qt5::UiTools ${ZMQ_LIBRARIES})
 
 
-install(TARGETS Program2Lib DESTINATION  ${lib_dir}/)
 install(TARGETS Program2 DESTINATION  ${install_dir}/)
 install(
     DIRECTORY ${resources_dir}/
