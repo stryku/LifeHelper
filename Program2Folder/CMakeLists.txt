@@ -16,13 +16,15 @@ set (lib_dir ${src_root}/lib)
 set (install_dir ${src_root}/bin)
 set (resources_dir ${src_root}/resources)
 
+
 set (GodInstallDir ${GodProgram_programs_install_dir}/${program_name})
 
 message (${program_name} " will be installed in:")
 message (${install_dir})
 message (${GodInstallDir})
 
-include_directories (${inc_dir} 
+include_directories (${inc_dir}
+					 ${common_inc_dir}
                      ${Qt5UiTools_INCLUDE_DIRS})
 
 set (Program2Lib_src ${internals_dir}/view/ConsoleView.cpp
