@@ -66,27 +66,13 @@ namespace ProgramInternalsCreators
         Common::Communication::CommunicationChannel channel(context);
 
         auto model = new P2::Model::Model();
-        //auto socketView = new P2::View::SocketView(channel.getSender());
         auto modelObserverSender = new P2::Model::SocketModelObserverSender(channel.getSender());
         auto inputChangesObserver = new P2::Input::SocketInputObserverReceiver(channel.getReceiver());
-        //auto controller = new P2::Controller::Controller();
 
         model->registerObserver(modelObserverSender);
         inputChangesObserver->addInputObserver(model);
-        //controller->registerView(socketView);
-
-        //auto inputPropagator = new P2::Input::InputPropagator();
-
-        //socketView->connectWithInput(inputPropagator);
-        //model->registerObserver(controller);
-        //controller->setInputObserver(model);
 
         auto internals = ProgramInternals();
-
-
-        //////internals.setController(controller);
-        //internals.addInput(inputPropagator);
-        //internals.addView(view);
 
         return internals;
     }
