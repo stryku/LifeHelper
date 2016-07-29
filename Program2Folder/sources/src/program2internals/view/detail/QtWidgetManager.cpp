@@ -2,8 +2,8 @@
 
 using namespace P2::View::detail;
 
-QtWidgetManager::QtWidgetManager(QWidget *parent) :
-    formWidget(createWidget(parent))
+QtWidgetManager::QtWidgetManager(QWidget *parent, const QString &uiFilePath) :
+    formWidget{ createWidget(parent, uiFilePath) }
 {}
 
 void QtWidgetManager::setLabelSum( const QString &newString )
@@ -36,10 +36,9 @@ QWidget* QtWidgetManager::loadUiFile( const QString &path, QWidget *parent ) con
     return widget;
 }
 
-QWidget* QtWidgetManager::createWidget( QWidget *parent )
+QWidget* QtWidgetManager::createWidget( QWidget *parent, const QString &uiFilePath)
 {
-    const auto path = QString{ "uiforms/Program2Form.ui" };
-    auto widget = loadUiFile( path );
+    auto widget = loadUiFile(uiFilePath);
 
     widget->setParent( parent );
 

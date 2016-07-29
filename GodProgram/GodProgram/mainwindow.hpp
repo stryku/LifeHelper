@@ -1,7 +1,10 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include <memory>
+
 #include <QMainWindow>
+#include <program2internals/view/detail/QtWidgetManager.h>
 
 namespace Ui {
 class MainWindow;
@@ -23,6 +26,8 @@ private:
     void createNewTab();
 
     Ui::MainWindow *ui;
+
+    std::unique_ptr<P2::View::detail::QtWidgetManager> mngr;
 };
 
 #endif // MAINWINDOW_H

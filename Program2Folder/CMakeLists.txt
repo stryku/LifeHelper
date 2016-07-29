@@ -71,13 +71,18 @@ include_directories (${PROJECT_BINARY_DIR})
 
 add_library (Program2Objects OBJECT 
     ${Program2Objects_src}
-    ${Program2Objects_hdr_moc}
-    ${Program2Objects_ui_moc}
     ${Program2Objects_inc}
 )
 #target_link_libraries (Program2Objects Qt5::Widgets Qt5::UiTools)
 
-add_executable(Program2 ${Program2_src} ${Program2_inc} $<TARGET_OBJECTS:Program2Objects> $<TARGET_OBJECTS:CommonObjects>)
+add_executable(Program2 
+               ${Program2_src} 
+               ${Program2_inc} 
+               ${Program2Objects_hdr_moc}
+               ${Program2Objects_ui_moc}
+               $<TARGET_OBJECTS:Program2Objects> 
+               $<TARGET_OBJECTS:CommonObjects>)
+               
 target_link_libraries (Program2 Qt5::Widgets Qt5::UiTools ${ZMQ_LIBRARIES})
 
 

@@ -46,7 +46,8 @@ add_library (GodProgramMocObjects OBJECT
 add_executable(GodProgram ${GodProgram_src}
 						  ${GodProgram_inc} 
 						  $<TARGET_OBJECTS:GodProgramMocObjects>
-						  $<TARGET_OBJECTS:CommonObjects>)
+						  $<TARGET_OBJECTS:CommonObjects>
+						  $<TARGET_OBJECTS:Program2Objects>)
 						  
 target_link_libraries (GodProgram Qt5::Widgets Qt5::UiTools ${ZMQ_LIBRARIES})
 

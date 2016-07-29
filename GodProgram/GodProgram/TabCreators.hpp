@@ -1,5 +1,7 @@
 #pragma once
 
+#include <program2internals/view/detail/QtWidgetManager.h>
+
 #include <QWidget>
 
 namespace God
@@ -8,27 +10,11 @@ namespace God
     {
         namespace Tab
         {
-            enum class ProgramType
+            std::unique_ptr<P2::View::detail::QtWidgetManager> createProgram2(QWidget *parent)
             {
-                Program2
-            };
+                //static constexpr auto uiPath = "programs/Program2/";
 
-            QWidget* create(ProgramType program)
-            {
-                switch (program)
-                {
-                case God::Creators::Tab::ProgramType::Program2:
-                    break;
-                default:
-                    break;
-                }
-            }
-
-            QWidget* createProgram2()
-            {
-                static constexpr auto uiPath = "programs/Program2/";
-                QWidget *widget;
-
+                return std::make_unique<P2::View::detail::QtWidgetManager>(parent, "programs/Program2/uiforms/Program2Form.ui");
             }
         }
     }

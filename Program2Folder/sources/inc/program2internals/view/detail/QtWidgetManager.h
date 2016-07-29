@@ -21,15 +21,20 @@ namespace P2
             class QtWidgetManager
             {
             public:
-                explicit QtWidgetManager( QWidget *parent );
+                explicit QtWidgetManager( QWidget *parent, const QString &uiFilePath = "uiforms/Program2Form.ui" );
 
                 void setLabelSum( const QString &newString );
                 void updateLabel( const QString &str );
                 void connectWithInput( Input::InputPropagator *input );
 
+                QWidget* getWidget()
+                {
+                    return formWidget;
+                }
+
             private:
                 QWidget* loadUiFile( const QString &path, QWidget *parent = nullptr ) const;
-                QWidget* createWidget( QWidget *parent );
+                QWidget* createWidget( QWidget *parent, const QString &uiFilePath );
 
                 QPushButton *ui_pushButtonMinus;
                 QLabel *ui_labelSum;
