@@ -1,10 +1,10 @@
 #ifndef P2CONTROLLER_H
 #define P2CONTROLLER_H
 
-#include <internals/input/InputHandler.h>
-#include <internals/model/ModelObserver.h>
-#include <internals/input/InputObserver.h>
-#include <internals/view/View.h>
+#include <program2internals/input/InputHandler.h>
+#include <program2internals/model/ModelObserver.h>
+#include <program2internals/input/InputObserver.h>
+#include <program2internals/view/View.h>
 
 #include <vector>
 

@@ -1,8 +1,8 @@
 #ifndef P2CONSOLEVIEW_H
 #define P2CONSOLEVIEW_H
 
-#include <internals/input/Input.h>
-#include <internals/view/View.h>
+#include <program2internals/input/Input.h>
+#include <program2internals/view/View.h>
 
 namespace P2
 {

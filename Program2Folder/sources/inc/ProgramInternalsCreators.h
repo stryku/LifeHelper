@@ -1,7 +1,7 @@
 #ifndef PROGRAMFACTORY_H
 #define PROGRAMFACTORY_H
 
-#include <internals/ProgramInternals.h>
+#include <program2internals/ProgramInternals.h>
 #include <QWidget>
 
 namespace ProgramInternalsCreators

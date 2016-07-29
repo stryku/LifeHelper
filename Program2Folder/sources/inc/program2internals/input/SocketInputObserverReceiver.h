@@ -1,6 +1,6 @@
 #pragma once
 
-#include <internals/input/InputObserver.h>
+#include <program2internals/input/InputObserver.h>
 
 #include <communication/OneWayChannel.hpp>
 #include <utils/message_builders/XmlMessageBuilder.hpp>

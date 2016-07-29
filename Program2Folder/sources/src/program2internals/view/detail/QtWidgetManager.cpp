@@ -1,4 +1,4 @@
-#include <internals/view/detail/QtWidgetManager.h>
+#include <program2internals/view/detail/QtWidgetManager.h>
 
 using namespace P2::View::detail;
 

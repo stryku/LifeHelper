@@ -1,6 +1,5 @@
 #pragma once
 
-//#include <Progr>
 #include <QWidget>
 
 namespace God

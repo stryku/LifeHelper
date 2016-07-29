@@ -1,10 +1,10 @@
 #ifndef PROGRAMINTERNALS_H
 #define PROGRAMINTERNALS_H
 
-#include <internals/view/View.h>
-#include <internals/controller/Controller.h>
-#include <internals/model/Model.h>
-#include <internals/input/Input.h>
+#include <program2internals/view/View.h>
+#include <program2internals/controller/Controller.h>
+#include <program2internals/model/Model.h>
+#include <program2internals/input/Input.h>
 
 #include <vector>
 

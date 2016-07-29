@@ -2,8 +2,8 @@
 #define P2MODEL_H
 
 
-#include <internals/input/InputObserver.h>
-#include <internals/model/ModelObserver.h>
+#include <program2internals/input/InputObserver.h>
+#include <program2internals/model/ModelObserver.h>
 
 #include <stdint.h>
 #include <vector>

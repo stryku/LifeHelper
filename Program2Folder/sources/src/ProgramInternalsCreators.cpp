@@ -2,12 +2,12 @@
 
 #include <communication/CommunicationChannel.hpp>
 
-#include <internals/model/SocketModelObserverReceiver.hpp>
-#include <internals/model/SocketModelObserverSender.hpp>
-#include <internals/input/SocketInputObserverSender.hpp>
-#include <internals/input/SocketInputObserverReceiver.h>
+#include <program2internals/model/SocketModelObserverReceiver.hpp>
+#include <program2internals/model/SocketModelObserverSender.hpp>
+#include <program2internals/input/SocketInputObserverSender.hpp>
+#include <program2internals/input/SocketInputObserverReceiver.h>
 
-#include <internals/view/QtView.h>
+#include <program2internals/view/QtView.h>
 
 namespace ProgramInternalsCreators
 {

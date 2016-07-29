@@ -1,8 +1,8 @@
 #ifndef P2QTWIDGETMANAGER_H
 #define P2QTWIDGETMANAGER_H
 
-#include <internals/input/InputHandler.h>
-#include <internals/input/Input.h>
+#include <program2internals/input/InputHandler.h>
+#include <program2internals/input/Input.h>
 
 #include <QWidget>
 #include <QLabel>

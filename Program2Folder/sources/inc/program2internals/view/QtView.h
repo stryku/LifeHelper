@@ -1,9 +1,9 @@
 #ifndef P2QTVIEW_H
 #define P2QTVIEW_H
 
-#include <internals/input/Input.h>
-#include <internals/view/View.h>
-#include <internals/view/detail/QtWidgetManager.h>
+#include <program2internals/input/Input.h>
+#include <program2internals/view/View.h>
+#include <program2internals/view/detail/QtWidgetManager.h>
 
 namespace P2
 {
