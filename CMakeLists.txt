@@ -40,6 +40,8 @@ include_directories (${common_inc_dir})
 set (GodProgram_install_dir ${CMAKE_CURRENT_SOURCE_DIR}/bin)
 set (GodProgram_programs_install_dir ${GodProgram_install_dir}/programs)
 
+set (Program2Sources ${CMAKE_CURRENT_SOURCE_DIR}/Program2Folder/sources)
+
 
 add_subdirectory(Common)
 add_subdirectory(Program2Folder)

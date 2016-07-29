@@ -16,7 +16,10 @@ set (install_dir ${GodProgram_install_dir})
 message (${program_name} " will be installed in:")
 message (${install_dir})
 
+set (subprogramsIncludes ${Program2Sources}/inc/)
+
 include_directories (${inc_dir} 
+                     ${subprogramsIncludes}
                      ${Qt5UiTools_INCLUDE_DIRS})
            
 set (GodProgram_src	${src_dir}/main.cpp
