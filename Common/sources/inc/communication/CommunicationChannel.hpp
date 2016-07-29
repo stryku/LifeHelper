@@ -33,17 +33,17 @@ namespace Common
             }
 
         private:
-            static constexpr auto getInprocAddress()
+            static constexpr auto getInprocAddress() noexcept
             {
                 return "inproc://publisher";
             }
 
-            static constexpr auto getIpcAddress()
+            static constexpr auto getIpcAddress() noexcept
             {
                 return "tcp://127.0.0.1";
             }
 
-            static constexpr auto getIpcPort()
+            static constexpr auto getIpcPort() noexcept
             {
                 return "1423";
             }
