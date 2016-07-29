@@ -15,6 +15,8 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp
 
-HEADERS  += mainwindow.h
+HEADERS  += \
+    mainwindow.hpp \
+    TabCreators.hpp
 
 FORMS    += mainwindow.ui

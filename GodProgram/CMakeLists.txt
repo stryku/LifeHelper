@@ -22,9 +22,10 @@ include_directories (${inc_dir}
 set (GodProgram_src	${src_dir}/main.cpp
                     ${src_dir}/mainwindow.cpp)
 					
-set (GodProgram_inc ${inc_dir}/mainwindow.h)
+set (GodProgram_inc ${inc_dir}/mainwindow.hpp
+					${inc_dir}/TabCreators.hpp)
                      
-set (GodProgramLib_hdr ${inc_dir}/mainwindow.h)
+set (GodProgramLib_hdr ${inc_dir}/mainwindow.hpp)
 set (GodProgramLib_ui  ${ui_dir}/mainwindow.ui)
 set (GodProgramBin_src ${src_dir}/main.cpp)
 
@@ -34,12 +35,15 @@ qt5_wrap_ui (GodProgramLib_ui_moc  ${GodProgramLib_ui})
 include_directories (${PROJECT_SOURCE_DIR})
 include_directories (${PROJECT_BINARY_DIR})
 
+add_library (GodProgramMocObjects OBJECT 
+    ${GodProgramLib_hdr_moc}
+    ${GodProgramLib_ui_moc}
+)
+
 add_executable(GodProgram ${GodProgram_src}
-						  ${GodProgramLib_hdr_moc}
-						  ${GodProgramLib_ui_moc}
 						  ${GodProgram_inc} 
-						  $<TARGET_OBJECTS:CommonObjects>
-						  $<TARGET_OBJECTS:Program2Objects>)
+						  $<TARGET_OBJECTS:GodProgramMocObjects>
+						  $<TARGET_OBJECTS:CommonObjects>)
 						  
 target_link_libraries (GodProgram Qt5::Widgets Qt5::UiTools ${ZMQ_LIBRARIES})
 

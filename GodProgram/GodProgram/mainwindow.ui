@@ -18,7 +18,7 @@
     <item row="0" column="0">
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <property name="tabsClosable">
        <bool>true</bool>
@@ -29,6 +29,11 @@
       <widget class="QWidget" name="tab">
        <attribute name="title">
         <string>New tab</string>
+       </attribute>
+      </widget>
+      <widget class="QWidget" name="tab_2">
+       <attribute name="title">
+        <string>+</string>
        </attribute>
       </widget>
      </widget>

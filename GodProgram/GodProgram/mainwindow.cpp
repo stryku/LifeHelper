@@ -1,4 +1,4 @@
-#include "mainwindow.h"
+#include "mainwindow.hpp"
 #include "ui_mainwindow.h"
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -11,4 +11,19 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::on_tabWidget_tabBarClicked(int index)
+{
+    createNewTab();
+}
+
+void MainWindow::createNewTab()
+{
+    ui->tabWidget->addTab(nullptr, "text");
+}
+
+void MainWindow::on_tabWidget_currentChanged(int index)
+{
+    createNewTab();
 }
