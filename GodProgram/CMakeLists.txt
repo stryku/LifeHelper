@@ -35,7 +35,10 @@ set (GodProgram_src ${src_dir}/Tabs/TabCreators.cpp
 					${src_dir}/Tabs/TabsManager.cpp)
 					
 set (GodProgram_inc ${inc_dir}/Tabs/TabCreators.hpp
-					${inc_dir}/Tabs/TabsManager.hpp)
+					${inc_dir}/Tabs/TabsManager.hpp
+					${inc_dir}/Subprograms/helpers.hpp
+					${inc_dir}/Subprograms/SubprogramInstance.hpp
+					${inc_dir}/Subprograms/SubprogramInstanceFactory.hpp)
                      
                      
 set (GodProgramLib_hdr ${inc_dir_qt}/mainwindow.hpp)
