@@ -16,8 +16,9 @@ namespace Common
                 static constexpr zmq::socket_type socketType = SocketType;
             };
 
-            using Receiver = Type<zmq::socket_type::pull>;
-            using Sender = Type<zmq::socket_type::push>;
+            using Puller = Type<zmq::socket_type::pull>;
+            using Pusher = Type<zmq::socket_type::push>;
+            using Subscriber = Type<zmq::socket_type::sub>;
         };
 
         template <typename Type,
@@ -61,7 +62,8 @@ namespace Common
             zmq::socket_t m_socket;
         };
 
-        class ReceiverChannel : public OneWayChannel<ChannelType::Receiver>
+        template <typename Type>
+        class ReceiverChannel : public OneWayChannel<Type>
         {
         public:
             ReceiverChannel(zmq::context_t &context) :
@@ -89,6 +91,16 @@ namespace Common
             auto send(zmq::message_t &message)
             {
                 return m_socket.send(message);
+            }
+        };
+
+        class SubscriberChannel : public ReceiverChannel<ChannelType::Subscriber>
+        {
+        public:
+            SubscriberChannel(zmq::context_t &context, const std::string &subscribeStr) :
+                ReceiverChannel(context)
+            {
+                m_socket.setsockopt(ZMQ_SUBSCRIBE, subscribeStr.c_str(), 0);
             }
         };
     }

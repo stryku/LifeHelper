@@ -34,9 +34,10 @@ set (GodProgram_inc_qt ${inc_dir_qt}/mainwindow.hpp)
 set (GodProgram_src ${src_dir}/Tabs/TabCreators.cpp
 					${src_dir}/Tabs/TabsManager.cpp)
 					
-set (GodProgram_inc ${inc_dir}/Tabs/TabCreators.hpp
+set (GodProgram_inc ${inc_dir}/Tabs/TabCreators.hpp 
 					${inc_dir}/Tabs/TabsManager.hpp
 					${inc_dir}/Subprograms/helpers.hpp
+					${inc_dir}/Subprograms/SubprogramMessagesSubscriber.hpp
 					${inc_dir}/Subprograms/HeartbeatController.hpp
 					${inc_dir}/Subprograms/SubprogramSignalHandler.hpp
 					${inc_dir}/Subprograms/SubprogramInstance.hpp
