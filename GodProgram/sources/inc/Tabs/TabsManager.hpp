@@ -1,5 +1,6 @@
 #pragma once
 
+#include <Subprograms/helpers.hpp>
 #include <Tabs/TabCreators.hpp>
 
 #include <QTabWidget>
@@ -9,16 +10,6 @@
 
 namespace God
 {
-    namespace Subprograms
-    {
-        using ModelId = size_t;
-
-        enum class Type
-        {
-            P2
-        };
-    }
-
     namespace Tabs
     {
         class TabsManager
