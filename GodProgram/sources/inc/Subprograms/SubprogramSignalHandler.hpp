@@ -11,9 +11,9 @@ namespace God
     {
         enum class SignalType
         {
-            HEARTBEAT,
-            ERROR,
-            CLEAN_CLOSE
+            HEARTBEAT_SIGNAL,
+            ERROR_SIGNAL,
+            CLEAN_CLOSE_SIGNAL
         };
 
         struct SignalsHandlers
@@ -55,15 +55,15 @@ namespace God
             {
                 switch (type)
                 {
-                case God::Subprograms::SignalType::HEARTBEAT:
+                case God::Subprograms::SignalType::HEARTBEAT_SIGNAL:
                     handleHeartbeat();
                     break;
 
-                case God::Subprograms::SignalType::ERROR:
+                case God::Subprograms::SignalType::ERROR_SIGNAL:
                     handleError(std::forward<Args>(args...));
                     break;
 
-                case God::Subprograms::SignalType::CLEAN_CLOSE:
+                case God::Subprograms::SignalType::CLEAN_CLOSE_SIGNAL:
                     handleCleanClose();
                     break;
 
