@@ -8,16 +8,19 @@ namespace God
 {
     namespace Subprograms
     {
-        namespace MessageParsers
+        namespace Messages
         {
-            class Program2
+            namespace Parsers
             {
-            public: 
-                static Messages::Program2Message parse(const std::string &msg) noexcept
+                class Program2
                 {
-                    return {};
-                }
-            };
+                public:
+                    static Messages::Program2Message parse(const std::string &msg) noexcept
+                    {
+                        return{};
+                    }
+                };
+            }
         }
     }
 }

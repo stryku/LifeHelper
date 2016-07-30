@@ -1,6 +1,7 @@
 #pragma once
 
-#include <Subprograms/MessageParsers/Program2MessageParser.hpp>
+#include <Subprograms/Messages/Parsers/Program2MessageParser.hpp>
+#include <Subprograms/Messages/Handlers/MessageHandler.hpp>
 
 #include <string>
 
@@ -8,27 +9,19 @@ namespace God
 {
     namespace Subprograms
     {
-        namespace MessageHandlers
+        namespace Messages
         {
-            template <typename ConcreteHandler, 
-                      typename Parser>
-            class MessageHandler
+            namespace Handlers
             {
-            public:
-                void handle(const std::string &strMsg)
+                class Program2 : public MessageHandler<Program2, Parsers::Program2>
                 {
-                    static_cast<ConcreteHandler*>(this)->handle_impl(Parser::parse(strMsg));
-                }
-            };
+                public:
+                    void handle_impl(const Program2Message &parsed)
+                    {
 
-            class Program2 : public MessageHandler<Program2, MessageParsers::Program2>
-            {
-            public:
-                void handle_impl(std::string parsed)
-                {
-                    
-                }
-            };
+                    }
+                };
+            }
         }
     }
 }
