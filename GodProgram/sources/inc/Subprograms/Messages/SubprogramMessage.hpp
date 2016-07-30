@@ -12,8 +12,14 @@ namespace God
     {
         namespace Messages
         {
+            enum class MessageType
+            {
+                MODEL_CHANGE,
+                MODEL_SIGNAL
+            };
+
             template <typename Type, typename ...Args>
-            struct Message
+            struct InternalMessage
             {
                 Type type;
                 boost::variant<Args...> variant;
@@ -31,6 +37,13 @@ namespace God
                 {
                     get<T>() = value;
                 }
+            };
+
+            template <typename Type, typename ...Args>
+            struct Message
+            {
+                MessageType type;
+                InternalMessage<Type, Args> internalMessage;
             };
 
             using Program2Message = Message<int, std::string>;
