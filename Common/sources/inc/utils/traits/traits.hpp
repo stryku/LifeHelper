@@ -42,16 +42,16 @@ namespace utils
 
         template<bool...> struct bool_pack;
 
-        template <bool... bs>
+        template <bool ...bs>
         using all_true = std::is_same<bool_pack<bs..., true>, bool_pack<true, bs...>>;
 
-        template <bool... bs>
+        template <bool ...bs>
         using all_false = std::is_same<bool_pack<bs..., false>, bool_pack<false, bs...>>;
 
-        template <bool... bs>
+        template <bool ...bs>
         using any_true = std::integral_constant<bool, !all_false<bs....>::value>;
 
-        template <typename T, typename Args...>
+        template <typename T, typename ...Args>
         using is_any_of = any_true<std::is_same<T, Args>::value...>;
     }
 }
