@@ -8,31 +8,34 @@
 
 #include <vector>
 
-class ProgramInternals
+namespace P2
 {
-public:
-    ProgramInternals()
-    {}
-
-    void addView(P2::View::View *view)
+    class ProgramInternals
     {
-        m_controller->registerView(view);
-    }
+    public:
+        ProgramInternals(P2::Controller::Controller *controller) :
+            controller{ controller }
+        {}
 
-    void addInput(P2::Input::InputPropagator *input)
-    {
-        inputs.push_back(input);
-        input->setInputHandler(m_controller);
-    }
+        void addView(P2::View::View *view)
+        {
+            controller->registerView(view);
+        }
 
-    void setController(P2::Controller::Controller *controller)
-    {
-        m_controller = controller;
-    }
+        void addInput(P2::Input::InputPropagator *input)
+        {
+            inputs.push_back(input);
+            input->setInputHandler(controller);
+        }
 
-private:
-    std::vector < P2::Input::InputPropagator* > inputs;
-    P2::Controller::Controller *m_controller;
-};
+        void setController(P2::Controller::Controller *neCcontroller)
+        {
+            controller = neCcontroller;
+        }
 
+    private:
+        std::vector < P2::Input::InputPropagator* > inputs;
+        P2::Controller::Controller *controller;
+    };
+}
 #endif // PROGRAMINTERNALS_H

@@ -11,7 +11,7 @@
 
 namespace ProgramInternalsCreators
 {
-    ProgramInternals createLocalQt( QWidget *qtViewWidgetParent )
+    P2::ProgramInternals createLocalQt(QWidget *qtViewWidgetParent)
     {
         auto model = new P2::Model::Model();
         auto controller = new P2::Controller::Controller();
@@ -23,7 +23,7 @@ namespace ProgramInternalsCreators
         controller->registerView( view );
         controller->setInputObserver( model );
 
-        auto internals = ProgramInternals();
+        auto internals = P2::ProgramInternals(controller);
 
 
         internals.setController( controller );
@@ -33,7 +33,7 @@ namespace ProgramInternalsCreators
         return internals;
     }
 
-    ProgramInternals createRemoteModelQt(QWidget *qtViewWidgetParent)
+    P2::ProgramInternals createRemoteModelQt(QWidget *qtViewWidgetParent)
     {
         zmq::context_t context{ 1 };
         Common::Communication::CommunicationChannel channel(context);
@@ -50,7 +50,7 @@ namespace ProgramInternalsCreators
         controller->registerView(view);
         controller->setInputObserver(inputObserver);
 
-        auto internals = ProgramInternals();
+        auto internals = P2::ProgramInternals(controller);
 
 
         internals.setController(controller);
@@ -60,7 +60,7 @@ namespace ProgramInternalsCreators
         return internals;
     }
 
-    ProgramInternals createRemoteViewRemoteInputLocalModel()
+   /* P2::ProgramInternals createRemoteViewRemoteInputLocalModel()
     {
         zmq::context_t context{ 1 };
         Common::Communication::CommunicationChannel channel(context);
@@ -72,9 +72,9 @@ namespace ProgramInternalsCreators
         model->registerObserver(modelObserverSender);
         inputChangesObserver->addInputObserver(model);
 
-        auto internals = ProgramInternals();
+        auto internals = P2::ProgramInternals(controller);
 
         return internals;
     }
-
+*/
 }

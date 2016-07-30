@@ -6,7 +6,7 @@
 
 namespace ProgramInternalsCreators
 {
-    ProgramInternals createLocalQt(QWidget *qtViewWidgetParent);
+    P2::ProgramInternals createLocalQt(QWidget *qtViewWidgetParent);
 }
 
 #endif // PROGRAMFACTORY_H
