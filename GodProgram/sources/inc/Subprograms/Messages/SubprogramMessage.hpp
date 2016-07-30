@@ -4,13 +4,15 @@
 
 #include <boost/variant.hpp>
 
+#include <string>
+
 namespace God
 {
     namespace Subprograms
     {
         namespace Messages
         {
-            template <typename Type, typename Args...>
+            template <typename Type, typename ...Args>
             struct Message
             {
                 Type type;
@@ -30,6 +32,8 @@ namespace God
                     get<T>() = value;
                 }
             };
+
+            using Program2Message = Message<int, std::string>;
         }
     }
 }
