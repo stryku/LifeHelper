@@ -9,8 +9,6 @@ namespace God
 {
     namespace Subprograms
     {
-        
-
         struct SignalsHandlers
         {
             std::function<void()> heartbeatLostCallback;

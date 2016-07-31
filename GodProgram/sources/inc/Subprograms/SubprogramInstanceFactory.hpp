@@ -15,17 +15,20 @@ namespace God
         class InstanceFactory
         {
         public:
-            template <typename ProgramInternals,
-                      typename View,
-                      typename Controller,
-                      typename InputPropagator>
-            Instance<ProgramInternals,
-                     View,
-                     Controller,
-                     InputPropagator> 
-                create(QTabWidget &tabWidget, Subprograms::ModelId modelId)
+            template <typename TypesPack>
+            Instance<TypesPack> create(QTabWidget &tabWidget,
+                                       ModelId modelId,
+                                       const std::string &pushAddress,
+                                       const std::string &subscribeAddress,
+                                       const std::string &subscribeStr.
+                                       SignalsHandler &signalHandler)
             {
-                return{ tabWidget, modelId };
+                return { tabWidget,
+                         modelId,
+                         pushAddress,
+                         subscribeAddress,
+                         subscribeStr,
+                         signalsHandler };
             }
         };
     }

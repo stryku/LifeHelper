@@ -27,7 +27,6 @@ namespace God
                 internals { &controller },
                 view{ &tabWidget }, 
                 inputPropagator{ sender },
-                signalsHandler{ signalsHandler },
                 messageHandler{ signalsHandler },
                 messageSubscriber{ subscribeAddress, subscribeStr, messageHandler },
                 modelId{ modelId }
@@ -52,7 +51,6 @@ namespace God
             TypesPack::Controller controller;
             TypesPack::SocketInputPropagator inputPropagator;
 
-            SignalsHandler &signalsHandler;
             MessageHandler messageHandler;
 
             Subscriber messageSubscriber;
