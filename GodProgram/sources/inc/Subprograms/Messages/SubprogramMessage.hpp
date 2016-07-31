@@ -1,6 +1,7 @@
 #pragma once
 
 #include <utils/traits/traits.hpp>
+#include <Subprograms/SignalType.hpp>
 
 #include <boost/variant.hpp>
 
@@ -21,7 +22,7 @@ namespace God
             template <typename Type, typename ...Args>
             struct InternalMessage
             {
-                Type type;
+                boost::variant<SignalType, Type> typeVariant;
                 boost::variant<Args...> variant;
 
                 template <typename T,
@@ -36,6 +37,14 @@ namespace God
                 void set(const T &value) noexcept
                 {
                     get<T>() = value;
+                }
+
+                template <typename T,
+                          typename = std::enable_if_t<std::is_same<T, SignalType>::value ||
+                                                      std::is_same<T, Type>::value>>
+                T getType() noexcept
+                {
+                    return boost::get<T>(typeVariant);
                 }
             };
 
