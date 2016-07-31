@@ -10,10 +10,12 @@ namespace God
     {
         class HeartbeatController
         {
+        private:
+            using ms = std::chrono::milliseconds;
         public:
             HeartbeatController(std::function<void()> &heartbeatLostCallback, 
-                                const std::chrono::milliseconds &panicTime = {5000},
-                                const std::chrono::milliseconds &checkDuration = { 1000 }) noexcept :
+                                const ms &panicTime = ms{5000},
+                                const ms &checkDuration = ms{ 1000 }) noexcept :
                 heartbeatLostCallback{ heartbeatLostCallback }
             {}
             ~HeartbeatController() = default;

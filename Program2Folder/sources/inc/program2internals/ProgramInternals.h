@@ -22,7 +22,7 @@ namespace P2
             controller->registerView(view);
         }
 
-        void addInput(P2::Input::InputPropagator *input)
+        void addInputPropagator(P2::Input::InputPropagator *input)
         {
             inputs.push_back(input);
             input->setInputHandler(controller);

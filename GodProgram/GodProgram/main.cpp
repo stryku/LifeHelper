@@ -1,4 +1,5 @@
 #include <Tabs/TabsManager.hpp>
+#include <Subprograms/SubprogramInstancesManager.hpp>
 
 #include "mainwindow.hpp"
 
@@ -9,9 +10,13 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     
-    God::Tabs::TabsManager tabsMngr;
+    God::Subprograms::Proxy proxy;
+    MainWindow w;
+    God::Subprograms::SubprogramInstancesManager mngr(w.getTabWidget(), proxy );
+    //God::Tabs::TabsManager tabsMngr;
 
-    MainWindow w(tabsMngr);
+    w.setCreateNewInstanceCallback(mngr.getCreateNewInstanceCallback());
+
     w.show();
 
     return a.exec();

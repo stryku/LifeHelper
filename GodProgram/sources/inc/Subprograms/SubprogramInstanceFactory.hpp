@@ -15,20 +15,20 @@ namespace God
         class InstanceFactory
         {
         public:
-            template <typename TypesPack>
-            Instance<TypesPack> create(QTabWidget &tabWidget,
-                                       ModelId modelId,
-                                       const std::string &pushAddress,
-                                       const std::string &subscribeAddress,
-                                       const std::string &subscribeStr.
-                                       SignalsHandler &signalHandler)
+            template <typename TypesPack, typename MessageHandler, typename InstanceType = Instance<TypesPack, MessageHandler>>
+            static InstanceType create(QTabWidget &tabWidget,
+                                                        zmq::context_t &context,
+                                                        const std::string &pushAddress,
+                                                        const std::string &subscribeAddress,
+                                                        const std::string &subscribeStr,
+                                                        SignalsHandler *signalHandler)
             {
-                return { tabWidget,
-                         modelId,
-                         pushAddress,
-                         subscribeAddress,
-                         subscribeStr,
-                         signalsHandler };
+                return InstanceType(tabWidget,
+                                                      context,
+                                                      pushAddress,
+                                                      subscribeAddress,
+                                                      subscribeStr,
+                                                      *signalHandler);
             }
         };
     }

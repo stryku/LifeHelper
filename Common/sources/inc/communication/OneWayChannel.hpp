@@ -4,6 +4,8 @@
 
 #include <type_traits>
 
+#include <utils/traits/traits.hpp>
+
 namespace Common
 {
     namespace Communication
@@ -22,8 +24,13 @@ namespace Common
         };
 
         template <typename Type,
-                  typename = std::enable_if_t<std::is_same_v <Type, ChannelType::Receiver> ||
-                                              std::is_same_v <Type, ChannelType::Sender>>>
+                  typename = std::enable_if_t<utils::traits::is_any_of_v<Type,
+                                                                         ChannelType::Puller,
+                                                                         ChannelType::Pusher,
+                                                                         ChannelType::Subscriber>>>
+                  /*typename = std::enable_if_t<std::is_same_v <Type, ChannelType::Puller> ||
+                                              std::is_same_v <Type, ChannelType::Pusher> ||
+                                              std::is_same_v <Type, ChannelType::Subscriber>>>*/
         class OneWayChannel
         {
         public:
@@ -76,11 +83,11 @@ namespace Common
             }
         };
 
-        class SenderChannel : public OneWayChannel<ChannelType::Sender>
+        class SenderChannel : public OneWayChannel<ChannelType::Pusher>
         {
         public:
             SenderChannel(zmq::context_t &context) :
-                OneWayChannel<ChannelType::Sender>(context)
+                OneWayChannel<ChannelType::Pusher>(context)
             {}
 
             auto send(const std::string &str)
@@ -98,7 +105,7 @@ namespace Common
         {
         public:
             SubscriberChannel(zmq::context_t &context, const std::string &subscribeStr) :
-                ReceiverChannel(context)
+                ReceiverChannel<ChannelType::Subscriber>(context)
             {
                 m_socket.setsockopt(ZMQ_SUBSCRIBE, subscribeStr.c_str(), 0);
             }

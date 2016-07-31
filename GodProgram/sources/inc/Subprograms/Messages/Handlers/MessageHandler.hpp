@@ -26,11 +26,11 @@ namespace God
                         if (parsed.type == Messages::MessageType::MODEL_SIGNAL)
                         {
                             auto signalType = parsed.internalMessage.getType<SignalType>();
-                            signalHandler.signal(signalType);
+                            signalHandler.signal(signalType, "");
                         }
                         else
                         {
-                            static_cast<ConcreteHandler*>(this)->handle_impl(parsed.internalMessage);
+                            static_cast<ConcreteHandler*>(this)->handle_impl(parsed);
                         }
                     }
 

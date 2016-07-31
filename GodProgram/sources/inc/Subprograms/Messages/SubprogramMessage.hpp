@@ -52,7 +52,7 @@ namespace God
             struct Message
             {
                 MessageType type;
-                InternalMessage<Type, Args> internalMessage;
+                InternalMessage<Type, Args...> internalMessage;
             };
 
             using Program2Message = Message<int, std::string>;
