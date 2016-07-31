@@ -9,12 +9,7 @@ namespace God
 {
     namespace Subprograms
     {
-        enum class SignalType
-        {
-            HEARTBEAT_SIGNAL,
-            ERROR_SIGNAL,
-            CLEAN_CLOSE_SIGNAL
-        };
+        
 
         struct SignalsHandlers
         {
@@ -26,9 +21,7 @@ namespace God
         class SignalsHandler
         {
         public:
-            SignalsHandler(const SignalsHandlers &handlers,
-                           const std::string &addressToConnect, 
-                           const std::string &subscriptionString) noexcept :
+            SignalsHandler(const SignalsHandlers &handlers) noexcept :
                 heartbeatLostCallback{ handlers.heartbeatLostCallback },
                 errorCallback{ handlers.errorCallback },
                 cleanCloseCallback{ handlers.cleanCloseCallback },
