@@ -8,7 +8,7 @@ namespace God
 {
     namespace Subprograms
     {
-        template <typename MessagHandler>
+        template <typename MessageHandler>
         class Subscriber
         {
         public:
