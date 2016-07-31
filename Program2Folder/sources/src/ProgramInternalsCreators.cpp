@@ -1,7 +1,5 @@
 #include <ProgramInternalsCreators.h>
 
-#include <communication/CommunicationChannel.hpp>
-
 #include <program2internals/model/SocketModelObserverReceiver.hpp>
 #include <program2internals/model/SocketModelObserverSender.hpp>
 #include <program2internals/input/SocketInputObserverSender.hpp>
@@ -33,7 +31,7 @@ namespace ProgramInternalsCreators
         return internals;
     }
 
-    P2::ProgramInternals createRemoteModelQt(QWidget *qtViewWidgetParent)
+   /* P2::ProgramInternals createRemoteModelQt(QWidget *qtViewWidgetParent)
     {
         zmq::context_t context{ 1 };
         Common::Communication::CommunicationChannel channel(context);
@@ -58,7 +56,7 @@ namespace ProgramInternalsCreators
         internals.addView(view);
 
         return internals;
-    }
+    }*/
 
    /* P2::ProgramInternals createRemoteViewRemoteInputLocalModel()
     {
