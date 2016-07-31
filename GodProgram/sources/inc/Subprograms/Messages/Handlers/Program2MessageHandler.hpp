@@ -2,6 +2,9 @@
 
 #include <Subprograms/Messages/Parsers/Program2MessageParser.hpp>
 #include <Subprograms/Messages/Handlers/MessageHandler.hpp>
+#include <Subprograms/SubprogramSignalHandler.hpp>
+
+#include <program2internals/controller/Controller.h>
 
 #include <string>
 
@@ -16,10 +19,17 @@ namespace God
                 class Program2 : public MessageHandler<Program2, Parsers::Program2>
                 {
                 public:
+                    Program2(SignalsHandler &handler, P2::Controller::Controller &controller) :
+                        MessageHandler{ handler },
+                        controller{ controller }
+                    {}
+
                     void handle_impl(const Program2Message &parsed)
                     {
-
                     }
+
+                private:
+                    P2::Controller::Controller &controller;
                 };
             }
         }
