@@ -19,12 +19,12 @@ namespace God
         {
             std::string getPushAddr()
             {
-                return "";
+                return "tcp://127.0.0.1:5252";
             }
 
             std::string getSubAddr()
             {
-                return "";
+                return "12";
             }
 
             zmq::context_t& getContext()
@@ -48,8 +48,20 @@ namespace God
                 InstanceWithHandler(const InstanceWithHandler&) = delete;
                 InstanceWithHandler& operator=(const InstanceWithHandler&) = delete;
 
-                InstanceWithHandler(InstanceWithHandler&&) = default;
-                InstanceWithHandler& operator=(InstanceWithHandler&&) = default;
+                InstanceWithHandler(InstanceWithHandler &&other) :
+                    instance{ std::move(other.instance) },
+                    handler{ std::move(other.handler) },
+                    modelId{ std::move(other.modelId) }
+                {}
+
+                InstanceWithHandler& operator=(InstanceWithHandler &&other)
+                {
+                    insatnce = std::move(other.instance);
+                    handler = std::move(other.handler);
+                    modelId = std::move(other.modelId);
+
+                    return *this;
+                }
 
                 InstanceType instance;
                 SignalsHandler handler;
@@ -76,7 +88,7 @@ namespace God
             }
 
             template <typename TypesPack, typename MessageHandler, typename InstanceType = Instance<TypesPack, MessageHandler>>
-            InstanceWithHandler<InstanceType>&& genericCreate()
+            InstanceWithHandler<InstanceType> genericCreate()
             {
                 InstanceWithHandler<InstanceType> instanceWithHandler{ createSignalHandler(), 
                     InstanceFactory::create<TypesPack, MessageHandler>(tabWidget,
@@ -97,7 +109,7 @@ namespace God
             void store(Element &&elem)
             {
                 static std::vector<Element> instances;
-                instances.emplace_back(elem);
+                instances.push_back(std::move(elem));
             }
 
         public:

@@ -3,11 +3,11 @@
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui{new Ui::MainWindow},
-    tabsMngr{ tabsMngr }
+    ui{new Ui::MainWindow}
+    //tabsMngr{ tabsMngr }
 {
     ui->setupUi(this);
-    tabsMngr.setTabWidget(ui->tabWidget);
+    //tabsMngr.setTabWidget(ui->tabWidget);
 }
 
 MainWindow::~MainWindow()

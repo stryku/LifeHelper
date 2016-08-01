@@ -25,7 +25,7 @@ namespace God
                      const std::string &subscribeStr,
                      SignalsHandler &signalsHandler) :
                 internals{ &controller },
-                view{ &tabWidget },
+                view{ &tabWidget, "programs/Program2/uiforms/Program2Form.ui" },
                 socketInputOvserverSender{ sender },
                 messageHandler{ signalsHandler, controller },
                 messageSubscriber{ context, subscribeStr, messageHandler },
@@ -36,21 +36,41 @@ namespace God
                 internals.addInputPropagator(&inputPropagator);
 
                 establishConnection(pushAddress, subscribeAddress);
-                messageSubscriber.startRecv();
+                //messageSubscriber.startRecv();
             }
 
             Instance(const Instance&) = delete;
             Instance& operator=(const Instance&) = delete;
 
-            Instance(Instance&&) = default;
-            Instance& operator=(Instance&&) = default;
+            Instance(Instance &&other) :
+                internals{ std::move(other.internals) },
+                view{ std::move(other.view) },
+                controller{ std::move(other.controller) },
+                inputPropagator{ std::move(other.inputPropagator) },
+                socketInputOvserverSender{ std::move(other.socketInputOvserverSender) },
+                messageHandler{ std::move(other.messageHandler) },
+                messageSubscriber{ std::move(other.messageSubscriber) },
+                sender{ std::move(other.sender) }
+            {}
+
+            Instance& operator=(Instance &&other)
+            {
+                internals = std::move(other.internals);
+                view = std::move(other.view);
+                controller = std::move(other.controller);
+                inputPropagator = std::move(other.inputPropagator);
+                socketInputOvserverSender = std::move(other.socketInputOvserverSender);
+                messageHandler = std::move(other.messageHandler);
+                messageSubscriber = std::move(other.messageSubscriber);
+                sender = std::move(other.sender);
+            }
 
         private:
             void establishConnection(const std::string &pushAddress,
                                      const std::string &subscribeAddress)
             {
                 sender.connect(pushAddress);
-                messageSubscriber.connect(subscribeAddress);
+                messageSubscriber.connect(pushAddress);
             }
 
             typename TypesPack::ProgramInternals internals;
