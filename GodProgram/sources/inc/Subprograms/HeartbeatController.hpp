@@ -10,15 +10,35 @@ namespace God
     {
         class HeartbeatController
         {
+        private:
+            using ms = std::chrono::milliseconds;
         public:
             HeartbeatController(std::function<void()> &heartbeatLostCallback, 
-                                const std::chrono::milliseconds &panicTime = {5000},
-                                const std::chrono::milliseconds &checkDuration = { 1000 }) noexcept :
+                                const ms &panicTime = ms{5000},
+                                const ms &checkDuration = ms{ 1000 }) noexcept :
                 heartbeatLostCallback{ heartbeatLostCallback }
             {}
+
             ~HeartbeatController() = default;
-            HeartbeatController(HeartbeatController&&) = default;
-            HeartbeatController& operator=(HeartbeatController&&) = default;
+
+            HeartbeatController(HeartbeatController &&other) :
+                heartbeatLostCallback{ std::move(other.heartbeatLostCallback) },
+                loopThread{ std::move(other.loopThread) },
+                lastBeat{ std::move(other.lastBeat) },
+                panicTime{ std::move(other.panicTime) },
+                checkDuration{ std::move(other.checkDuration) }
+            {}
+
+            HeartbeatController& operator=(HeartbeatController &&other)
+            {
+                heartbeatLostCallback = std::move(other.heartbeatLostCallback);
+                loopThread = std::move(other.loopThread);
+                lastBeat = std::move(other.lastBeat);
+                panicTime = std::move(other.panicTime);
+                checkDuration = std::move(other.checkDuration);
+
+                return *this;
+            }
 
             HeartbeatController(const HeartbeatController&) = delete;
             HeartbeatController& operator=(const HeartbeatController&) = delete;
@@ -54,7 +74,7 @@ namespace God
         private:
             using Clock = std::chrono::system_clock;
 
-            std::function<void()> &heartbeatLostCallback;
+            std::reference_wrapper<std::function<void()>> heartbeatLostCallback;
             std::thread loopThread;
 
             std::chrono::time_point<Clock> lastBeat;

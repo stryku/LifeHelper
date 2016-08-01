@@ -12,7 +12,7 @@ namespace God
         struct SignalsHandlers
         {
             std::function<void()> heartbeatLostCallback;
-            std::function<void()> errorCallback;
+            std::function<void(const std::string&)> errorCallback;
             std::function<void()> cleanCloseCallback;
         };
 
@@ -26,12 +26,30 @@ namespace God
                 heartbeatController{ heartbeatLostCallback }
             {}
 
+            SignalsHandler(SignalsHandler &&other) :
+                heartbeatLostCallback{ std::move(other.heartbeatLostCallback) },
+                errorCallback{ std::move(other.errorCallback) },
+                cleanCloseCallback{ std::move(other.cleanCloseCallback) },
+                heartbeatController{ std::move(other.heartbeatController) }
+            {}
+
+            SignalsHandler& operator=(SignalsHandler &&other)
+            {
+                heartbeatLostCallback = std::move(other.heartbeatLostCallback);
+                errorCallback = std::move(other.errorCallback);
+                cleanCloseCallback = std::move(other.cleanCloseCallback);
+                heartbeatController = std::move(other.heartbeatController);
+            }
+
+            SignalsHandler(SignalsHandler&) = delete;
+            SignalsHandler& operator=(SignalsHandler&) = delete;
+
             void setHeartbeatLostCallback(std::function<void()> callback) noexcept
             {
                 heartbeatLostCallback = callback;
             }
 
-            void setErrorCallback(std::function<void()> callback) noexcept
+            void setErrorCallback(std::function<void(const std::string&)> callback) noexcept
             {
                 errorCallback = callback;
             }
@@ -41,7 +59,7 @@ namespace God
                 cleanCloseCallback = callback;
             }
 
-            template <typename ...Args>
+            template <typename SignalType, typename ...Args>
             void signal(SignalType type, Args... args)
             {
                 switch (type)
@@ -51,7 +69,7 @@ namespace God
                     break;
 
                 case God::Subprograms::SignalType::ERROR_SIGNAL:
-                    handleError(std::forward<Args>(args...));
+                    handleError(std::forward<Args>(args)...);
                     break;
 
                 case God::Subprograms::SignalType::CLEAN_CLOSE_SIGNAL:
@@ -77,7 +95,7 @@ namespace God
             {}
 
             std::function<void()> heartbeatLostCallback;
-            std::function<void()> errorCallback;
+            std::function<void(const std::string&)> errorCallback;
             std::function<void()> cleanCloseCallback;
 
             HeartbeatController heartbeatController;

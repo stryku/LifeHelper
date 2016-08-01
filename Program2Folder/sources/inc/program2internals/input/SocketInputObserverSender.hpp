@@ -12,7 +12,7 @@ namespace P2
 {
     namespace Input
     {
-        class SocketInputObserverSender : public P2::Input::InputObserver
+        class SocketInputObserverSender : public P2::Input::InputHandler
         {
         private:
             using Sender = Common::Communication::SenderChannel;

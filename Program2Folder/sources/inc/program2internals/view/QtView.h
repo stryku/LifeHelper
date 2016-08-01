@@ -12,8 +12,8 @@ namespace P2
         class QtView : public View
         {
         public:
-            QtView( QWidget *widgetParent ) :
-                widgetManager( widgetParent )
+            QtView( QWidget *widgetParent, const QString &uiFilePath ) :
+                widgetManager( widgetParent, uiFilePath )
             {}
 
             void updateLabel( const QString &str )

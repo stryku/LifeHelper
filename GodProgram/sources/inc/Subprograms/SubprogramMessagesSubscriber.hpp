@@ -42,7 +42,7 @@ namespace God
                         if (ret == EINTR)//todo add logs
                             break;
 
-                        msgHandler.handle(std::move(msg));
+                        msgHandler.handle(msg.str());
                     }
                 };
 

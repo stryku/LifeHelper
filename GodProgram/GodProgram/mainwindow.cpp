@@ -1,13 +1,13 @@
 #include "mainwindow.hpp"
 #include "ui_mainwindow.h"
 
-MainWindow::MainWindow(God::Tabs::TabsManager &tabsMngr, QWidget *parent) :
+MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui{new Ui::MainWindow},
-    tabsMngr{ tabsMngr }
+    ui{new Ui::MainWindow}
+    //tabsMngr{ tabsMngr }
 {
     ui->setupUi(this);
-    tabsMngr.setTabWidget(ui->tabWidget);
+    //tabsMngr.setTabWidget(ui->tabWidget);
 }
 
 MainWindow::~MainWindow()
@@ -25,5 +25,11 @@ void MainWindow::on_tabWidget_tabBarClicked(int index)
 
 void MainWindow::createNewTab()
 {
-    tabsMngr.create(God::Subprograms::Type::P2, 0);
+    createNewInstanceCallback(God::Subprograms::Type::P2);
+}
+
+
+QTabWidget& MainWindow::getTabWidget()
+{
+    return *ui->tabWidget;
 }

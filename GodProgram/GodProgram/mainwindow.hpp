@@ -14,8 +14,14 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit MainWindow(God::Tabs::TabsManager &tabsMngr, QWidget *parent = 0);
+    explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
+
+    void setCreateNewInstanceCallback(std::function<void(God::Subprograms::Type)> callback)
+    {
+        createNewInstanceCallback = callback;
+    }
+    QTabWidget& getTabWidget();
 
 private slots:
     void on_tabWidget_tabBarClicked(int index);
@@ -25,7 +31,7 @@ private:
 
     Ui::MainWindow *ui;
 
-    God::Tabs::TabsManager &tabsMngr;
+    std::function<void(God::Subprograms::Type)> createNewInstanceCallback;
 };
 
 #endif // MAINWINDOW_H

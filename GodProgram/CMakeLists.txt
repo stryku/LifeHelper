@@ -43,6 +43,7 @@ set (GodProgram_inc ${inc_dir}/Tabs/TabCreators.hpp
 					${inc_dir}/Subprograms/SubprogramSignalHandler.hpp
 					${inc_dir}/Subprograms/SubprogramInstance.hpp
 					${inc_dir}/Subprograms/SubprogramInstanceFactory.hpp
+					${inc_dir}/Subprograms/SubprogramInstancesManager.hpp
 					${inc_dir}/Subprograms/Messages/SubprogramMessage.hpp
 					${inc_dir}/Subprograms/Messages/Handlers/Program2MessageHandler.hpp
 					${inc_dir}/Subprograms/Messages/Handlers/MessageHandler.hpp

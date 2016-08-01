@@ -1,9 +1,9 @@
 #include <ProgramInternalsCreators.h>
 
-#include <program2internals/model/SocketModelObserverReceiver.hpp>
+//#include <program2internals/model/SocketModelObserverReceiver.hpp>
 #include <program2internals/model/SocketModelObserverSender.hpp>
 #include <program2internals/input/SocketInputObserverSender.hpp>
-#include <program2internals/input/SocketInputObserverReceiver.h>
+//#include <program2internals/input/SocketInputObserverReceiver.h>
 
 #include <program2internals/view/QtView.h>
 
@@ -25,7 +25,7 @@ namespace ProgramInternalsCreators
 
 
         internals.setController( controller );
-        internals.addInput( inputPropagator );
+        internals.addInputPropagator( inputPropagator );
         internals.addView( view );
 
         return internals;
