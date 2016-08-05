@@ -8,6 +8,7 @@
 
 #include <unordered_set>
 #include <string>
+#include <atomic>
 
 namespace God
 {
@@ -142,7 +143,7 @@ namespace God
 
             ModelId generateModelId() const noexcept
             {
-                static ModelId id;
+                static std::atomic<ModelId> id;
                 return ++id;
             }
             static std::string getSubscribeString(ModelId id)
