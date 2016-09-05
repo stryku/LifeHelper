@@ -19,8 +19,10 @@ namespace God
                 class Program2 : public MessageHandler<Program2, Parsers::Program2>
                 {
                 public:
+                    using ControllerType = P2::Controller::Controller;
+
                     Program2() = default;
-                    Program2(SignalsHandler &handler, P2::Controller::Controller &controller) noexcept :
+                    Program2(SignalsHandler &handler, ControllerType &controller) noexcept :
                         MessageHandler{ handler }/*,
                         controller{ controller }*/
                     {}
@@ -49,7 +51,7 @@ namespace God
                     }
 
                 private:
-                    std::reference_wrapper<P2::Controller::Controller> *controller;
+                    std::reference_wrapper<ControllerType> *controller;
                 };
             }
         }

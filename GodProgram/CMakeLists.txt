@@ -47,6 +47,7 @@ set (GodProgram_inc ${inc_dir}/Tabs/TabCreators.hpp
 					${inc_dir}/Subprograms/Messages/SubprogramMessage.hpp
 					${inc_dir}/Subprograms/Messages/Handlers/Program2MessageHandler.hpp
 					${inc_dir}/Subprograms/Messages/Handlers/MessageHandler.hpp
+					${inc_dir}/Subprograms/Messages/Handlers/ProgramMessageHandlerCreator.hpp
 					${inc_dir}/Subprograms/Messages/Parsers/Program2MessageParser.hpp)
                      
                      
