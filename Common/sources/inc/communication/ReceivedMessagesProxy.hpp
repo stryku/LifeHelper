@@ -5,10 +5,10 @@ namespace Common
     namespace Communication
     {
         template <typename Handler, typename MessageReceiver>
-        class MessagesProxy
+        class ReceivedMessagesProxy
         {
         public:
-            MessageProxy(Handler &&handler, MessageReceiver &&receiver) :
+            ReceivedMessagesProxy(Handler &&handler, MessageReceiver &&receiver) :
                 receiver{ receiver },
                 handler{ std::move(handler) }
             {}
@@ -23,9 +23,8 @@ namespace Common
             }
 
         private:
-
             MessageReceiver receiver;
             Handler handler;
-        }
+        };
     }
 }
