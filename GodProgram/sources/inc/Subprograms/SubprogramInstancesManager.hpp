@@ -4,9 +4,9 @@
 
 #include <Subprograms/SubprogramInstanceFactory.hpp>
 
-#include <boost/any.hpp>
+#include <boost/variant.hpp>
 
-#include <unordered_set>
+#include <unordered_map>
 #include <string>
 #include <atomic>
 
@@ -14,8 +14,6 @@ namespace God
 {
     namespace Subprograms
     {
-
-
         struct Proxy
         {
             std::string getPushAddr()
@@ -38,11 +36,13 @@ namespace God
         class SubprogramInstancesManager
         {
         private:
+            using Program2Instance = Instance<P2::Info::TypesPack, Messages::Handlers::Program2>;
 
-            template <typename InstanceType>
+            using InstanceVariant = boost::variant<Program2Instance, int>;
+
             struct InstanceWithHandler
             {
-                InstanceWithHandler(SignalsHandler &&handler, InstanceType &&instance) :
+                InstanceWithHandler(SignalsHandler &&handler, InstanceVariant &&instance) :
                     instance{ std::move(instance) },
                     handler{ std::move(handler) }
                 {}
@@ -57,60 +57,54 @@ namespace God
 
                 InstanceWithHandler& operator=(InstanceWithHandler &&other)
                 {
-                    insatnce = std::move(other.instance);
+                    instance = std::move(other.instance);
                     handler = std::move(other.handler);
                     modelId = std::move(other.modelId);
 
                     return *this;
                 }
 
-                InstanceType instance;
+                InstanceVariant instance;
                 SignalsHandler handler;
                 ModelId modelId;
-
-                //bool operator==(const InstanceWithHandler &rhs) const
-                //{
-                //    return modelId == rhs.modelId;
-                //}
-                /*
-                struct hash
-                {
-                    size_t operator()(const InstanceWithHandler &instance) const noexcept
-                    {
-                       return std::hash<ModelId>()(instance.modelId);
-                    }
-                };*/
             };
 
-
-            auto createProgram2()
+            template <typename TypesPack, typename MessageHandler, typename InstanceType = Instance<TypesPack, MessageHandler>>
+            class Builder
             {
-                return std::move(genericCreate<P2::Info::TypesPack, Messages::Handlers::Program2>());
+            public:
+
+            private:
+                InstanceType instance;
+            };     
+
+
+            void createProgram2()
+            {
+                auto instance = genericCreate<P2::Info::TypesPack, Messages::Handlers::Program2>();
+                auto id = instance.modelId;
+
+                //instances[id] = std::move(instance);
             }
 
             template <typename TypesPack, typename MessageHandler, typename InstanceType = Instance<TypesPack, MessageHandler>>
-            InstanceWithHandler<InstanceType> genericCreate()
+            InstanceWithHandler&&/*<InstanceType>*/ genericCreate()
             {
-                InstanceWithHandler<InstanceType> instanceWithHandler{ createSignalHandler(), 
-                    InstanceFactory::create<TypesPack, MessageHandler>(tabWidget,
-                                                                       proxy.getContext(),
-                                                                       proxy.getPushAddr(),
-                                                                       proxy.getSubAddr(),
-                                                                       getSubscribeString(instanceWithHandler.modelId),
-                                                                       &instanceWithHandler.handler) };
 
-                instanceWithHandler.modelId = generateModelId();
-                //auto&& ptr = 
-                //instanceWithHandler.instance = { std::move(ptr) };
+                auto modelId = generateModelId();
+                
+
+
+                InstanceWithHandler instanceWithHandler( createSignalHandler(), 
+                                                        InstanceType(tabWidget,
+                                                        proxy.getContext(),
+                                                        proxy.getPushAddr(),
+                                                        proxy.getSubAddr(),
+                                                        getSubscribeString(modelId)) );
+
+                instanceWithHandler.modelId = modelId;
 
                 return std::move(instanceWithHandler);
-            }
-
-            template <typename Element>
-            void store(Element &&elem)
-            {
-                static std::vector<Element> instances;
-                instances.push_back(std::move(elem));
             }
 
         public:
@@ -124,7 +118,7 @@ namespace God
                 switch (subprogramType)
                 {
                 case God::Subprograms::Type::P2:
-                    store(createProgram2());
+                    createProgram2();
                     break;
 
                 default:
@@ -169,7 +163,7 @@ namespace God
             void handleCleanClose() const noexcept
             {}
 
-            //std::unordered_set<InstanceWithHandler, InstanceWithHandler::hash> instances;
+            //std::unordered_map<ModelId, InstanceWithHandler> instances;
             QTabWidget &tabWidget;
 
             Proxy &proxy;

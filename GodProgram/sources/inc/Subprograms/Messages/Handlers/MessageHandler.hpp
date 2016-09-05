@@ -2,6 +2,8 @@
 
 #include <Subprograms/SubprogramSignalHandler.hpp>
 
+#include <functional>
+
 namespace God
 {
     namespace Subprograms
@@ -15,9 +17,22 @@ namespace God
                 class MessageHandler
                 {
                 public:
-                    MessageHandler(SignalsHandler &signalHandler) :
-                        signalHandler{ signalHandler }
+                    MessageHandler() = default;
+
+                    MessageHandler(SignalsHandler &signalHandler) /*:
+                        signalHandler{ signalHandler }*/
                     {}
+
+                    MessageHandler(MessageHandler &&other) /*:
+                        signalHandler{ std::move(other.signalHandler) }*/
+                    {}
+
+                    MessageHandler& operator=(MessageHandler &&other)
+                    {
+                        //signalHandler = std::move(other.signalHandler);
+                        return *this;
+                    }
+
 
                     void handle(const std::string &strMsg)
                     {
@@ -26,16 +41,16 @@ namespace God
                         if (parsed.type == Messages::MessageType::MODEL_SIGNAL)
                         {
                             auto signalType = parsed.internalMessage.getType<SignalType>();
-                            signalHandler.signal(signalType, "");
+                            //signalHandler.get().signal(signalType, "");
                         }
                         else
                         {
-                            static_cast<ConcreteHandler*>(this)->handle_impl(parsed);
+                            //static_cast<ConcreteHandler*>(this)->handle_impl(parsed);
                         }
                     }
 
                 private:
-                    SignalsHandler &signalHandler;
+                    std::reference_wrapper<SignalsHandler> *signalHandler;
                 };
             }
         }

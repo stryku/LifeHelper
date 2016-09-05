@@ -7,6 +7,7 @@
 
 #include <stdint.h>
 #include <vector>
+#include <functional>
 
 namespace P2
 {
@@ -18,9 +19,22 @@ namespace P2
             using Sender = Common::Communication::SenderChannel;
 
         public:
+            SocketInputObserverSender() = delete;
             SocketInputObserverSender(Sender &sender) :
-                m_sender(sender)
+                senderRef(sender)
             {}
+
+            SocketInputObserverSender(SocketInputObserverSender &&other) :
+                senderRef(std::move(other.senderRef))
+            {}
+
+            SocketInputObserverSender& operator=(SocketInputObserverSender &&other)
+            {
+                senderRef = std::move(other.senderRef);
+            }
+
+            SocketInputObserverSender(const SocketInputObserverSender &) = delete;
+            SocketInputObserverSender& operator=(const SocketInputObserverSender &) = delete;
 
             void decrementSum()
             {
@@ -30,11 +44,11 @@ namespace P2
 
                 builder.addElement(Elem{ "msg.type", "decrementSum" });
 
-                m_sender.send(builder.build());
+                senderRef.get().send(builder.build());
             }
 
         private:
-            Sender &m_sender;
+            std::reference_wrapper<Sender> senderRef;
         };
     }
 }

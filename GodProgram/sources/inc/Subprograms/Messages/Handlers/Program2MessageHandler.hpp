@@ -19,17 +19,37 @@ namespace God
                 class Program2 : public MessageHandler<Program2, Parsers::Program2>
                 {
                 public:
-                    Program2(SignalsHandler &handler, P2::Controller::Controller &controller) :
-                        MessageHandler{ handler },
-                        controller{ controller }
+                    Program2() = default;
+                    Program2(SignalsHandler &handler, P2::Controller::Controller &controller) noexcept :
+                        MessageHandler{ handler }/*,
+                        controller{ controller }*/
                     {}
+
+                    Program2(Program2 && other) noexcept :
+                        MessageHandler{ std::move(other) }/*,
+                        controller{ std::move(other.controller) }*/
+                    {}
+
+                    Program2(Program2 && other, SignalsHandler &handler) noexcept :
+                        MessageHandler{ handler }/*,
+                        controller{ std::move(other.controller) }*/
+                    {}
+
+                    Program2& operator=(Program2 && other) noexcept
+                    {
+                        //controller = std::move(other.controller);
+                        return *this;
+                    }
+
+                    Program2(const Program2&) = delete;
+                    Program2& operator=(const Program2&) = delete;
 
                     void handle_impl(const Program2Message &parsed)
                     {
                     }
 
                 private:
-                    P2::Controller::Controller &controller;
+                    std::reference_wrapper<P2::Controller::Controller> *controller;
                 };
             }
         }

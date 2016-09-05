@@ -8,6 +8,8 @@
 
 #include <QTabWidget>
 
+#include <functional>
+
 namespace God
 {
     namespace Subprograms

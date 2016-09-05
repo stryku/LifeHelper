@@ -3,6 +3,7 @@
 #include <communication/OneWayChannel.hpp>
 
 #include <thread>
+#include <functional>
 
 namespace God
 {
@@ -18,6 +19,27 @@ namespace God
                 subscriberChannel{ context, subscribeStr },
                 msgHandler{ msgHandler }
             {}
+
+            Subscriber(Subscriber &&other) noexcept :
+                subscriberChannel{ std::move(other.subscriberChannel) },
+                msgHandler{ std::move(other.msgHandler) },
+                recvThread{ std::move(other.recvThread) },
+                interrupted{ other.interrupted }
+            {}
+
+            Subscriber& operator=(Subscriber &&other) noexcept
+            {
+                subscriberChannel = std::move(other.subscriberChannel);
+                msgHandler = std::move(other.msgHandler);
+                recvThread = std::move(other.recvThread);
+                interrupted = other.interrupted;
+
+                return *this;
+            }
+
+            Subscriber() = delete;
+            Subscriber(Subscriber &) = delete;
+            Subscriber& operator=(Subscriber &) = delete;
 
             auto connect(const std::string &addr)
             {
@@ -51,7 +73,7 @@ namespace God
 
         private:
             Common::Communication::SubscriberChannel subscriberChannel;
-            MessageHandler &msgHandler;
+            std::reference_wrapper<MessageHandler> msgHandler;
 
             std::thread recvThread;
 

@@ -22,27 +22,48 @@ namespace God
                      zmq::context_t &context,
                      const std::string &pushAddress,
                      const std::string &subscribeAddress,
-                     const std::string &subscribeStr,
-                     SignalsHandler &signalsHandler) :
+                     const std::string &subscribeStr/*,
+                     SignalsHandler &signalsHandler*/) :
                 internals{ &controller },
                 view{ &tabWidget, "programs/Program2/uiforms/Program2Form.ui" },
                 socketInputOvserverSender{ sender },
-                messageHandler{ signalsHandler, controller },
+                //messageHandler{ signalsHandler, controller },
                 messageSubscriber{ context, subscribeStr, messageHandler },
                 sender{ context }
             {
-                inputPropagator.setInputHandler(&socketInputOvserverSender);
+                /*inputPropagator.setInputHandler(&socketInputOvserverSender);
                 internals.addView(&view);
                 internals.addInputPropagator(&inputPropagator);
 
-                establishConnection(pushAddress, subscribeAddress);
+                establishConnection(pushAddress, subscribeAddress);*/
                 //messageSubscriber.startRecv();
             }
 
             Instance(const Instance&) = delete;
             Instance& operator=(const Instance&) = delete;
 
-            Instance(Instance &&other) :
+
+            Instance(Instance &&other, SignalsHandler &signalsHandler) noexcept :
+                internals{ std::move(other.internals) },
+                view{ std::move(other.view) },
+                controller{ std::move(other.controller) },
+                inputPropagator{ std::move(other.inputPropagator) },
+                socketInputOvserverSender{ std::move(other.socketInputOvserverSender) },
+                //messageHandler{ signalsHandler, controller },
+                messageSubscriber{ std::move(other.messageSubscriber) },
+                sender{ std::move(other.sender) }
+            {
+                inputPropagator.setInputHandler(&socketInputOvserverSender);
+                internals.addView(&view);
+                internals.addInputPropagator(&inputPropagator);
+
+                establishConnection(pushAddress, subscribeAddress);
+            }
+
+            Instance(Instance &&other) = default;
+            Instance& operator=(Instance &&other) = default;
+
+            /*Instance(Instance &&other) :
                 internals{ std::move(other.internals) },
                 view{ std::move(other.view) },
                 controller{ std::move(other.controller) },
@@ -63,7 +84,7 @@ namespace God
                 messageHandler = std::move(other.messageHandler);
                 messageSubscriber = std::move(other.messageSubscriber);
                 sender = std::move(other.sender);
-            }
+            }*/
 
         private:
             void establishConnection(const std::string &pushAddress,
