@@ -17,22 +17,12 @@ namespace God
                 class MessageHandler
                 {
                 public:
-                    MessageHandler() = default;
-
-                    MessageHandler(SignalsHandler &signalHandler) /*:
-                        signalHandler{ signalHandler }*/
+                    MessageHandler(std::weak_ptr<SignalsHandler> signalHandler) :
+                        signalHandler{ signalHandler }
                     {}
 
-                    MessageHandler(MessageHandler &&other) /*:
-                        signalHandler{ std::move(other.signalHandler) }*/
-                    {}
-
-                    MessageHandler& operator=(MessageHandler &&other)
-                    {
-                        //signalHandler = std::move(other.signalHandler);
-                        return *this;
-                    }
-
+                    MessageHandler(MessageHandler &&other) = default;
+                    MessageHandler& operator=(MessageHandler &&other) = default;
 
                     void handle(const std::string &strMsg)
                     {
@@ -41,16 +31,18 @@ namespace God
                         if (parsed.type == Messages::MessageType::MODEL_SIGNAL)
                         {
                             auto signalType = parsed.internalMessage.getType<SignalType>();
-                            //signalHandler.get().signal(signalType, "");
+                            if(auto ptr = signalHandler.lock())
+                                ptr->signal(signalType, "");
                         }
                         else
                         {
-                            //static_cast<ConcreteHandler*>(this)->handle_impl(parsed);
+                            if (auto ptr = signalHandler.lock())
+                                static_pointer_cast<ConcreteHandler*>(ptr.get())->handle_impl(parsed);
                         }
                     }
 
                 private:
-                    std::reference_wrapper<SignalsHandler> *signalHandler;
+                    std::weak_ptr<SignalsHandler> signalHandler;
                 };
             }
         }

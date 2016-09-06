@@ -7,6 +7,7 @@
 #include <program2internals/controller/Controller.h>
 
 #include <string>
+#include <memory>
 
 namespace God
 {
@@ -22,26 +23,13 @@ namespace God
                     using ControllerType = P2::Controller::Controller;
 
                     Program2() = default;
-                    Program2(SignalsHandler &handler, ControllerType &controller) noexcept :
-                        MessageHandler{ handler }/*,
-                        controller{ controller }*/
+                    Program2(std::weak_ptr<SignalsHandler> handler, std::weak_ptr<ControllerType> controller) noexcept :
+                        MessageHandler{ handler },
+                        controller{ controller }
                     {}
 
-                    Program2(Program2 && other) noexcept :
-                        MessageHandler{ std::move(other) }/*,
-                        controller{ std::move(other.controller) }*/
-                    {}
-
-                    Program2(Program2 && other, SignalsHandler &handler) noexcept :
-                        MessageHandler{ handler }/*,
-                        controller{ std::move(other.controller) }*/
-                    {}
-
-                    Program2& operator=(Program2 && other) noexcept
-                    {
-                        //controller = std::move(other.controller);
-                        return *this;
-                    }
+                    Program2(Program2 &&) = default;
+                    Program2& operator=(Program2 &&) = default;
 
                     Program2(const Program2&) = delete;
                     Program2& operator=(const Program2&) = delete;
@@ -51,7 +39,7 @@ namespace God
                     }
 
                 private:
-                    std::reference_wrapper<ControllerType> *controller;
+                    std::weak_ptr<ControllerType> controller;
                 };
             }
         }

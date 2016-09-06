@@ -4,6 +4,7 @@
 
 #include <thread>
 #include <functional>
+#include <memory>
 
 namespace God
 {
@@ -15,31 +16,17 @@ namespace God
         public:
             Subscriber(zmq::context_t &context,
                        const std::string &subscribeStr,
-                       MessageHandler &msgHandler) noexcept :
+                       std::weak_ptr<MessageHandler> msgHandler) noexcept :
                 subscriberChannel{ context, subscribeStr },
                 msgHandler{ msgHandler }
             {}
 
-            Subscriber(Subscriber &&other) noexcept :
-                subscriberChannel{ std::move(other.subscriberChannel) },
-                msgHandler{ std::move(other.msgHandler) },
-                recvThread{ std::move(other.recvThread) },
-                interrupted{ other.interrupted }
-            {}
-
-            Subscriber& operator=(Subscriber &&other) noexcept
-            {
-                subscriberChannel = std::move(other.subscriberChannel);
-                msgHandler = std::move(other.msgHandler);
-                recvThread = std::move(other.recvThread);
-                interrupted = other.interrupted;
-
-                return *this;
-            }
+            Subscriber(Subscriber &&other) noexcept = default;
+            Subscriber& operator=(Subscriber &&other) noexcept = default;
 
             Subscriber() = delete;
-            Subscriber(Subscriber &) = delete;
-            Subscriber& operator=(Subscriber &) = delete;
+            Subscriber(const Subscriber &) = delete;
+            Subscriber& operator=(const Subscriber &) = delete;
 
             auto connect(const std::string &addr)
             {
@@ -64,7 +51,8 @@ namespace God
                         if (ret == EINTR)//todo add logs
                             break;
 
-                        msgHandler.handle(msg.str());
+                        if(auto ptr = msgHandler.lock())
+                            ptr->handle(msg.str());
                     }
                 };
 
@@ -73,7 +61,7 @@ namespace God
 
         private:
             Common::Communication::SubscriberChannel subscriberChannel;
-            std::reference_wrapper<MessageHandler> msgHandler;
+            std::weak_ptr<MessageHandler> msgHandler;
 
             std::thread recvThread;
 

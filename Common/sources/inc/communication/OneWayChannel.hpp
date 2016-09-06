@@ -38,21 +38,8 @@ namespace Common
                 m_context(context),
                 m_socket(context, Type::socketType)
             {}
-
-            OneWayChannel(OneWayChannel &&other) :
-                m_context(std::move(other.m_context)),
-                m_socket(std::move(m_socket))
-            {}
-
-            OneWayChannel& operator=(OneWayChannel &&other) noexcept
-            {
-                m_context = std::move(other.m_context);
-                m_socket = std::move(other.m_socket);
-                return *this;
-            }
-
-            OneWayChannel(const OneWayChannel&) = delete;
-            OneWayChannel& operator=(const OneWayChannel&) = delete;
+            OneWayChannel(OneWayChannel&&) noexcept = default;
+            OneWayChannel& operator=(OneWayChannel&&) noexcept = default;
 
             auto bind(const std::string &addr)
             {
@@ -76,6 +63,9 @@ namespace Common
             ReceiverChannel(zmq::context_t &context) :
                 OneWayChannel(context)
             {}
+            ReceiverChannel(ReceiverChannel&&) noexcept = default;
+            ReceiverChannel& operator=(ReceiverChannel&&) noexcept = default;
+            
 
             auto recv(zmq::message_t &message)
             {
@@ -89,6 +79,8 @@ namespace Common
             SenderChannel(zmq::context_t &context) :
                 OneWayChannel<ChannelType::Pusher>(context)
             {}
+            SenderChannel(SenderChannel&&) noexcept = default;
+            SenderChannel& operator=(SenderChannel&&) noexcept = default;
 
             auto send(const std::string &str)
             {
@@ -109,6 +101,9 @@ namespace Common
             {
                 m_socket.setsockopt(ZMQ_SUBSCRIBE, subscribeStr.c_str(), 0);
             }
+
+            SubscriberChannel(SubscriberChannel&&) noexcept = default;
+            SubscriberChannel& operator=(SubscriberChannel&&) noexcept = default;
         };
     }
 }

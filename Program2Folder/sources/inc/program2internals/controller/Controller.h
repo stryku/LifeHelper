@@ -7,6 +7,7 @@
 #include <program2internals/view/View.h>
 
 #include <vector>
+#include <memory>
 
 namespace P2
 {
@@ -15,32 +16,32 @@ namespace P2
         class Controller : public P2::Input::InputHandler, public P2::Model::ModelObserver
         {
         public:
-            Controller() {}
-
             void decrementSum()
             {
-                inputObserver->decrementSum();
+                if (auto ptr = inputObserver.lock())
+                    ptr->decrementSum();
             }
 
-            void setInputObserver( P2::Input::InputObserver *observer )
+            void setInputObserver( std::weak_ptr<P2::Input::InputObserver> observer )
             {
                 inputObserver = observer;
             }
 
-            void registerView( P2::View::View *view )
+            void registerView(std::weak_ptr<P2::View::View> view)
             {
                 views.push_back( view );
             }
 
             void newSumValue( size_t newSum )
             {
-                for( auto &view : views )
-                    view->updateSum( newSum );
+                for( auto &weakView : views )
+                    if(auto view = weakView.lock())
+                        view->updateSum( newSum );
             }
 
         private:
-            P2::Input::InputObserver* inputObserver;
-            std::vector<P2::View::View*> views;
+            std::weak_ptr<P2::Input::InputObserver> inputObserver;
+            std::vector<std::weak_ptr<P2::View::View>> views;
         };
     }
 }

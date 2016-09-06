@@ -2,6 +2,9 @@
 #define P2INPUT_H
 
 #include "InputHandler.h"
+
+#include <memory>
+
 namespace P2
 {
     namespace Input
@@ -9,16 +12,15 @@ namespace P2
         class InputPropagator
         {
         public:
-            InputPropagator() {}
-
             void notifyDecrementSum()
             {
-                m_inputHandler->decrementSum();
+                if(auto ptr = inputHandler.lock())
+                    ptr->decrementSum();
             }
 
-            void setInputHandler( InputHandler *handler )
+            void setInputHandler( std::weak_ptr<InputHandler> handler )
             {
-                m_inputHandler = handler;
+                inputHandler = handler;
             }
 
             auto createDecrementSumCallback()
@@ -28,7 +30,7 @@ namespace P2
             }
 
         private:
-            InputHandler *m_inputHandler;
+            std::weak_ptr<InputHandler> inputHandler;
         };
     }
 }

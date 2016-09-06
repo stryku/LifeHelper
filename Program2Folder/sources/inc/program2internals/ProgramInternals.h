@@ -7,35 +7,38 @@
 #include <program2internals/input/Input.h>
 
 #include <vector>
+#include <memory>
 
 namespace P2
 {
     class ProgramInternals
     {
     public:
-        ProgramInternals(P2::Controller::Controller *controller) :
+        ProgramInternals(std::weak_ptr<P2::Controller::Controller> controller) :
             controller{ controller }
         {}
 
-        void addView(P2::View::View *view)
+        ProgramInternals(ProgramInternals&&) = default;
+        ProgramInternals& operator=(ProgramInternals&&) = default;
+
+        void addView(std::weak_ptr<P2::View::View> view)
         {
-            controller->registerView(view);
+            if(auto ptr = controller.lock())
+                ptr->registerView(view);
         }
 
-        void addInputPropagator(P2::Input::InputPropagator *input)
+        void addInputPropagator(std::weak_ptr<P2::Input::InputPropagator> input)
         {
             inputs.push_back(input);
-            input->setInputHandler(controller);
-        }
 
-        void setController(P2::Controller::Controller *neCcontroller)
-        {
-            controller = neCcontroller;
+            if (auto ptr = input.lock())
+                if(auto controllerPtr = controller.lock())
+                    ptr->setInputHandler(controllerPtr);
         }
 
     private:
-        std::vector < P2::Input::InputPropagator* > inputs;
-        P2::Controller::Controller *controller;
+        std::vector<std::weak_ptr<P2::Input::InputPropagator>> inputs;
+        std::weak_ptr<P2::Controller::Controller> controller;
     };
 }
 #endif // PROGRAMINTERNALS_H

@@ -40,34 +40,34 @@ namespace God
 
             using InstanceVariant = boost::variant<Program2Instance, int>;
 
-            struct InstanceWithHandler
-            {
-                InstanceWithHandler(SignalsHandler &&handler, InstanceVariant &&instance) :
-                    instance{ std::move(instance) },
-                    handler{ std::move(handler) }
-                {}
-                InstanceWithHandler(const InstanceWithHandler&) = delete;
-                InstanceWithHandler& operator=(const InstanceWithHandler&) = delete;
+            //struct InstanceWithHandler
+            //{
+            //    InstanceWithHandler(SignalsHandler &&handler, InstanceVariant &&instance) :
+            //        instance{ std::move(instance) },
+            //        handler{ std::move(handler) }
+            //    {}
+            //    InstanceWithHandler(const InstanceWithHandler&) = delete;
+            //    InstanceWithHandler& operator=(const InstanceWithHandler&) = delete;
 
-                InstanceWithHandler(InstanceWithHandler &&other) :
-                    instance{ std::move(other.instance) },
-                    handler{ std::move(other.handler) },
-                    modelId{ std::move(other.modelId) }
-                {}
+            //    InstanceWithHandler(InstanceWithHandler &&other) :
+            //        instance{ std::move(other.instance) },
+            //        handler{ std::move(other.handler) },
+            //        modelId{ std::move(other.modelId) }
+            //    {}
 
-                InstanceWithHandler& operator=(InstanceWithHandler &&other)
-                {
-                    instance = std::move(other.instance);
-                    handler = std::move(other.handler);
-                    modelId = std::move(other.modelId);
+            //    InstanceWithHandler& operator=(InstanceWithHandler &&other)
+            //    {
+            //        instance = std::move(other.instance);
+            //        handler = std::move(other.handler);
+            //        modelId = std::move(other.modelId);
 
-                    return *this;
-                }
+            //        return *this;
+            //    }
 
-                InstanceVariant instance;
-                SignalsHandler handler;
-                ModelId modelId;
-            };
+            //    //InstanceVariant instance;
+            //    SignalsHandler handler;
+            //    ModelId modelId;
+            //};
 
             template <typename TypesPack, typename MessageHandler, typename InstanceType = Instance<TypesPack, MessageHandler>>
             class Builder
@@ -81,30 +81,27 @@ namespace God
 
             void createProgram2()
             {
-                auto instance = genericCreate<P2::Info::TypesPack, Messages::Handlers::Program2>();
-                auto id = instance.modelId;
+                Instance<P2::Info::TypesPack, Messages::Handlers::Program2> instance{ genericCreate<P2::Info::TypesPack, Messages::Handlers::Program2>() };
+                //auto id = instance.modelId;
 
                 //instances[id] = std::move(instance);
             }
 
             template <typename TypesPack, typename MessageHandler, typename InstanceType = Instance<TypesPack, MessageHandler>>
-            InstanceWithHandler&&/*<InstanceType>*/ genericCreate()
+            InstanceType genericCreate()
             {
-
-                auto modelId = generateModelId();
                 
+                auto modelId = generateModelId();
+                InstanceType instance{ std::ref(tabWidget),
+                    proxy.getContext(),
+                    proxy.getPushAddr(),
+                    proxy.getSubAddr(),
 
+                    getSubscribeString(modelId),
+                    createSignalHandler()
+                };
 
-                InstanceWithHandler instanceWithHandler( createSignalHandler(), 
-                                                        InstanceType(tabWidget,
-                                                        proxy.getContext(),
-                                                        proxy.getPushAddr(),
-                                                        proxy.getSubAddr(),
-                                                        getSubscribeString(modelId)) );
-
-                instanceWithHandler.modelId = modelId;
-
-                return std::move(instanceWithHandler);
+                return std::move(instance);
             }
 
         public:
@@ -163,7 +160,7 @@ namespace God
             void handleCleanClose() const noexcept
             {}
 
-            //std::unordered_map<ModelId, InstanceWithHandler> instances;
+            std::unordered_map<ModelId, InstanceVariant> instances;
             QTabWidget &tabWidget;
 
             Proxy &proxy;
