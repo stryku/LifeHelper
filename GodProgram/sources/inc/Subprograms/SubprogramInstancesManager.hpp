@@ -81,14 +81,14 @@ namespace God
 
             void createProgram2()
             {
-                Instance<P2::Info::TypesPack, Messages::Handlers::Program2> instance{ genericCreate<P2::Info::TypesPack, Messages::Handlers::Program2>() };
+                instances.emplace(genericCreate<P2::Info::TypesPack, Messages::Handlers::Program2>());
                 //auto id = instance.modelId;
 
                 //instances[id] = std::move(instance);
             }
 
             template <typename TypesPack, typename MessageHandler, typename InstanceType = Instance<TypesPack, MessageHandler>>
-            InstanceType genericCreate()
+            auto genericCreate()
             {
                 
                 auto modelId = generateModelId();
@@ -101,7 +101,7 @@ namespace God
                     createSignalHandler(modelId)
                 };
 
-                return std::move(instance);
+                return std::make_pair(modelId, std::move(instance));
             }
 
         public:
