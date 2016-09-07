@@ -98,7 +98,7 @@ namespace God
                     proxy.getSubAddr(),
 
                     getSubscribeString(modelId),
-                    createSignalHandler()
+                    createSignalHandler(modelId)
                 };
 
                 return std::move(instance);
@@ -142,22 +142,22 @@ namespace God
                 return std::to_string(id);
             }
 
-            SignalsHandler createSignalHandler() const noexcept
+            SignalsHandler createSignalHandler(ModelId id) const noexcept
             {
-                auto heartbeatCallback = [this] { handleHeartbeat(); };
-                auto errorCallback = [this] (const std::string &errorMsg) { handleError(errorMsg); };
-                auto cleanCloseCallback = [this] { handleCleanClose(); };
+                auto heartbeatCallback = [this, id] { handleHeartbeat(id); };
+                auto errorCallback = [this, id] (const std::string &errorMsg) { handleError(id, errorMsg); };
+                auto cleanCloseCallback = [this, id] { handleCleanClose(id); };
 
                 return{ SignalsHandlers{heartbeatCallback, errorCallback, cleanCloseCallback } };
             }
 
-            void handleHeartbeat() const noexcept
+            void handleHeartbeat(ModelId id) const noexcept
             {}
 
-            void handleError(const std::string &errorMsg) const noexcept
+            void handleError(ModelId id, const std::string &errorMsg) const noexcept
             {}
 
-            void handleCleanClose() const noexcept
+            void handleCleanClose(ModelId id) const noexcept
             {}
 
             std::unordered_map<ModelId, InstanceVariant> instances;
