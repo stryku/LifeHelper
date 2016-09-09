@@ -12,7 +12,6 @@ namespace God
         class Proxy
         {
         public:
-
             MainProxy(Socket &&subscriber,
                       Socket &&publisher) :
                 subscriber{ std::move(subscriber) },
@@ -31,6 +30,16 @@ namespace God
                 subscriber.bind(AddressProvider::subscribeAddress);
                 publisher.bind(AddressProvider::publisherAddress);
                 FrontendBackendBinder::bind(publisher, subscriber);
+            }
+
+            constexpr auto subscriberAddress()
+            {
+                return AddressProvider::subscribeAddress;
+            }
+
+            constexpr auto publisherAddress()
+            {
+                return AddressProvider::publisherAddress;
             }
 
         private:
