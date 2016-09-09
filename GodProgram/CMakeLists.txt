@@ -72,7 +72,8 @@ add_executable(GodProgram ${GodProgram_src_qt}
 						  ${GodProgram_inc} 
 						  $<TARGET_OBJECTS:GodProgramMocObjects>
 						  $<TARGET_OBJECTS:CommonObjects>
-						  $<TARGET_OBJECTS:Program2Objects>)
+						  $<TARGET_OBJECTS:Program2Objects>
+						  $<TARGET_OBJECTS:tiny-process-library>)
 						  
 target_link_libraries (GodProgram Qt5::Widgets Qt5::UiTools ${ZMQ_LIBRARIES})
 
