@@ -30,10 +30,10 @@ namespace Common
                   typename = std::enable_if_t<utils::traits::is_any_of_v<Type,
                                                                          ChannelType::Puller,
                                                                          ChannelType::Pusher,
-                                                                         ChannelType::Subscriber>>>
-                  /*typename = std::enable_if_t<std::is_same_v <Type, ChannelType::Puller> ||
-                                              std::is_same_v <Type, ChannelType::Pusher> ||
-                                              std::is_same_v <Type, ChannelType::Subscriber>>>*/
+                                                                         ChannelType::Subscriber,
+                                                                         ChannelType::xPublisher,
+                                                                         ChannelType::Publisher,
+                                                                         ChannelType::xSubscriber>>>
         class OneWayChannel
         {
         public:
@@ -76,11 +76,12 @@ namespace Common
             }
         };
 
-        class SenderChannel : public OneWayChannel<ChannelType::Pusher>
+        template <typename Sender>
+        class SenderChannel : public OneWayChannel<Sender>
         {
         public:
             SenderChannel(zmq::context_t &context) :
-                OneWayChannel<ChannelType::Pusher>(context)
+                OneWayChannel<Sender>(context)
             {}
             SenderChannel(SenderChannel&&) noexcept = default;
             SenderChannel& operator=(SenderChannel&&) noexcept = default;
@@ -112,14 +113,23 @@ namespace Common
         class xSubscriberChannel : public ReceiverChannel<ChannelType::xSubscriber>
         {
         public:
-            xSubscriberChannel(zmq::context_t &context, const std::string &subscribeStr) :
+            xSubscriberChannel(zmq::context_t &context) :
                 ReceiverChannel<ChannelType::xSubscriber>(context)
-            {
-                m_socket.setsockopt(ZMQ_SUBSCRIBE, subscribeStr.c_str(), 0);
-            }
+            {}
 
             xSubscriberChannel(xSubscriberChannel&&) noexcept = default;
             xSubscriberChannel& operator=(xSubscriberChannel&&) noexcept = default;
+        };
+
+        class PublisherChannel : public SenderChannel<ChannelType::Publisher>
+        {
+        public:
+            PublisherChannel(zmq::context_t &context) :
+                SenderChannel<ChannelType::Publisher>(context)
+            {}
+
+            PublisherChannel(PublisherChannel&&) noexcept = default;
+            PublisherChannel& operator=(PublisherChannel&&) noexcept = default;
         };
 
         class xPublisherChannel : public OneWayChannel<ChannelType::xPublisher>
