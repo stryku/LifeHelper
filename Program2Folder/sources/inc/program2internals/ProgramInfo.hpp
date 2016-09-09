@@ -12,11 +12,11 @@ namespace P2
     {
         struct TypesPack
         {
-            using ProgramInternals = ProgramInternals;
-            using View = View::QtView;
-            using Controller = Controller::Controller;
             using InputPropagator = Input::InputPropagator;
+            using View = View::QtView<InputPropagator>;
             using SocketInputObserverSender = Input::SocketInputObserverSender;
+            using Controller = Controller::Controller<SocketInputObserverSender>;
+            using ProgramInternals = ProgramInternals<Controller>;
         };
 
         static constexpr auto programName = "Program2";

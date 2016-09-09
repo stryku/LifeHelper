@@ -21,7 +21,7 @@ namespace God
         class Instance 
         {
         public:
-            Instance(QTabWidget &tabWidget,
+            Instance(QWidget *tabWidget,
                      zmq::context_t &context,
                      const std::string &pushAddress,
                      const std::string &subscribeAddress,
@@ -30,17 +30,18 @@ namespace God
                 sender{ context },
                 controller{ std::make_shared<TypesPack::Controller>() },
                 internals{ controller },
-                view{ std::make_shared<typename TypesPack::View>(&tabWidget, "programs/Program2/uiforms/Program2Form.ui") },
-                socketInputOvserverSender{ std::make_shared<typename TypesPack::SocketInputObserverSender>(sender) },
+                view{ std::make_shared<typename TypesPack::View>(tabWidget, "programs/Program2/uiforms/Program2Form.ui") },
+                socketInputObserverSender{ std::make_shared<typename TypesPack::SocketInputObserverSender>(sender) },
                 signalsHandler{ std::make_shared<SignalsHandler>(std::move(signalsHandler)) },
                 messageHandler{ std::make_shared<MessageHandler>(this->signalsHandler, controller) },
                 messageSubscriber{ context, subscribeStr, messageHandler }
             {
-                /*inputPropagator.setInputHandler(&socketInputOvserverSender);
-                internals.addView(&view);
-                internals.addInputPropagator(&inputPropagator);
+                view->connectWithInput(inputPropagator.get());
+                //inputObserver->registerObserver(controller.get());
+                controller->registerView(view);
+                controller->setInputObserver(socketInputObserverSender);
 
-                establishConnection(pushAddress, subscribeAddress);*/
+                //establishConnection(pushAddress, subscribeAddress);*/
                 //messageSubscriber.startRecv();
             }
 
@@ -63,7 +64,7 @@ namespace God
             typename TypesPack::ProgramInternals internals;
             std::shared_ptr<typename TypesPack::View> view;
             std::shared_ptr<typename TypesPack::InputPropagator> inputPropagator;
-            std::shared_ptr<typename TypesPack::SocketInputObserverSender> socketInputOvserverSender;
+            std::shared_ptr<typename TypesPack::SocketInputObserverSender> socketInputObserverSender;
 
             std::shared_ptr<SignalsHandler> signalsHandler;
             std::shared_ptr<MessageHandler> messageHandler;

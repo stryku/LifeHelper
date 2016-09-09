@@ -13,6 +13,7 @@ namespace P2
 {
     namespace Controller
     {
+        template <typename InputObserver>
         class Controller : public P2::Input::InputHandler, public P2::Model::ModelObserver
         {
         public:
@@ -22,7 +23,7 @@ namespace P2
                     ptr->decrementSum();
             }
 
-            void setInputObserver( std::weak_ptr<P2::Input::InputObserver> observer )
+            void setInputObserver( std::weak_ptr<InputObserver> observer )
             {
                 inputObserver = observer;
             }
@@ -40,7 +41,7 @@ namespace P2
             }
 
         private:
-            std::weak_ptr<P2::Input::InputObserver> inputObserver;
+            std::weak_ptr<InputObserver> inputObserver;
             std::vector<std::weak_ptr<P2::View::View>> views;
         };
     }

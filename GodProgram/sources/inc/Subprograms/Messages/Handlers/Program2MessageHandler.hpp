@@ -20,7 +20,7 @@ namespace God
                 class Program2 : public MessageHandler<Program2, Parsers::Program2>
                 {
                 public:
-                    using ControllerType = P2::Controller::Controller;
+                    using ControllerType = P2::Info::TypesPack::Controller;
 
                     Program2() = default;
                     Program2(std::weak_ptr<SignalsHandler> handler, std::weak_ptr<ControllerType> controller) noexcept :

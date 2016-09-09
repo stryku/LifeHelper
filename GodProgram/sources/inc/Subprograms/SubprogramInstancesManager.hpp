@@ -40,59 +40,17 @@ namespace God
 
             using InstanceVariant = boost::variant<Program2Instance, int>;
 
-            //struct InstanceWithHandler
-            //{
-            //    InstanceWithHandler(SignalsHandler &&handler, InstanceVariant &&instance) :
-            //        instance{ std::move(instance) },
-            //        handler{ std::move(handler) }
-            //    {}
-            //    InstanceWithHandler(const InstanceWithHandler&) = delete;
-            //    InstanceWithHandler& operator=(const InstanceWithHandler&) = delete;
-
-            //    InstanceWithHandler(InstanceWithHandler &&other) :
-            //        instance{ std::move(other.instance) },
-            //        handler{ std::move(other.handler) },
-            //        modelId{ std::move(other.modelId) }
-            //    {}
-
-            //    InstanceWithHandler& operator=(InstanceWithHandler &&other)
-            //    {
-            //        instance = std::move(other.instance);
-            //        handler = std::move(other.handler);
-            //        modelId = std::move(other.modelId);
-
-            //        return *this;
-            //    }
-
-            //    //InstanceVariant instance;
-            //    SignalsHandler handler;
-            //    ModelId modelId;
-            //};
-
-            template <typename TypesPack, typename MessageHandler, typename InstanceType = Instance<TypesPack, MessageHandler>>
-            class Builder
+            void createProgram2(QWidget *tab)
             {
-            public:
-
-            private:
-                InstanceType instance;
-            };     
-
-
-            void createProgram2()
-            {
-                instances.emplace(genericCreate<P2::Info::TypesPack, Messages::Handlers::Program2>());
-                //auto id = instance.modelId;
-
-                //instances[id] = std::move(instance);
+                instances.emplace(genericCreate<P2::Info::TypesPack, Messages::Handlers::Program2>(tab));
             }
 
             template <typename TypesPack, typename MessageHandler, typename InstanceType = Instance<TypesPack, MessageHandler>>
-            auto genericCreate()
+            auto genericCreate(QWidget *tab)
             {
                 
                 auto modelId = generateModelId();
-                InstanceType instance{ std::ref(tabWidget),
+                InstanceType instance{ tab,
                     proxy.getContext(),
                     proxy.getPushAddr(),
                     proxy.getSubAddr(),
@@ -110,12 +68,12 @@ namespace God
                 proxy{ proxy }
             {}
 
-            void create(Type subprogramType)
+            void create(Type subprogramType, QWidget *tab)
             {
                 switch (subprogramType)
                 {
                 case God::Subprograms::Type::P2:
-                    createProgram2();
+                    createProgram2(tab);
                     break;
 
                 default:
@@ -126,7 +84,7 @@ namespace God
 
             auto getCreateNewInstanceCallback()
             {
-                return [this](Type subprogramType) { create(subprogramType); };
+                return [this](Type subprogramType, QWidget *tab) { create(subprogramType, tab); };
             }
 
 

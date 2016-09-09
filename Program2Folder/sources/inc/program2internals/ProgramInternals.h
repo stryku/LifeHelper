@@ -11,10 +11,11 @@
 
 namespace P2
 {
+    template <typename Controller>
     class ProgramInternals
     {
     public:
-        ProgramInternals(std::weak_ptr<P2::Controller::Controller> controller) :
+        ProgramInternals(std::weak_ptr<Controller> controller) :
             controller{ controller }
         {}
 
@@ -38,7 +39,7 @@ namespace P2
 
     private:
         std::vector<std::weak_ptr<P2::Input::InputPropagator>> inputs;
-        std::weak_ptr<P2::Controller::Controller> controller;
+        std::weak_ptr<Controller> controller;
     };
 }
 #endif // PROGRAMINTERNALS_H
