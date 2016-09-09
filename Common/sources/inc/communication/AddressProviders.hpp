@@ -11,9 +11,9 @@ namespace God
                 struct SubprogramToGod
                 {
 #ifdef WIN32
-                    constexpr static auto subscribeAddress = "tcp://127.0.0.1:1555";
+                    constexpr static auto subscriberAddress = "tcp://127.0.0.1:1555";
 #else
-                    constexpr static auto subscribeAddress = "ipc://127.0.0.1:1555";
+                    constexpr static auto subscriberAddress = "ipc://127.0.0.1:1555";
 #endif //WIN32
                     constexpr static auto publisherAddress = "inproc://internalPublisherBind:1555";
                 };
@@ -25,7 +25,7 @@ namespace God
 #else
                     constexpr static auto publisherAddress = "ipc://127.0.0.1:1777";
 #endif //WIN32
-                    constexpr static auto subscribeAddress = "inproc://internalPublisherBind:1777";
+                    constexpr static auto subscriberAddress = "inproc://internalSubscriberBind:1777";
                 };
             }
         }

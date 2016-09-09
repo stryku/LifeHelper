@@ -13,25 +13,21 @@ namespace P2
 {
     namespace Input
     {
+        template <typename Sender>
         class SocketInputObserverSender : public P2::Input::InputHandler
         {
-        private:
-            using Sender = Common::Communication::SenderChannel;
-
         public:
-            SocketInputObserverSender() = delete;
-            SocketInputObserverSender(Sender &sender) :
-                senderRef(sender)
+            template <typename Factory>
+            SocketInputObserverSender() :
+                sender{ Factory::createSenderForInputHandler() }
             {}
 
-            SocketInputObserverSender(SocketInputObserverSender &&other) :
-                senderRef(std::move(other.senderRef))
+            SocketInputObserverSender(Sender &&sender) :
+                sender{ std::move(sender) }
             {}
 
-            SocketInputObserverSender& operator=(SocketInputObserverSender &&other)
-            {
-                senderRef = std::move(other.senderRef);
-            }
+            SocketInputObserverSender(SocketInputObserverSender &&other) = default;
+            SocketInputObserverSender& operator=(SocketInputObserverSender &&other) = default;
 
             SocketInputObserverSender(const SocketInputObserverSender &) = delete;
             SocketInputObserverSender& operator=(const SocketInputObserverSender &) = delete;
@@ -44,11 +40,11 @@ namespace P2
 
                 builder.addElement(Elem{ "msg.type", "decrementSum" });
 
-                senderRef.get().send(builder.build());
+                sender.send(builder.build());
             }
 
         private:
-            std::reference_wrapper<Sender> senderRef;
+            Sender sender;
         };
     }
 }

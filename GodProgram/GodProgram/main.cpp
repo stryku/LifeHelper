@@ -1,5 +1,7 @@
-#include <Tabs/TabsManager.hpp>
-#include <Subprograms/SubprogramInstancesManager.hpp>
+#include "Tabs/TabsManager.hpp"
+#include "Subprograms/SubprogramInstancesManager.hpp"
+#include "communication/Proxy.hpp"
+#include "communication/ChannelFactory.hpp"
 
 #include "mainwindow.hpp"
 
@@ -8,11 +10,30 @@
 
 int main(int argc, char *argv[])
 {
+    using Factory = Common::Communication::ChannelFactory;
+    using Sub = Common::Communication::xSubscriberChannel;
+    using Pub = Common::Communication::xPublisherChannel;
+
+    using ProxyGodToSubprogram = God::Communication::Proxy<Sub, Pub,
+        God::Communication::detail::AddressProvider::GodToSubprogram,
+        God::Communication::detail::ZmqFrontendBackendBinder>;
+
+    using ProxySubprogramToGod = God::Communication::Proxy<Sub, Pub,
+        God::Communication::detail::AddressProvider::SubprogramToGod,
+        God::Communication::detail::ZmqFrontendBackendBinder>;
+
+
     QApplication a(argc, argv);
-    
-    God::Subprograms::Proxy proxy;
+    ProxyGodToSubprogram god2Sub{ Factory::create<Sub>(),
+                                  Factory::create<Pub>() };
+    ProxySubprogramToGod sub2God{ Factory::create<Sub>(),
+                                  Factory::create<Pub>() };
+
     MainWindow w;
-    God::Subprograms::SubprogramInstancesManager mngr(w.getTabWidget(), proxy );
+    God::Subprograms::SubprogramInstancesManager<ProxyGodToSubprogram, 
+                                                 ProxySubprogramToGod> mngr{ w.getTabWidget(),
+                                                                             std::move(god2Sub),
+                                                                             std::move(sub2God) };
     //God::Tabs::TabsManager tabsMngr;
 
     w.setCreateNewInstanceCallback(mngr.getCreateNewInstanceCallback());

@@ -1,8 +1,12 @@
 #pragma once
 
-#include <program2internals/ProgramInfo.hpp>
+#include "program2internals/ProgramInfo.hpp"
 
-#include <Subprograms/SubprogramInstanceFactory.hpp>
+#include "Subprograms/SubprogramInstanceFactory.hpp"
+#include "communication/Proxy.hpp"
+#include "communication/AddressProviders.hpp"
+#include "communication/ZmqFrontendBackendBinder.hpp"
+#include "communication/ChannelFactory.hpp"
 
 #include <boost/variant.hpp>
 
@@ -14,47 +18,30 @@ namespace God
 {
     namespace Subprograms
     {
-        struct Proxy
-        {
-            std::string getPushAddr()
-            {
-                return "tcp://127.0.0.1:5252";
-            }
-
-            std::string getSubAddr()
-            {
-                return "12";
-            }
-
-            zmq::context_t& getContext()
-            {
-                static zmq::context_t ctx{ 1 };
-                return ctx;
-            }
-        };
-
+        template <typename ProxyGodToSubprogram, typename ProxySubprogramToGod>
         class SubprogramInstancesManager
         {
         private:
-            using Program2Instance = Instance<P2::Info::TypesPack, Messages::Handlers::Program2>;
+
+            using Program2Instance = Instance<P2::Info::TypesPack, 
+                                              Messages::Handlers::Program2, 
+                                              Common::Communication::ChannelFactory>;
 
             using InstanceVariant = boost::variant<Program2Instance, int>;
 
             void createProgram2(QWidget *tab)
             {
-                instances.emplace(genericCreate<P2::Info::TypesPack, Messages::Handlers::Program2>(tab));
+                instances.emplace(genericCreate<P2::Info::TypesPack, Messages::Handlers::Program2, Common::Communication::ChannelFactory>(tab));
             }
 
-            template <typename TypesPack, typename MessageHandler, typename InstanceType = Instance<TypesPack, MessageHandler>>
+            template <typename TypesPack, typename MessageHandler, typename Factory, typename InstanceType = Instance<TypesPack, MessageHandler, Factory>>
             auto genericCreate(QWidget *tab)
             {
                 
                 auto modelId = generateModelId();
                 InstanceType instance{ tab,
-                    proxy.getContext(),
-                    proxy.getPushAddr(),
-                    proxy.getSubAddr(),
-
+                    proxyGodToSubprogram.publisherAddress(),
+                    proxySubprogramToGod.subscriberAddress(),
                     getSubscribeString(modelId),
                     createSignalHandler(modelId)
                 };
@@ -63,9 +50,12 @@ namespace God
             }
 
         public:
-            SubprogramInstancesManager(QTabWidget &tabWidget, Proxy &proxy) :
+            SubprogramInstancesManager(QTabWidget &tabWidget,
+                                       ProxyGodToSubprogram &&proxyGodToSubprogram,
+                                       ProxySubprogramToGod &&proxySubprogramToGod) :
                 tabWidget{ tabWidget },
-                proxy{ proxy }
+                proxyGodToSubprogram{ std::move(proxyGodToSubprogram) }, 
+                proxySubprogramToGod{ std::move(proxySubprogramToGod) }
             {}
 
             void create(Type subprogramType, QWidget *tab)
@@ -121,7 +111,8 @@ namespace God
             std::unordered_map<ModelId, InstanceVariant> instances;
             QTabWidget &tabWidget;
 
-            Proxy &proxy;
+            ProxyGodToSubprogram proxyGodToSubprogram;
+            ProxySubprogramToGod proxySubprogramToGod;
         };
     }
 }

@@ -17,25 +17,26 @@ namespace God
 {
     namespace Subprograms
     {
-        template <typename TypesPack, typename MessageHandler>
+        template <typename TypesPack, typename MessageHandler, typename SocketFactory>
         class Instance 
         {
+        private:
+            using Publisher = Common::Communication::PublisherChannel;
+
         public:
             Instance(QWidget *tabWidget,
-                     zmq::context_t &context,
                      const std::string &pushAddress,
                      const std::string &subscribeAddress,
                      const std::string &subscribeStr,
                      SignalsHandler &&signalsHandler) :
-                sender{ context },
                 controller{ std::make_shared<TypesPack::Controller>() },
                 internals{ controller },
                 view{ std::make_shared<typename TypesPack::View>(tabWidget, "programs/Program2/uiforms/Program2Form.ui") },
                 inputPropagator{ std::make_shared<typename TypesPack::InputPropagator>() },
-                socketInputObserverSender{ std::make_shared<typename TypesPack::SocketInputObserverSender>(sender) },
+                socketInputObserverSender{ std::make_shared<typename TypesPack::SocketInputObserverSender>(SocketFactory::create<Publisher>()) },
                 signalsHandler{ std::make_shared<SignalsHandler>(std::move(signalsHandler)) },
                 messageHandler{ std::make_shared<MessageHandler>(this->signalsHandler, controller) },
-                messageSubscriber{ context, subscribeStr, messageHandler }
+                messageSubscriber{ subscribeStr, messageHandler }
             {
                 view->connectWithInput(inputPropagator.get());
                 inputPropagator->setInputHandler(controller);
@@ -61,7 +62,7 @@ namespace God
                 messageSubscriber.connect(pushAddress);
             }
 
-            Common::Communication::SenderChannel sender;
+            //Common::Communication::PublisherChannel internalPublisher;
             std::shared_ptr<typename TypesPack::Controller> controller;
             typename TypesPack::ProgramInternals internals;
             std::shared_ptr<typename TypesPack::View> view;
@@ -70,9 +71,7 @@ namespace God
 
             std::shared_ptr<SignalsHandler> signalsHandler;
             std::shared_ptr<MessageHandler> messageHandler;
-            Subscriber<MessageHandler> messageSubscriber;
-
-
+            Subscriber<MessageHandler, SocketFactory> messageSubscriber;
         };
     }
 }

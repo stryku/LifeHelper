@@ -10,14 +10,16 @@ namespace God
 {
     namespace Subprograms
     {
-        template <typename MessageHandler>
+        template <typename MessageHandler, typename SocketFactory>
         class Subscriber
         {
+        private:
+            using SubChannel = Common::Communication::SubscriberChannel;
+
         public:
-            Subscriber(zmq::context_t &context,
-                       const std::string &subscribeStr,
+            Subscriber(const std::string &subscribeStr,
                        std::weak_ptr<MessageHandler> msgHandler) noexcept :
-                subscriberChannel{ context, subscribeStr },
+                subscriberChannel{ SocketFactory::createSubscriber<SubChannel>(subscribeStr) },
                 msgHandler{ msgHandler }
             {}
 
@@ -60,7 +62,7 @@ namespace God
             }
 
         private:
-            Common::Communication::SubscriberChannel subscriberChannel;
+            SubChannel subscriberChannel;
             std::weak_ptr<MessageHandler> msgHandler;
 
             std::thread recvThread;

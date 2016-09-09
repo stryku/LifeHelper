@@ -5,6 +5,7 @@
 #include "input/Input.h"
 #include "input/SocketInputObserverSender.hpp"
 #include "ProgramInternals.h"
+#include "communication/OneWayChannel.hpp"
 
 namespace P2
 {
@@ -14,7 +15,7 @@ namespace P2
         {
             using InputPropagator = Input::InputPropagator;
             using View = View::QtView<InputPropagator>;
-            using SocketInputObserverSender = Input::SocketInputObserverSender;
+            using SocketInputObserverSender = Input::SocketInputObserverSender<Common::Communication::PublisherChannel>;
             using Controller = Controller::Controller<SocketInputObserverSender>;
             using ProgramInternals = ProgramInternals<Controller>;
         };

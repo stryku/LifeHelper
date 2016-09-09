@@ -6,35 +6,36 @@ namespace God
 {
     namespace Communication
     {
-        template <typename Socket,
+        template <typename Sub,
+                  typename Pub,
                   typename AddressProvider,
                   typename FrontendBackendBinder>
         class Proxy
         {
         public:
-            MainProxy(Socket &&subscriber,
-                      Socket &&publisher) :
+            Proxy(Sub &&subscriber,
+                  Pub &&publisher) :
                 subscriber{ std::move(subscriber) },
                 publisher{ std::move(publisher) }
             {}
 
-            MainProxy(MainProxy&&) = default;
-            MainProxy& operator=(MainProxy&&) = default;
+            Proxy(Proxy&&) = default;
+            Proxy& operator=(Proxy&&) = default;
 
-            MainProxy() = delete;
-            MainProxy(const MainProxy&) = delete;
-            MainProxy& operator=(const MainProxy&) = delete;
+            Proxy() = delete;
+            Proxy(const Proxy&) = delete;
+            Proxy& operator=(const Proxy&) = delete;
 
             void startBindings()
             {
-                subscriber.bind(AddressProvider::subscribeAddress);
+                subscriber.bind(AddressProvider::subscriberAddress);
                 publisher.bind(AddressProvider::publisherAddress);
                 FrontendBackendBinder::bind(publisher, subscriber);
             }
 
             constexpr auto subscriberAddress()
             {
-                return AddressProvider::subscribeAddress;
+                return AddressProvider::subscriberAddress;
             }
 
             constexpr auto publisherAddress()
@@ -43,8 +44,8 @@ namespace God
             }
 
         private:
-            Socket subscriber;
-            Socket publisher;
+            Sub subscriber;
+            Pub publisher;
         };
     }
 }
