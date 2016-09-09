@@ -31,12 +31,14 @@ namespace God
                 controller{ std::make_shared<TypesPack::Controller>() },
                 internals{ controller },
                 view{ std::make_shared<typename TypesPack::View>(tabWidget, "programs/Program2/uiforms/Program2Form.ui") },
+                inputPropagator{ std::make_shared<typename TypesPack::InputPropagator>() },
                 socketInputObserverSender{ std::make_shared<typename TypesPack::SocketInputObserverSender>(sender) },
                 signalsHandler{ std::make_shared<SignalsHandler>(std::move(signalsHandler)) },
                 messageHandler{ std::make_shared<MessageHandler>(this->signalsHandler, controller) },
                 messageSubscriber{ context, subscribeStr, messageHandler }
             {
                 view->connectWithInput(inputPropagator.get());
+                inputPropagator->setInputHandler(controller);
                 //inputObserver->registerObserver(controller.get());
                 controller->registerView(view);
                 controller->setInputObserver(socketInputObserverSender);
