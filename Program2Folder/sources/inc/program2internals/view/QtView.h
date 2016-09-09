@@ -9,10 +9,11 @@ namespace P2
 {
     namespace View
     {
+        template <typename InputPropagator>
         class QtView : public View
         {
         public:
-            QtView( QWidget *widgetParent, const QString &uiFilePath ) :
+            QtView( QWidget *widgetParent, const QString &uiFilePath = "uiforms/Program2Form.ui" ) :
                 widgetManager( widgetParent, uiFilePath )
             {}
 
@@ -21,7 +22,7 @@ namespace P2
                 widgetManager.setLabelSum( str );
             }
 
-            void connectWithInput( Input::InputPropagator *input )
+            void connectWithInput(InputPropagator *input )
             {
                 widgetManager.connectWithInput( input );
             }

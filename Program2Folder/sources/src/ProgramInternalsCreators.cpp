@@ -1,17 +1,25 @@
-#include <ProgramInternalsCreators.h>
+#include "ProgramInternalsCreators.h"
 
 //#include <program2internals/model/SocketModelObserverReceiver.hpp>
-#include <program2internals/model/SocketModelObserverSender.hpp>
-#include <program2internals/input/SocketInputObserverSender.hpp>
+#include "program2internals/model/SocketModelObserverSender.hpp"
+#include "program2internals/input/SocketInputObserverSender.hpp"
 //#include <program2internals/input/SocketInputObserverReceiver.h>
 
-#include <program2internals/view/QtView.h>
 
 namespace ProgramInternalsCreators
 {
-    P2::ProgramInternals createLocalQt(QWidget *qtViewWidgetParent)
+    LocalQtInstance createLocalQt(QWidget *qtViewWidgetParent)
     {
-        auto model = new P2::Model::Model();
+        using Controller = P2::Controller::Controller;
+        using Model = P2::Model::Model;
+        using InputPropagator = P2::Input::InputPropagator;
+        using View = P2::View::QtView<InputPropagator>;
+        using Internals = P2::ProgramInternals;
+        using Instance = LocalQtInstance;
+
+
+
+        /*auto model = new P2::Model::Model();
         auto controller = new P2::Controller::Controller();
         auto inputPropagator = new P2::Input::InputPropagator();
         auto view = new P2::View::QtView( qtViewWidgetParent );
@@ -19,16 +27,16 @@ namespace ProgramInternalsCreators
         view->connectWithInput( inputPropagator );
         model->registerObserver( controller );
         controller->registerView( view );
-        controller->setInputObserver( model );
+        controller->setInputObserver( model );*/
 
-        auto internals = P2::ProgramInternals(controller);
+        //auto internals = P2::ProgramInternals(controller);
 
 
-        internals.setController( controller );
-        internals.addInputPropagator( inputPropagator );
-        internals.addView( view );
+        //internals.setController( controller );
+        //internals.addInputPropagator( inputPropagator );
+        //internals.addView( view );
 
-        return internals;
+        return Instance{ qtViewWidgetParent };
     }
 
    /* P2::ProgramInternals createRemoteModelQt(QWidget *qtViewWidgetParent)
