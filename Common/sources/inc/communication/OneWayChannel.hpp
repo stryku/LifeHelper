@@ -21,6 +21,9 @@ namespace Common
             using Puller = Type<zmq::socket_type::pull>;
             using Pusher = Type<zmq::socket_type::push>;
             using Subscriber = Type<zmq::socket_type::sub>;
+            using xSubscriber = Type<zmq::socket_type::xsub>;
+            using Publisher = Type<zmq::socket_type::pub>;
+            using xPublisher = Type<zmq::socket_type::xpub>;
         };
 
         template <typename Type,
@@ -104,6 +107,30 @@ namespace Common
 
             SubscriberChannel(SubscriberChannel&&) noexcept = default;
             SubscriberChannel& operator=(SubscriberChannel&&) noexcept = default;
+        };
+
+        class xSubscriberChannel : public ReceiverChannel<ChannelType::xSubscriber>
+        {
+        public:
+            xSubscriberChannel(zmq::context_t &context, const std::string &subscribeStr) :
+                ReceiverChannel<ChannelType::xSubscriber>(context)
+            {
+                m_socket.setsockopt(ZMQ_SUBSCRIBE, subscribeStr.c_str(), 0);
+            }
+
+            xSubscriberChannel(xSubscriberChannel&&) noexcept = default;
+            xSubscriberChannel& operator=(xSubscriberChannel&&) noexcept = default;
+        };
+
+        class xPublisherChannel : public OneWayChannel<ChannelType::xPublisher>
+        {
+        public:
+            xPublisherChannel(zmq::context_t &context) :
+                OneWayChannel<ChannelType::xPublisher>(context)
+            {}
+
+            xPublisherChannel(xPublisherChannel&&) noexcept = default;
+            xPublisherChannel& operator=(xPublisherChannel&&) noexcept = default;
         };
     }
 }
