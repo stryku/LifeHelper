@@ -30,7 +30,7 @@ namespace God
             {
                 subscriber.bind(AddressProvider::subscriberAddress);
                 publisher.bind(AddressProvider::publisherAddress);
-                FrontendBackendBinder::bind(publisher, subscriber);
+                FrontendBackendBinder::bind(subscriber, publisher);
             }
 
             constexpr auto subscriberAddress()

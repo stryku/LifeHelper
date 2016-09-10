@@ -3,6 +3,7 @@
 #include <Subprograms/SubprogramSignalHandler.hpp>
 
 #include <functional>
+#include <memory>
 
 namespace God
 {
@@ -37,7 +38,7 @@ namespace God
                         else
                         {
                             if (auto ptr = signalHandler.lock())
-                                static_pointer_cast<ConcreteHandler*>(ptr.get())->handle_impl(parsed);
+                                static_cast<ConcreteHandler*>(this)->handle_impl(parsed);
                         }
                     }
 

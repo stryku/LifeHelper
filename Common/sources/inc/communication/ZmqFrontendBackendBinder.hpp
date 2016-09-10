@@ -1,5 +1,7 @@
 #pragma once
 
+#include "utils/log.hpp"
+
 #include <zmq/zmq.hpp>
 
 namespace God
@@ -14,7 +16,14 @@ namespace God
                 template <typename Frontend, typename Backend>
                 static void bind(Frontend &frontend, Backend &backend)
                 {
-                    zmq::proxy(&frontend, &backend, nullptr);
+                    try
+                    {
+                        zmq_proxy(&frontend.getSocket(), &backend.getSocket(), nullptr);
+                    }
+                    catch (zmq::error_t &e)
+                    {
+                        LOG(e.what());
+                    }
                 }
             };
         }

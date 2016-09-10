@@ -38,14 +38,15 @@ namespace God
                 messageHandler{ std::make_shared<MessageHandler>(this->signalsHandler, controller) },
                 messageSubscriber{ subscribeStr, messageHandler }
             {
+                establishConnection(pushAddress, subscribeAddress);
+                messageSubscriber.startRecv();
+
                 view->connectWithInput(inputPropagator.get());
                 inputPropagator->setInputHandler(controller);
                 //inputObserver->registerObserver(controller.get());
                 controller->registerView(view);
                 controller->setInputObserver(socketInputObserverSender);
 
-                //establishConnection(pushAddress, subscribeAddress);*/
-                //messageSubscriber.startRecv();
             }
 
             Instance(const Instance&) = delete;
@@ -58,8 +59,8 @@ namespace God
             void establishConnection(const std::string &pushAddress,
                                      const std::string &subscribeAddress)
             {
-                sender.connect(pushAddress);
-                messageSubscriber.connect(pushAddress);
+                socketInputObserverSender->connect(pushAddress);
+                messageSubscriber.connect(subscribeAddress);
             }
 
             //Common::Communication::PublisherChannel internalPublisher;

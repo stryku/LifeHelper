@@ -29,6 +29,9 @@ int main(int argc, char *argv[])
     ProxySubprogramToGod sub2God{ Factory::create<Sub>(),
                                   Factory::create<Pub>() };
 
+    god2Sub.startBindings();
+    sub2God.startBindings();
+
     MainWindow w;
     God::Subprograms::SubprogramInstancesManager<ProxyGodToSubprogram, 
                                                  ProxySubprogramToGod> mngr{ w.getTabWidget(),

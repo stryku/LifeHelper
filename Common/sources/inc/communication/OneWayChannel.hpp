@@ -54,6 +54,11 @@ namespace Common
                 return m_socket.connect(addr);
             }
 
+            auto &getSocket()
+            {
+                return m_socket;
+            }
+
         protected:
             zmq::context_t &m_context;
             zmq::socket_t m_socket;

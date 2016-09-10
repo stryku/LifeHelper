@@ -32,6 +32,11 @@ namespace P2
             SocketInputObserverSender(const SocketInputObserverSender &) = delete;
             SocketInputObserverSender& operator=(const SocketInputObserverSender &) = delete;
 
+            void connect(const std::string &address)
+            {
+                sender.connect(address);
+            }
+
             void decrementSum()
             {
                 using Elem = utils::MessageBuild::Xml::Element<std::string>;
