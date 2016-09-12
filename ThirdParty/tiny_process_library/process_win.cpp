@@ -6,8 +6,6 @@
 
 namespace tpl
 {
-    Process::Data::Data() : id(0), handle(NULL) {}
-
     namespace {
         // Simple HANDLE wrapper to close it automatically from the destructor.
         class Handle {
@@ -164,7 +162,7 @@ namespace tpl
         if (!GetExitCodeProcess(data.handle, &exit_status))
             exit_status = -1;
         {
-            std::lock_guard<std::mutex> lock(close_mutex);
+            std::lock_guard<std::mutex> lock(*close_mutex);
             CloseHandle(data.handle);
             closed = true;
         }
@@ -195,7 +193,7 @@ namespace tpl
         if (!open_stdin)
             throw std::invalid_argument("Can't write to an unopened stdin pipe. Please set open_stdin=true when constructing the process.");
 
-        std::lock_guard<std::mutex> lock(stdin_mutex);
+        std::lock_guard<std::mutex> lock(*stdin_mutex);
         if (stdin_fd) {
             DWORD written;
             BOOL bSuccess = WriteFile(*stdin_fd, bytes, static_cast<DWORD>(n), &written, nullptr);
@@ -210,7 +208,7 @@ namespace tpl
     }
 
     void Process::close_stdin() {
-        std::lock_guard<std::mutex> lock(stdin_mutex);
+        std::lock_guard<std::mutex> lock(*stdin_mutex);
         if (stdin_fd) {
             if (*stdin_fd != NULL) CloseHandle(*stdin_fd);
             stdin_fd.reset();
@@ -219,7 +217,7 @@ namespace tpl
 
     //Based on http://stackoverflow.com/a/1173396
     void Process::kill(bool force) {
-        std::lock_guard<std::mutex> lock(close_mutex);
+        std::lock_guard<std::mutex> lock(*close_mutex);
         if (data.id > 0 && !closed) {
             HANDLE snapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
             if (snapshot) {

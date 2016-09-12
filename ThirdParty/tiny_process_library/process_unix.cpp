@@ -115,7 +115,7 @@ namespace tpl
         int exit_status;
         waitpid(data.id, &exit_status, 0);
         {
-            std::lock_guard<std::mutex> lock(close_mutex);
+            std::lock_guard<std::mutex> lock(*close_mutex);
             closed = true;
         }
         close_fds();
@@ -149,7 +149,7 @@ namespace tpl
         if (!open_stdin)
             throw std::invalid_argument("Can't write to an unopened stdin pipe. Please set open_stdin=true when constructing the process.");
 
-        std::lock_guard<std::mutex> lock(stdin_mutex);
+        std::lock_guard<std::mutex> lock(*stdin_mutex);
         if (stdin_fd) {
             if (::write(*stdin_fd, bytes, n) >= 0) {
                 return true;
@@ -162,7 +162,7 @@ namespace tpl
     }
 
     void Process::close_stdin() {
-        std::lock_guard<std::mutex> lock(stdin_mutex);
+        std::lock_guard<std::mutex> lock(*stdin_mutex);
         if (stdin_fd) {
             if (data.id > 0)
                 close(*stdin_fd);
@@ -171,7 +171,7 @@ namespace tpl
     }
 
     void Process::kill(bool force) {
-        std::lock_guard<std::mutex> lock(close_mutex);
+        std::lock_guard<std::mutex> lock(*close_mutex);
         if (data.id > 0 && !closed) {
             if (force)
                 ::kill(-data.id, SIGTERM);

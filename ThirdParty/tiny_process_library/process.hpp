@@ -34,12 +34,10 @@ namespace tpl
         typedef std::string string_type;
 #endif
     private:
-        class Data {
-        public:
-            Data();
-            id_type id;
+        struct Data {
+            id_type id{ 0 };
 #ifdef _WIN32
-            void *handle;
+            void *handle{ nullptr };
 #endif
         };
     public:
@@ -49,6 +47,12 @@ namespace tpl
                 bool open_stdin = false,
                 size_t buffer_size = 131072);
         ~Process();
+
+        Process(Process&&) = default;
+        Process& operator=(Process&&) = default;
+
+        Process(const Process&) = delete;
+        Process& operator=(const Process&) = delete;
 
         ///Get the process id of the started process.
         id_type get_id();
@@ -69,12 +73,12 @@ namespace tpl
     private:
         Data data;
         bool closed;
-        std::mutex close_mutex;
+        std::unique_ptr<std::mutex> close_mutex{ std::make_unique<std::mutex>() };
         std::function<void(const char* bytes, size_t n)> read_stdout;
         std::function<void(const char* bytes, size_t n)> read_stderr;
         std::thread stdout_thread, stderr_thread;
         bool open_stdin;
-        std::mutex stdin_mutex;
+        std::unique_ptr<std::mutex> stdin_mutex{ std::make_unique<std::mutex>() };
         size_t buffer_size;
 
         std::unique_ptr<fd_type> stdout_fd, stderr_fd, stdin_fd;
