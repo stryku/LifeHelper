@@ -23,7 +23,8 @@ set (subprogramsIncludes ${Program2Sources}/inc/)
 include_directories (${inc_dir} 
                      ${inc_dir_qt}
                      ${subprogramsIncludes}
-                     ${Qt5UiTools_INCLUDE_DIRS})
+                     ${Qt5UiTools_INCLUDE_DIRS}
+                     ${ThirdPartyRoot})
            
 set (GodProgram_src_qt	${src_dir_qt}/main.cpp
                         ${src_dir_qt}/mainwindow.cpp)

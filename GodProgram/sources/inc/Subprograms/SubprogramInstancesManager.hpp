@@ -34,17 +34,19 @@ namespace God
                 instances.emplace(genericCreate<P2::Info::TypesPack, Messages::Handlers::Program2, Common::Communication::ChannelFactory>(tab));
             }
 
-            template <typename TypesPack, typename MessageHandler, typename Factory, typename InstanceType = Instance<TypesPack, MessageHandler, Factory>>
+            template <typename TypesPack, 
+                      typename MessageHandler, 
+                      typename Factory>
             auto genericCreate(QWidget *tab)
             {
-                
+                using InstanceType = Instance<TypesPack, MessageHandler, Factory>;
+
                 auto modelId = generateModelId();
                 InstanceType instance{ tab,
-                    proxyGodToSubprogram.publisherAddress(),
-                    proxySubprogramToGod.subscriberAddress(),
-                    getSubscribeString(modelId),
-                    createSignalHandler(modelId)
-                };
+                                       proxyGodToSubprogram.publisherAddress(),
+                                       proxySubprogramToGod.subscriberAddress(),
+                                       getSubscribeString(modelId),
+                                       createSignalHandler(modelId) };
 
                 return std::make_pair(modelId, std::move(instance));
             }
