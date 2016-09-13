@@ -7,6 +7,9 @@
 #include "communication/AddressProviders.hpp"
 #include "communication/ZmqFrontendBackendBinder.hpp"
 #include "communication/ChannelFactory.hpp"
+#include "Subprograms/Process/ProcessFactory.hpp"
+
+#include "tiny_process_library/process.hpp"
 
 #include <boost/variant.hpp>
 
@@ -31,17 +34,18 @@ namespace God
 
             void createProgram2(QWidget *tab)
             {
-                instances.emplace(genericCreate<P2::Info::TypesPack, Messages::Handlers::Program2, Common::Communication::ChannelFactory>(tab));
+                auto modelId = generateModelId();
+                instances.emplace(genericCreate<P2::Info::TypesPack, Messages::Handlers::Program2, Common::Communication::ChannelFactory>(tab, modelId));
+                processess.emplace(std::make_pair(modelId, Process::Factory::create()));
             }
 
             template <typename TypesPack, 
                       typename MessageHandler, 
                       typename Factory>
-            auto genericCreate(QWidget *tab)
+            auto genericCreate(QWidget *tab, ModelId modelId)
             {
                 using InstanceType = Instance<TypesPack, MessageHandler, Factory>;
 
-                auto modelId = generateModelId();
                 InstanceType instance{ tab,
                                        proxyGodToSubprogram.publisherAddress(),
                                        proxySubprogramToGod.subscriberAddress(),
@@ -111,6 +115,7 @@ namespace God
             {}
 
             std::unordered_map<ModelId, InstanceVariant> instances;
+            std::unordered_map<ModelId, tpl::Process> processess;
             QTabWidget &tabWidget;
 
             ProxyGodToSubprogram proxyGodToSubprogram;
