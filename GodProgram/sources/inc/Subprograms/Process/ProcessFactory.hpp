@@ -1,6 +1,7 @@
 #pragma once
 
-#include "tiny_process_library/process.hpp"
+#include "tiny_process_library\\process.hpp"
+#include "utils\\log.hpp"
 
 #include <utility>
 
@@ -15,7 +16,15 @@ namespace God
             public:
                 static tpl::Process create()
                 {
-                    return std::move(tpl::Process{ "C:/moje/programowanie/LifeController/bin/programs/Program2/Program2.exe", "" });
+                    try
+                    {
+                        return std::move(tpl::Process{ "C:\\moje\\programowanie\\LifeController\\bin\\programs\\Program2\\Program2.exe", ""
+                        });
+                    }
+                    catch (std::exception &e)
+                    {
+                        LOG("Process::Factory::create exception caught: " << e.what());
+                    }
                 }
             };
         }

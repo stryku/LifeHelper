@@ -21,7 +21,7 @@ namespace P2
             class QtWidgetManager
             {
             public:
-                explicit QtWidgetManager( QWidget *parent, const QString &uiFilePath = "uiforms/Program2Form.ui" );
+                explicit QtWidgetManager( QWidget *parent, const QString &uiFilePath = "C:/moje/programowanie/LifeController/bin/programs/Program2/uiforms/Program2Form.ui" );
 
                 void setLabelSum( const QString &newString );
                 void updateLabel( const QString &str );

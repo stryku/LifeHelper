@@ -14,7 +14,7 @@ namespace P2
         class SocketModelObserverSender : public ModelObserver
         {
         private:
-            using Sender = Common::Communication::SenderChannel;
+            using Sender = Common::Communication::PublisherChannel;
 
         public:
             SocketModelObserverSender(Sender &sender) :

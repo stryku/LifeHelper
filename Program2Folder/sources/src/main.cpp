@@ -1,4 +1,7 @@
 #include "mainwindow.h"
+
+#include "utils/log.hpp"
+
 #include <ProgramInternalsCreators.h>
 
 #include <QApplication>
@@ -9,6 +12,8 @@
 
 int runQt( int argc, char *argv[] )
 {
+    LOG_FILE("Running qt");
+
     FreeConsole();
 
     QApplication a( argc, argv );
@@ -25,10 +30,17 @@ int runQt( int argc, char *argv[] )
 
 int main(int argc, char *argv[])
 {
+    LOG_FILE("argc: " << argc);
+
+    for (size_t i = 0; i < argc; ++i)
+        LOG_FILE("argv[" << i << "]: " << argv[i]);
+
     std::string choice = "qt";
 
     if(argc > 1)
         choice = argv[1];
+
+    LOG_FILE("choice: " << choice);
 
     if( choice == "qt" )
         return runQt( argc, argv );

@@ -13,7 +13,7 @@ namespace P2
         class QtView : public View
         {
         public:
-            QtView( QWidget *widgetParent, const QString &uiFilePath = "uiforms/Program2Form.ui" ) :
+            QtView( QWidget *widgetParent, const QString &uiFilePath ="C:/moje/programowanie/LifeController/bin/programs/Program2/uiforms/Program2Form.ui" ) :
                 widgetManager( widgetParent, uiFilePath )
             {}
 

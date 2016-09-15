@@ -48,8 +48,33 @@ namespace tpl
                 size_t buffer_size = 131072);
         ~Process();
 
-        Process(Process&&) = default;
-        Process& operator=(Process&&) = default;
+        Process(Process &&other) :
+            data{ other.data },
+            closed{ other.closed },
+            read_stdout{ std::move(other.read_stdout) },
+            read_stderr{ std::move(other.read_stderr) },
+            stdout_thread{ std::move(other.stdout_thread) },
+            stderr_thread{ std::move(other.stderr_thread) },
+            open_stdin{ other.open_stdin },
+            buffer_size{ other.buffer_size },
+            stdout_fd{ std::move(other.stdout_fd) },
+            stderr_fd{ std::move(other.stderr_fd) },
+            stdin_fd{ std::move(other.stdin_fd) }
+        {}
+        Process& operator=(Process &&other)
+        {
+            data = std::move(other.data);
+            closed = other.closed;
+            read_stdout = std::move(other.read_stdout);
+            read_stderr = std::move(other.read_stderr);
+            stdout_thread = std::move(other.stdout_thread);
+            stderr_thread = std::move(other.stderr_thread);
+            open_stdin = other.open_stdin;
+            buffer_size = other.buffer_size;
+            stdout_fd = std::move(other.stdout_fd);
+            stderr_fd = std::move(other.stderr_fd);
+            stdin_fd = std::move(other.stdin_fd);
+        }
 
         Process(const Process&) = delete;
         Process& operator=(const Process&) = delete;

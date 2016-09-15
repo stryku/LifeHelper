@@ -1,4 +1,5 @@
 #include "ProgramInternalsCreators.h"
+#include "utils/log.hpp"
 
 //#include <program2internals/model/SocketModelObserverReceiver.hpp>
 #include "program2internals/model/SocketModelObserverSender.hpp"
@@ -10,11 +11,13 @@ namespace ProgramInternalsCreators
 {
     LocalQtInstance createLocalQt(QWidget *qtViewWidgetParent)
     {
-        using Controller = P2::Controller::Controller;
+        LOG("creating local qt internals");
+
         using Model = P2::Model::Model;
+        using Controller = P2::Controller::Controller<Model>;
         using InputPropagator = P2::Input::InputPropagator;
         using View = P2::View::QtView<InputPropagator>;
-        using Internals = P2::ProgramInternals;
+        using Internals = P2::ProgramInternals<Controller>;
         using Instance = LocalQtInstance;
 
 
