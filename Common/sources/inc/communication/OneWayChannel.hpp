@@ -1,10 +1,11 @@
 #pragma once
 
+#include "utils/traits/traits.hpp"
+
 #include <zmq/zmq.hpp>
 
 #include <type_traits>
-
-#include <utils/traits/traits.hpp>
+#include <array>
 
 namespace Common
 {
@@ -71,14 +72,32 @@ namespace Common
             ReceiverChannel(zmq::context_t &context) :
                 OneWayChannel(context)
             {}
-            ReceiverChannel(ReceiverChannel&&) noexcept = default;
-            ReceiverChannel& operator=(ReceiverChannel&&) noexcept = default;
+            ReceiverChannel(ReceiverChannel&&) = default;
+            ReceiverChannel& operator=(ReceiverChannel&&) = default;
             
 
             auto recv(zmq::message_t &message)
             {
                 return m_socket.recv(&message);
             }
+
+            bool recvTimeout(zmq::message_t &message, long timeout = -1L)
+            {
+                zmq::poll(&pollarray[0], 1, timeout);
+
+                if (pollarray[0].revents & ZMQ_POLLIN)
+                {
+                    m_socket.recv(&message);
+                    return true;
+                }
+
+                return false;
+            }
+
+        private:
+            std::array<zmq::pollitem_t, 1> pollarray = {
+                { static_cast<void*>(m_socket), 0, ZMQ_POLLIN, 0 },
+            };
         };
 
         template <typename Sender>

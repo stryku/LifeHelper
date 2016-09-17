@@ -38,8 +38,8 @@ namespace God
                 messageHandler{ std::make_shared<MessageHandler>(this->signalsHandler, controller) },
                 messageSubscriber{ subscribeStr, messageHandler }
             {
-                establishConnection(pushAddress, subscribeAddress);
-                messageSubscriber.startRecv();
+                //establishConnection(pushAddress, subscribeAddress);
+                //messageSubscriber.startRecv();
 
                 view->connectWithInput(inputPropagator.get());
                 inputPropagator->setInputHandler(controller);
