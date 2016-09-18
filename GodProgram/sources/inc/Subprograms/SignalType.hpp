@@ -6,29 +6,32 @@ namespace God
 {
     namespace Subprograms
     {
-        enum class SignalType
+        namespace SignalType
         {
-            HEARTBEAT_SIGNAL,
-            ERROR_SIGNAL,
-            CLEAN_CLOSE_SIGNAL,
-            UNDEF
-        };
+            enum class Type
+            {
+                HEARTBEAT_SIGNAL,
+                ERROR_SIGNAL,
+                CLEAN_CLOSE_SIGNAL,
+                UNDEF
+            };
 
-        constexpr const char* signalTypeToString(SignalType type)
-        {
-            return (type == SignalType::CLEAN_CLOSE_SIGNAL) ? "CLEAN_CLOSE_SIGNAL" :
-                   (type == SignalType::ERROR_SIGNAL) ? "ERROR_SIGNAL" :
-                   (type == SignalType::HEARTBEAT_SIGNAL) ? "CLEAN_CLOSE_SIGNAL" :
-                   "UNDEF";
-        }
+            constexpr const char* toString(Type type)
+            {
+                return (type == Type::CLEAN_CLOSE_SIGNAL) ? "CLEAN_CLOSE_SIGNAL" :
+                    (type == Type::ERROR_SIGNAL) ? "ERROR_SIGNAL" :
+                    (type == Type::HEARTBEAT_SIGNAL) ? "CLEAN_CLOSE_SIGNAL" :
+                    "UNDEF";
+            }
 
-        SignalType signalTypeFromString(const std::string &str)
-        {
-            if (str == "CLEAN_CLOSE_SIGNAL") return SignalType::CLEAN_CLOSE_SIGNAL;
-            if (str == "ERROR_SIGNAL") return SignalType::ERROR_SIGNAL;
-            if (str == "CLEAN_CLOSE_SIGNAL") return SignalType::CLEAN_CLOSE_SIGNAL;
+            Type fromString(const std::string &str)
+            {
+                if (str == "CLEAN_CLOSE_SIGNAL") return Type::CLEAN_CLOSE_SIGNAL;
+                if (str == "ERROR_SIGNAL") return Type::ERROR_SIGNAL;
+                if (str == "CLEAN_CLOSE_SIGNAL") return Type::CLEAN_CLOSE_SIGNAL;
 
-            return SignalType::UNDEF;
+                return Type::UNDEF;
+            }
         }
     }
 }

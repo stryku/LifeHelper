@@ -26,20 +26,8 @@ namespace God
                 heartbeatController{ heartbeatLostCallback }
             {}
 
-            SignalsHandler(SignalsHandler &&other) :
-                heartbeatLostCallback{ std::move(other.heartbeatLostCallback) },
-                errorCallback{ std::move(other.errorCallback) },
-                cleanCloseCallback{ std::move(other.cleanCloseCallback) },
-                heartbeatController{ std::move(other.heartbeatController) }
-            {}
-
-            SignalsHandler& operator=(SignalsHandler &&other)
-            {
-                heartbeatLostCallback = std::move(other.heartbeatLostCallback);
-                errorCallback = std::move(other.errorCallback);
-                cleanCloseCallback = std::move(other.cleanCloseCallback);
-                heartbeatController = std::move(other.heartbeatController);
-            }
+            SignalsHandler(SignalsHandler &&other) = default;
+            SignalsHandler& operator=(SignalsHandler &&other) = default;
 
             SignalsHandler(SignalsHandler&) = delete;
             SignalsHandler& operator=(SignalsHandler&) = delete;

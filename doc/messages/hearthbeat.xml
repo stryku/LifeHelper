@@ -1,0 +1,8 @@
+<msg>
+    <type>
+        MODEL_SIGNAL
+    </type>
+    <internal>
+        HEARTBEAT_SIGNAL
+    </internal>
+</msg>
