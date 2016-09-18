@@ -109,6 +109,7 @@ namespace tpl
         if (!bSuccess) {
             CloseHandle(process_info.hProcess);
             CloseHandle(process_info.hThread);
+            throw std::runtime_error("CreateProcess fails with error: " + std::to_string(GetLastError()));
             return 0;
         }
         else {

@@ -31,15 +31,15 @@ namespace God
                      SignalsHandler &&signalsHandler) :
                 controller{ std::make_shared<TypesPack::Controller>() },
                 internals{ controller },
-                view{ std::make_shared<typename TypesPack::View>(tabWidget, "programs/Program2/uiforms/Program2Form.ui") },
+                view{ std::make_shared<typename TypesPack::View>(tabWidget, "C:/moje/programowanie/LifeController/bin/programs/Program2/uiforms/Program2Form.ui") },
                 inputPropagator{ std::make_shared<typename TypesPack::InputPropagator>() },
                 socketInputObserverSender{ std::make_shared<typename TypesPack::SocketInputObserverSender>(SocketFactory::create<Publisher>()) },
                 signalsHandler{ std::make_shared<SignalsHandler>(std::move(signalsHandler)) },
                 messageHandler{ std::make_shared<MessageHandler>(this->signalsHandler, controller) },
                 messageSubscriber{ subscribeStr, messageHandler }
             {
-                establishConnection(pushAddress, subscribeAddress);
-                messageSubscriber.startRecv();
+                //establishConnection(pushAddress, subscribeAddress);
+                //messageSubscriber.startRecv();
 
                 view->connectWithInput(inputPropagator.get());
                 inputPropagator->setInputHandler(controller);

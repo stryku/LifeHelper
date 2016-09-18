@@ -1,8 +1,8 @@
 #ifndef P2QTWIDGETMANAGER_H
 #define P2QTWIDGETMANAGER_H
 
-#include <program2internals/input/InputHandler.h>
-#include <program2internals/input/Input.h>
+#include "program2internals/input/InputHandler.h"
+#include "program2internals/input/Input.h"
 
 #include <QWidget>
 #include <QLabel>
@@ -21,16 +21,13 @@ namespace P2
             class QtWidgetManager
             {
             public:
-                explicit QtWidgetManager( QWidget *parent, const QString &uiFilePath = "uiforms/Program2Form.ui" );
+                explicit QtWidgetManager( QWidget *parent, const QString &uiFilePath = "C:/moje/programowanie/LifeController/bin/programs/Program2/uiforms/Program2Form.ui" );
 
                 void setLabelSum( const QString &newString );
                 void updateLabel( const QString &str );
                 void connectWithInput( Input::InputPropagator *input );
 
-                QWidget* getWidget()
-                {
-                    return formWidget;
-                }
+                QWidget* getWidget();
 
             private:
                 QWidget* loadUiFile( const QString &path, QWidget *parent = nullptr ) const;

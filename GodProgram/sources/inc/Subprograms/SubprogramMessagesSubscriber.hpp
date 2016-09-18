@@ -48,17 +48,34 @@ namespace God
 
                     while (!interrupted)
                     {
-                        auto ret = subscriberChannel.recv(msg);
+                        try
+                        {
+                            auto ret = subscriberChannel.recvTimeout(msg, 500);
 
-                        if (ret == EINTR)//todo add logs
-                            break;
+                            if (ret == EINTR)//todo add logs
+                                break;
 
-                        if(auto ptr = msgHandler.lock())
-                            ptr->handle(msg.str());
+                            if (auto ptr = msgHandler.lock())
+                                ptr->handle(msg.str());
+                        }
+                        catch (const zmq::error_t& ex)
+                        {
+                            // recv() throws ETERM when the zmq context is destroyed,
+                            //  as when AsyncZmqListener::Stop() is called
+                            if (ex.num() != ETERM)
+                                throw;
+                        }
                     }
                 };
 
                 recvThread = std::thread{ loop };
+            }
+
+            void stop()
+            {
+                interrupt();
+                if (recvThread.joinable())
+                    recvThread.join();
             }
 
         private:

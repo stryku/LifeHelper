@@ -16,7 +16,7 @@ namespace P2
         Instance(ParentPlaceholder *parent) :
             controller{ std::make_shared<Controller>() },
             internals{ controller },
-            view{ std::make_shared<View>(parent, "uiforms/Program2Form.ui") },
+            view{ std::make_shared<View>(parent, "C:/moje/programowanie/LifeController/bin/programs/Program2/uiforms/Program2Form.ui") },
             inputPropagator{ std::make_shared<InputPropagator>() },
             inputObserver{ std::make_shared<InputObserver>() }
         {
@@ -38,7 +38,7 @@ namespace P2
 
     private:
         std::shared_ptr<Controller> controller;
-        ProgramInternals internals;
+        ProgramInternals<Controller> internals;
         std::shared_ptr<View> view;
         std::shared_ptr<InputPropagator> inputPropagator;
         std::shared_ptr<InputObserver> inputObserver;
