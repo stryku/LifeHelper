@@ -3,6 +3,8 @@
         MODEL_SIGNAL
     </type>
     <internal>
-        HEARTBEAT_SIGNAL
+        <type>
+            HEARTBEAT_SIGNAL
+        </type>
     </internal>
 </msg>

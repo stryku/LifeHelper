@@ -36,7 +36,7 @@ namespace God
             {
                 auto modelId = generateModelId();
                 instances.emplace(genericCreate<P2::Info::TypesPack, Messages::Handlers::Program2, Common::Communication::ChannelFactory>(tab, modelId));
-                processess.emplace(std::make_pair(modelId, Process::Factory::create()));
+                processess.emplace(std::make_pair(modelId, Process::Factory::create(modelId)));
             }
 
             template <typename TypesPack, 

@@ -1,7 +1,9 @@
 #pragma once
 
-#include "tiny_process_library\\process.hpp"
-#include "utils\\log.hpp"
+#include "Subprograms/helpers.hpp"
+#include "tiny_process_library/process.hpp"
+#include "utils/log.hpp"
+#include "utils/ToString.hpp"
 
 #include <utility>
 
@@ -14,17 +16,29 @@ namespace God
             class Factory
             {
             public:
-                static tpl::Process create()
+                static tpl::Process create(ModelId id)
                 {
                     try
                     {
-                        return std::move(tpl::Process{ "C:\\moje\\programowanie\\LifeController\\bin\\programs\\Program2\\Program2.exe", ""
-                        });
+                        auto command = createCommand(id);
+                        return std::move(tpl::Process{ command.c_str(), "" });
                     }
                     catch (std::exception &e)
                     {
                         LOG("Process::Factory::create exception caught: " << e.what());
                     }
+                }
+
+            public:
+                static std::string createCommand(ModelId id)
+                {
+                    std::string programPath = "C:\\moje\\programowanie\\LifeController\\bin\\programs\\Program2\\Program2.exe";
+                    std::string address = "tcp://127.0.0.1:1512";
+                    std::string modelId = utils::toString(id);
+
+                    return programPath + " qt " +
+                           address + " " +
+                           modelId;
                 }
             };
         }

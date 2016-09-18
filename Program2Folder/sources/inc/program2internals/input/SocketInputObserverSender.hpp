@@ -1,9 +1,9 @@
 #pragma once
 
-#include <program2internals/input/InputObserver.h>
+#include "program2internals/input/InputObserver.h"
 
-#include <communication/OneWayChannel.hpp>
-#include <utils/message_builders/XmlMessageBuilder.hpp>
+#include "communication/OneWayChannel.hpp"
+#include "Communication/messages/XmlMessageBuilder.hpp"
 
 #include <stdint.h>
 #include <vector>

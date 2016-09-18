@@ -20,7 +20,7 @@ namespace God
             {
                 return (type == Type::CLEAN_CLOSE_SIGNAL) ? "CLEAN_CLOSE_SIGNAL" :
                     (type == Type::ERROR_SIGNAL) ? "ERROR_SIGNAL" :
-                    (type == Type::HEARTBEAT_SIGNAL) ? "CLEAN_CLOSE_SIGNAL" :
+                    (type == Type::HEARTBEAT_SIGNAL) ? "HEARTBEAT_SIGNAL" :
                     "UNDEF";
             }
 

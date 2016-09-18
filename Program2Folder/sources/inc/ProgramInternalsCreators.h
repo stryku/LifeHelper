@@ -13,6 +13,11 @@ namespace ProgramInternalsCreators
 {
     using LocalQtInstance = P2::Instance<P2::Controller::Controller<P2::Model::Model>, P2::View::QtView<P2::Input::InputPropagator>, P2::Input::InputPropagator, P2::Model::Model, P2::ProgramInternals<P2::Controller::Controller<P2::Model::Model>>, QWidget>;
     LocalQtInstance createLocalQt(QWidget *qtViewWidgetParent);
+
+    /*using RemoteInstance = P2::Instance<
+        P2::Controller::Controller<P2::Model::Model>,
+        P2::
+    >;*/
 }
 
 #endif // PROGRAMFACTORY_H

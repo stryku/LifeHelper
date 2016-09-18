@@ -2,11 +2,12 @@
 
 #include "ModelObserver.h"
 
-#include <communication/OneWayChannel.hpp>
-#include <utils/message_builders/XmlMessageBuilder.hpp>
-#include <utils/ToString.hpp>
+#include "Communication/OneWayChannel.hpp"
+#include "Communication/messages/XmlMessageBuilder.hpp"
+#include "utils/ToString.hpp"
 
 #include <stdint.h>
+
 namespace P2
 {
     namespace Model
@@ -32,7 +33,7 @@ namespace P2
                 const std::vector<Elem> elements
                 {
                     Elem{ "msg.type", "updateSum" },
-                    Elem{ "msg.value", utils::toString(newSum) }
+                    Elem{ "msg.internals", utils::toString(newSum) }
                 };
 
                 builder.addElements(elements);

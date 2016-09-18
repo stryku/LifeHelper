@@ -30,6 +30,15 @@ int runQt( int argc, char *argv[] )
     return a.exec();
 }
 
+void runRemote(int argc, char *argv[])
+{
+    LOG_FILE("Running remote");
+
+#ifdef WIN32 //todo
+    FreeConsole();
+#endif
+}
+
 int main(int argc, char *argv[])
 {
     LOG_FILE("argc: " << argc);
@@ -44,8 +53,10 @@ int main(int argc, char *argv[])
 
     LOG_FILE("choice: " << choice);
 
-    if( choice == "qt" )
-        return runQt( argc, argv );
+    if (choice == "qt")
+        return runQt(argc, argv);
+    else if (choice == "remote")
+        return runRemote(argc, argv);
     else
         std::cerr << "Unsupported type of view.";
 

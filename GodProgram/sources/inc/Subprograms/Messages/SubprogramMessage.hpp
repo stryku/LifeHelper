@@ -1,8 +1,8 @@
 #pragma once
 
 #include "utils/traits/traits.hpp"
-#include "Subprograms/SignalType.hpp"
-#include "Subprograms/Messages/MessageType.hpp"
+#include "Communication/messages/SignalType.hpp"
+#include "Communication/messages/MessageType.hpp"
 
 #include <boost/variant.hpp>
 

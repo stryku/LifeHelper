@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Subprograms/Messages/MessageType.hpp"
+#include "communication/messages/MessageType.hpp"
 #include "Subprograms/Messages/SubprogramMessage.hpp"
 
 #include <boost/property_tree/ptree.hpp>

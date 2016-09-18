@@ -38,7 +38,6 @@ set (GodProgram_src ${src_dir}/Tabs/TabCreators.cpp
 set (GodProgram_inc ${inc_dir}/Tabs/TabCreators.hpp 
 					${inc_dir}/Tabs/TabsManager.hpp
 					${inc_dir}/Subprograms/helpers.hpp
-					${inc_dir}/Subprograms/SignalType.hpp
 					${inc_dir}/Subprograms/SubprogramMessagesSubscriber.hpp
 					${inc_dir}/Subprograms/HeartbeatController.hpp
 					${inc_dir}/Subprograms/SubprogramSignalHandler.hpp
@@ -46,12 +45,12 @@ set (GodProgram_inc ${inc_dir}/Tabs/TabCreators.hpp
 					${inc_dir}/Subprograms/SubprogramInstanceFactory.hpp
 					${inc_dir}/Subprograms/SubprogramInstancesManager.hpp
 					${inc_dir}/Subprograms/Messages/SubprogramMessage.hpp
-					${inc_dir}/Subprograms/Messages/MessageType.hpp
 					${inc_dir}/Subprograms/Messages/Handlers/Program2MessageHandler.hpp
 					${inc_dir}/Subprograms/Messages/Handlers/MessageHandler.hpp
 					${inc_dir}/Subprograms/Messages/Handlers/ProgramMessageHandlerCreator.hpp
 					${inc_dir}/Subprograms/Messages/Parsers/MessageParser.hpp
-					${inc_dir}/Subprograms/Messages/Parsers/Program2MessageParser.hpp)
+					${inc_dir}/Subprograms/Messages/Parsers/Program2MessageParser.hpp
+					${inc_dir}/Subprograms/Process/ProcessFactory.hpp)
                      
                      
 set (GodProgramLib_hdr ${inc_dir_qt}/mainwindow.hpp)
