@@ -19,22 +19,30 @@ namespace P2
         public:
             void decrementSum()
             {
+                LOG_FILE("Controller::decrementSum");
+
                 if (auto ptr = inputObserver.lock())
                     ptr->decrementSum();
             }
 
             void setInputObserver( std::weak_ptr<InputObserver> observer )
             {
+                LOG_FILE("Controller::setInputObserver");
+
                 inputObserver = observer;
             }
 
             void registerView(std::weak_ptr<P2::View::View> view)
             {
+                LOG_FILE("Controller::registerView");
+
                 views.push_back( view );
             }
 
             void newSumValue( size_t newSum )
             {
+                LOG_FILE("Controller::newSumValue");
+
                 for( auto &weakView : views )
                     if(auto view = weakView.lock())
                         view->updateSum( newSum );

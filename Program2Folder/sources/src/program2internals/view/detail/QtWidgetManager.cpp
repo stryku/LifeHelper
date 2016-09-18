@@ -1,49 +1,70 @@
-#include <program2internals/view/detail/QtWidgetManager.h>
+#include "program2internals/view/detail/QtWidgetManager.h"
+#include "utils/log.hpp"
 
 using namespace P2::View::detail;
 
-QtWidgetManager::QtWidgetManager(QWidget *parent, const QString &uiFilePath) :
-    formWidget{ createWidget(parent, uiFilePath) }
-{}
-
-void QtWidgetManager::setLabelSum( const QString &newString )
+namespace P2
 {
-    ui_labelSum->setText( newString );
-}
+    namespace View
+    {
+        namespace detail
+        {
+            QtWidgetManager::QtWidgetManager(QWidget *parent, const QString &uiFilePath) :
+                formWidget{ createWidget(parent, uiFilePath) }
+            {}
 
-void QtWidgetManager::updateLabel( const QString &str )
-{
-    ui_labelSum->setText( str );
-}
+            void QtWidgetManager::setLabelSum(const QString &newString)
+            {
+                LOG_FILE("QtWidgetManager::setLabelSum");
 
-void QtWidgetManager::connectWithInput( P2::Input::InputPropagator *input )
-{
-    formWidget->connect( ui_pushButtonMinus, 
-                         &QPushButton::clicked, 
-                         input->createDecrementSumCallback() );
-}
+                ui_labelSum->setText(newString);
+            }
 
-QWidget* QtWidgetManager::loadUiFile( const QString &path, QWidget *parent ) const
-{
-    QUiLoader loader;
-    QFile file{ path };
+            void QtWidgetManager::updateLabel(const QString &str)
+            {
+                LOG_FILE("QtWidgetManager::updateLabel");
+                ui_labelSum->setText(str);
+            }
 
-    file.open( QFile::ReadOnly );
+            void QtWidgetManager::connectWithInput(P2::Input::InputPropagator *input)
+            {
+                LOG_FILE("QtWidgetManager::connectWithInput");
+                formWidget->connect(ui_pushButtonMinus,
+                                    &QPushButton::clicked,
+                                    input->createDecrementSumCallback());
+            }
 
-    auto widget = loader.load( &file, parent );
-    file.close();
 
-    return widget;
-}
+            QWidget* QtWidgetManager::getWidget()
+            {
+                LOG_FILE("QtWidgetManager::addView");
+                return formWidget;
+            }
 
-QWidget* QtWidgetManager::createWidget( QWidget *parent, const QString &uiFilePath)
-{
-    auto widget = loadUiFile(uiFilePath);
+            QWidget* QtWidgetManager::loadUiFile(const QString &path, QWidget *parent) const
+            {
+                QUiLoader loader;
+                QFile file{ path };
 
-    widget->setParent( parent );
+                file.open(QFile::ReadOnly);
 
-    ui_labelSum = widget->findChild<QLabel*>( "labelSum" );
-    ui_pushButtonMinus = widget->findChild<QPushButton*>( "pushButtonMinus" );
+                auto widget = loader.load(&file, parent);
+                file.close();
 
-    return widget;
+                return widget;
+            }
+
+            QWidget* QtWidgetManager::createWidget(QWidget *parent, const QString &uiFilePath)
+            {
+                auto widget = loadUiFile(uiFilePath);
+
+                widget->setParent(parent);
+
+                ui_labelSum = widget->findChild<QLabel*>("labelSum");
+                ui_pushButtonMinus = widget->findChild<QPushButton*>("pushButtonMinus");
+
+                return widget;
+            }
+        }
+    }
 }

@@ -1,10 +1,11 @@
 #ifndef PROGRAMINTERNALS_H
 #define PROGRAMINTERNALS_H
 
-#include <program2internals/view/View.h>
-#include <program2internals/controller/Controller.h>
-#include <program2internals/model/Model.h>
-#include <program2internals/input/Input.h>
+#include "utils/log.hpp"
+#include "program2internals/view/View.h"
+#include "program2internals/controller/Controller.h"
+#include "program2internals/model/Model.h"
+#include "program2internals/input/Input.h"
 
 #include <vector>
 #include <memory>
@@ -24,12 +25,16 @@ namespace P2
 
         void addView(std::weak_ptr<P2::View::View> view)
         {
+            LOG_FILE("ProgramInternals::addView");
+
             if(auto ptr = controller.lock())
                 ptr->registerView(view);
         }
 
         void addInputPropagator(std::weak_ptr<P2::Input::InputPropagator> input)
         {
+            LOG_FILE("ProgramInternals::addInputPropagator");
+
             inputs.push_back(input);
 
             if (auto ptr = input.lock())

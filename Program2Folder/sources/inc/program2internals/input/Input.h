@@ -1,6 +1,6 @@
-#ifndef P2INPUT_H
-#define P2INPUT_H
+#pragma once
 
+#include "utils/log.hpp"
 #include "InputHandler.h"
 
 #include <memory>
@@ -14,17 +14,24 @@ namespace P2
         public:
             void notifyDecrementSum()
             {
+                LOG_FILE("InputPropagator::notifyDecrementSum");
+
                 if(auto ptr = inputHandler.lock())
                     ptr->decrementSum();
+                else
+                    LOG_FILE("InputPropagator::notifyDecrementSum inputHandler ptr expired!");
+
             }
 
             void setInputHandler( std::weak_ptr<InputHandler> handler )
             {
+                LOG_FILE("InputPropagator::setInputHandler");
                 inputHandler = handler;
             }
 
             auto createDecrementSumCallback()
             {
+                LOG_FILE("InputPropagator::createDecrementSumCallback");
                 auto callback = [this] { notifyDecrementSum(); };
                 return callback;
             }
@@ -34,4 +41,3 @@ namespace P2
         };
     }
 }
-#endif // P2INPUT_H

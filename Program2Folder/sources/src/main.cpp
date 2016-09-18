@@ -1,12 +1,12 @@
 #include "mainwindow.h"
-
 #include "utils/log.hpp"
-
-#include <ProgramInternalsCreators.h>
+#include "ProgramInternalsCreators.h"
 
 #include <QApplication>
 
+#ifdef WIN32
 #include <Windows.h>
+#endif
 
 #include <iostream>
 
@@ -14,7 +14,9 @@ int runQt( int argc, char *argv[] )
 {
     LOG_FILE("Running qt");
 
+#ifdef WIN32 //todo
     FreeConsole();
+#endif
 
     QApplication a( argc, argv );
     MainWindow w;

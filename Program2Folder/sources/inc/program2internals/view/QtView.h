@@ -19,16 +19,20 @@ namespace P2
 
             void updateLabel( const QString &str )
             {
+                LOG_FILE("InputPropagator::updateLabel(" << str.toStdString() << ")");
+
                 widgetManager.setLabelSum( str );
             }
 
             void connectWithInput(InputPropagator *input )
             {
+                LOG_FILE("InputPropagator::connectWithInput");
                 widgetManager.connectWithInput( input );
             }
 
             void updateSum( size_t newSum )
             {
+                LOG_FILE("InputPropagator::updateSum( " << newSum << " )");
                 updateLabel( QString::number( newSum ) );
             }
 

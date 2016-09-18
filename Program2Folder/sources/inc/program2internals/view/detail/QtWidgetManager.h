@@ -1,8 +1,8 @@
 #ifndef P2QTWIDGETMANAGER_H
 #define P2QTWIDGETMANAGER_H
 
-#include <program2internals/input/InputHandler.h>
-#include <program2internals/input/Input.h>
+#include "program2internals/input/InputHandler.h"
+#include "program2internals/input/Input.h"
 
 #include <QWidget>
 #include <QLabel>
@@ -27,10 +27,7 @@ namespace P2
                 void updateLabel( const QString &str );
                 void connectWithInput( Input::InputPropagator *input );
 
-                QWidget* getWidget()
-                {
-                    return formWidget;
-                }
+                QWidget* getWidget();
 
             private:
                 QWidget* loadUiFile( const QString &path, QWidget *parent = nullptr ) const;
