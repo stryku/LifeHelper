@@ -29,7 +29,7 @@ namespace God
                     {
                         auto parsed = Parser::parse(strMsg);
 
-                        if (parsed.type == Messages::MessageType::MODEL_SIGNAL)
+                        if (parsed.type == Messages::SignalType::MODEL_SIGNAL)
                         {
                             auto signalType = parsed.internalMessage.getType<SignalType>();
                             if(auto ptr = signalHandler.lock())

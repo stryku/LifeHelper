@@ -1,6 +1,7 @@
 #pragma once
 
-#include <Subprograms/Messages/SubprogramMessage.hpp>
+#include "Subprograms/Messages/Parsers/MessageParser.hpp"
+#include "Subprograms/Messages/SubprogramMessage.hpp"
 
 #include <string>
 
@@ -12,12 +13,12 @@ namespace God
         {
             namespace Parsers
             {
-                class Program2
+                class Program2 : MessageParser<Program2, Program2Message>
                 {
                 public:
-                    static Messages::Program2Message parse(const std::string &msg) noexcept
+                    Messages::Program2Message parse_internal(Program2Message &msg) noexcept
                     {
-                        return{};
+                        return msg;
                     }
                 };
             }

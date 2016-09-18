@@ -1,10 +1,10 @@
 #pragma once
 
-#include <Subprograms/Messages/Parsers/Program2MessageParser.hpp>
-#include <Subprograms/Messages/Handlers/MessageHandler.hpp>
-#include <Subprograms/SubprogramSignalHandler.hpp>
+#include "Subprograms/Messages/Parsers/Program2MessageParser.hpp"
+#include "Subprograms/Messages/Handlers/MessageHandler.hpp"
+#include "Subprograms/SubprogramSignalHandler.hpp"
 
-#include <program2internals/controller/Controller.h>
+#include "program2internals/controller/Controller.h"
 
 #include <string>
 #include <memory>
