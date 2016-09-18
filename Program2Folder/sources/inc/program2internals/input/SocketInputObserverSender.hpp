@@ -39,9 +39,9 @@ namespace P2
 
             void decrementSum()
             {
-                using Elem = utils::MessageBuild::Xml::Element<std::string>;
+                using Elem = Common::Communication::MessageBuilders::Xml::Element<std::string>;
 
-                utils::MessageBuild::Xml::Builder builder;
+                Common::Communication::MessageBuilders::Xml::Builder builder;
 
                 builder.addElement(Elem{ "msg.type", "decrementSum" });
 

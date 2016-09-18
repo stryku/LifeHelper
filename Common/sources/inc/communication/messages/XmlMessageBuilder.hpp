@@ -9,56 +9,60 @@
 #include <string>
 #include <sstream>
 
-namespace utils
+namespace Common
 {
-    namespace MessageBuild
+    namespace Communication
     {
-        namespace Xml
+        namespace MessageBuilders
         {
-            template <typename T>
-            struct Element
-            {
-                Element() = default;
-                Element(const std::string &path, const T &value) :
-                    path(path),
-                    value(value)
-                {}
 
-                std::string path;
-                T value;
-            };
-
-            class Builder
+            namespace Xml
             {
-            public:
                 template <typename T>
-                Builder& addElement(const Element<T> &elem)
+                struct Element
                 {
-                    tree.put(elem.path, toString(elem.value));
+                    Element() = default;
+                    Element(const std::string &path, const T &value) :
+                        path(path),
+                        value(value)
+                    {}
 
-                    return *this;
-                }
+                    std::string path;
+                    T value;
+                };
 
-                template <typename Container>
-                Builder& addElements(const Container &elements)
+                class Builder
                 {
-                    for (const auto &element : elements)
-                        addElement(element);
+                public:
+                    template <typename T>
+                    Builder& addElement(const Element<T> &elem)
+                    {
+                        tree.put(elem.path, utils::toString(elem.value));
 
-                    return *this;
-                }
+                        return *this;
+                    }
 
-                std::string build() const
-                {
-                    std::ostringstream oss;
-                    boost::property_tree::write_xml(oss, tree);
+                    template <typename Container>
+                    Builder& addElements(const Container &elements)
+                    {
+                        for (const auto &element : elements)
+                            addElement(element);
 
-                    return oss.str();
-                }
+                        return *this;
+                    }
 
-            private:
-                boost::property_tree::ptree tree;
-            };
+                    std::string build() const
+                    {
+                        std::ostringstream oss;
+                        boost::property_tree::write_xml(oss, tree);
+
+                        return oss.str();
+                    }
+
+                private:
+                    boost::property_tree::ptree tree;
+                };
+            }
         }
     }
 }

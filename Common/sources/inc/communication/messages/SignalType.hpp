@@ -2,9 +2,9 @@
 
 #include <string>
 
-namespace God
+namespace Common
 {
-    namespace Subprograms
+    namespace Communication
     {
         namespace SignalType
         {

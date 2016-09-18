@@ -1,6 +1,6 @@
 #pragma once
 
-#include "communication/messages/MessageType.hpp"
+#include "Communication/messages/MessageType.hpp"
 #include "Subprograms/Messages/SubprogramMessage.hpp"
 
 #include <boost/property_tree/ptree.hpp>
@@ -39,13 +39,13 @@ namespace God
                     }
 
                 private:
-                    MessageType::Type parseMessageType(boost::property_tree::ptree &tree) const
+                    Common::Communication::Messages::MessageType::Type parseMessageType(boost::property_tree::ptree &tree) const
                     {
                         auto strType = tree.get<std::string>("msg.type");
                         return MesageType::fromString(strType);
                     }
 
-                    SignalType::Type parseSignalType(boost::property_tree::ptree &tree) const
+                    Common::Communication::SignalType::Type parseSignalType(boost::property_tree::ptree &tree) const
                     {
                         auto strType = tree.get<std::string>("msg.internal");
                         return SignalType::fromString(strType);

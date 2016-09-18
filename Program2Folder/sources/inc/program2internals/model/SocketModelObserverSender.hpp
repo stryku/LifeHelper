@@ -26,9 +26,9 @@ namespace P2
 
             virtual void newSumValue(size_t newSum) override
             {
-                using Elem = utils::MessageBuild::Xml::Element<std::string>;
+                using Elem = Common::Communication::MessageBuilders::Xml::Element<std::string>;
 
-                utils::MessageBuild::Xml::Builder builder;
+                Common::Communication::MessageBuilders::Xml::Builder builder;
 
                 const std::vector<Elem> elements
                 {

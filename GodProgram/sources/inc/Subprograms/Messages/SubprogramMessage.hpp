@@ -20,7 +20,7 @@ namespace God
                 using VariantType = boost::variant<Args...>;
                 using SubprogramMsgType = Type;
 
-                boost::variant<SignalType::Type, Type> typeVariant;
+                boost::variant<Common::Communication::SignalType::Type, Type> typeVariant;
                 VariantType variant;
 
                 template <typename T,
@@ -57,11 +57,11 @@ namespace God
             template <typename Type, typename ...Args>
             struct Message
             {
-                MessageType::Type type;
+                Common::Communication::Messages::MessageType::Type type;
                 InternalMessage<Type, Args...> internalMessage;
             };
 
-            using SubprogramSignal = Message<SignalType::Type>;
+            using SubprogramSignal = Message<Common::Communication::SignalType::Type>;
             using Program2Message = Message<int, std::string>;
         }
     }

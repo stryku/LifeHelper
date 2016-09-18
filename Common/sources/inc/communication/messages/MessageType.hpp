@@ -3,9 +3,9 @@
 #include <string>
 #include <stdexcept>
 
-namespace God
+namespace Common
 {
-    namespace Subprograms
+    namespace Communication
     {
         namespace Messages
         {
@@ -21,8 +21,8 @@ namespace God
                 {
                     switch (type)
                     {
-                    case God::Subprograms::Messages::MessageType::Type::MODEL_CHANGE: return "MODEL_CHANGE";
-                    case God::Subprograms::Messages::MessageType::Type::MODEL_SIGNAL: return "MODEL_SIGNAL";
+                    case Type::MODEL_CHANGE: return "MODEL_CHANGE";
+                    case Type::MODEL_SIGNAL: return "MODEL_SIGNAL";
 
                     default:
                         throw std::invalid_argument("SignalType::toString(<invalid type>)");

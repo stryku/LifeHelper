@@ -18,7 +18,8 @@ set (Common_inc ${inc_dir}/utils/log.hpp
 				${inc_dir}/Communication/AddressProviders.hpp
 				${inc_dir}/Communication/messages/XmlMessageBuilder.hpp
                 ${inc_dir}/Communication/messages/SignalType.hpp
-				${inc_dir}/Communication/messages/MessageType.hpp)
+				${inc_dir}/Communication/messages/MessageType.hpp
+				${inc_dir}/Communication/messages/SignalsFactory.hpp)
 				
 				
 set (Common_src ${src_dir}/Communication/ChannelFactory.cpp)
