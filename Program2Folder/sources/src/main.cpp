@@ -23,7 +23,7 @@ int runQt( int argc, char *argv[] )
 
     auto internalWidgetParent = w.getWidgetContainer();
 
-    auto internals = ProgramInternalsCreators::createLocalQt( internalWidgetParent );
+    auto internals = ProgramInternalsCreators::Creator::createLocalQt( internalWidgetParent );
 
     w.show();
 

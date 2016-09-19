@@ -1,24 +1,23 @@
 #pragma once
 
-#include <program2internals/input/InputObserver.h>
+#include "program2internals/input/InputObserver.h"
 
-#include <communication/OneWayChannel.hpp>
-#include <utils/message_builders/XmlMessageBuilder.hpp>
+#include "communication/OneWayChannel.hpp"
+#include "Communication/messages/XmlMessageBuilder.hpp"
 
-#include <stdint.h>
 #include <vector>
 
 namespace P2
 {
     namespace Input
     {
-        class SocketInputObserverReceiver : public P2::Input::InputObserver
+        class SocketInputPropagatorReceiver : public P2::Input::InputObserver
         {
         private:
-            using Receiver = Common::Communication::ReceiverChannel;
+            using Receiver = Common::Communication::SubscriberChannel;
 
         public:
-            SocketInputObserverReceiver(Receiver &receiver) :
+            SocketInputPropagatorReceiver(Receiver &receiver) :
                 m_receiver(receiver)
             {}
 

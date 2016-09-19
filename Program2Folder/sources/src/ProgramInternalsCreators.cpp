@@ -3,13 +3,13 @@
 
 //#include <program2internals/model/SocketModelObserverReceiver.hpp>
 #include "program2internals/model/SocketModelObserverSender.hpp"
-#include "program2internals/input/SocketInputObserverSender.hpp"
+#include "program2internals/input/SocketInputPropagatorSender.hpp"
 //#include <program2internals/input/SocketInputObserverReceiver.h>
 
 
 namespace ProgramInternalsCreators
 {
-    LocalQtInstance createLocalQt(QWidget *qtViewWidgetParent)
+    Creator::LocalQtInstance Creator::createLocalQt(QWidget *qtViewWidgetParent)
     {
         LOG("creating local qt internals");
 
@@ -18,7 +18,7 @@ namespace ProgramInternalsCreators
         using InputPropagator = P2::Input::InputPropagator;
         using View = P2::View::QtView<InputPropagator>;
         using Internals = P2::ProgramInternals<Controller>;
-        using Instance = LocalQtInstance;
+        using Instance = Creator::LocalQtInstance;
 
 
 
@@ -41,7 +41,6 @@ namespace ProgramInternalsCreators
 
         return Instance{ qtViewWidgetParent };
     }
-
    /* P2::ProgramInternals createRemoteModelQt(QWidget *qtViewWidgetParent)
     {
         zmq::context_t context{ 1 };
@@ -86,4 +85,9 @@ namespace ProgramInternalsCreators
         return internals;
     }
 */
+
+    Creator::RemoteInstance Creator::createRemote()
+    {
+        return RemoteInstance{nullptr};
+    }
 }

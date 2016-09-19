@@ -14,23 +14,23 @@ namespace P2
     namespace Input
     {
         template <typename Sender>
-        class SocketInputObserverSender : public P2::Input::InputHandler
+        class SocketInputPropagatorSender : public P2::Input::InputHandler
         {
         public:
             template <typename Factory>
-            SocketInputObserverSender() :
+            SocketInputPropagatorSender() :
                 sender{ Factory::createSenderForInputHandler() }
             {}
 
-            SocketInputObserverSender(Sender &&sender) :
+            SocketInputPropagatorSender(Sender &&sender) :
                 sender{ std::move(sender) }
             {}
 
-            SocketInputObserverSender(SocketInputObserverSender &&other) = default;
-            SocketInputObserverSender& operator=(SocketInputObserverSender &&other) = default;
+            SocketInputPropagatorSender(SocketInputPropagatorSender &&other) = default;
+            SocketInputPropagatorSender& operator=(SocketInputPropagatorSender &&other) = default;
 
-            SocketInputObserverSender(const SocketInputObserverSender &) = delete;
-            SocketInputObserverSender& operator=(const SocketInputObserverSender &) = delete;
+            SocketInputPropagatorSender(const SocketInputPropagatorSender &) = delete;
+            SocketInputPropagatorSender& operator=(const SocketInputPropagatorSender &) = delete;
 
             void connect(const std::string &address)
             {

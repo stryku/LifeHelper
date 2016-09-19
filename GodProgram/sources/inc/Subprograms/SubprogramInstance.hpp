@@ -1,13 +1,13 @@
 #pragma once
 
-#include <communication/OneWayChannel.hpp>
+#include "communication/OneWayChannel.hpp"
 
-#include <Subprograms/SubprogramSignalHandler.hpp>
-#include <Subprograms/SubprogramMessagesSubscriber.hpp>
-#include <Subprograms/Messages/Handlers/Program2MessageHandler.hpp>
+#include "Subprograms/SubprogramSignalHandler.hpp"
+#include "Subprograms/SubprogramMessagesSubscriber.hpp"
+#include "Subprograms/Messages/Handlers/Program2MessageHandler.hpp"
 #include "Subprograms/SubprogramSignalHandler.hpp"
 
-#include <program2internals/input/SocketInputObserverSender.hpp>
+#include "program2internals/input/SocketInputPropagatorSender.hpp"
 
 #include <QTabWidget>
 
@@ -33,7 +33,7 @@ namespace God
                 internals{ controller },
                 view{ std::make_shared<typename TypesPack::View>(tabWidget, "C:/moje/programowanie/LifeController/bin/programs/Program2/uiforms/Program2Form.ui") },
                 inputPropagator{ std::make_shared<typename TypesPack::InputPropagator>() },
-                socketInputObserverSender{ std::make_shared<typename TypesPack::SocketInputObserverSender>(SocketFactory::create<Publisher>()) },
+                socketInputObserverSender{ std::make_shared<typename TypesPack::SocketInputPropagatorSender>(SocketFactory::create<Publisher>()) },
                 signalsHandler{ std::make_shared<SignalsHandler>(std::move(signalsHandler)) },
                 messageHandler{ std::make_shared<MessageHandler>(this->signalsHandler, controller) },
                 messageSubscriber{ subscribeStr, messageHandler }
@@ -68,7 +68,7 @@ namespace God
             typename TypesPack::ProgramInternals internals;
             std::shared_ptr<typename TypesPack::View> view;
             std::shared_ptr<typename TypesPack::InputPropagator> inputPropagator;
-            std::shared_ptr<typename TypesPack::SocketInputObserverSender> socketInputObserverSender;
+            std::shared_ptr<typename TypesPack::SocketInputPropagatorSender> socketInputObserverSender;
 
             std::shared_ptr<SignalsHandler> signalsHandler;
             std::shared_ptr<MessageHandler> messageHandler;
