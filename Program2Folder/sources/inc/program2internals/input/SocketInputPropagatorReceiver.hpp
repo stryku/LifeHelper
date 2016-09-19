@@ -1,39 +1,43 @@
 #pragma once
 
-#include "program2internals/input/InputObserver.h"
+#include "utils/log.hpp"
 
 #include "communication/OneWayChannel.hpp"
 #include "Communication/messages/XmlMessageBuilder.hpp"
 
 #include <vector>
+#include <memory>
 
 namespace P2
 {
     namespace Input
     {
-        class SocketInputPropagatorReceiver : public P2::Input::InputObserver
+        template <typename Receiver, typename InputObserver>
+        class SocketInputPropagatorReceiver
         {
-        private:
-            using Receiver = Common::Communication::SubscriberChannel;
-
         public:
-            SocketInputPropagatorReceiver(Receiver &receiver) :
-                m_receiver(receiver)
+            SocketInputPropagatorReceiver(Receiver &&receiver) :
+                receiver{ std::move(receiver) }
             {}
 
             void decrementSum()
             {
-                m_inputObserver->decrementSum();
+                LOG("SocketInputPropagatorReceiver::decrementSum");
+
+                if (auto ptr = inputObserver.lock())
+                    ptr->decrementSum();
+                else
+                    LOG("SocketInputPropagatorReceiver::decrementSum inputObserver ptr expired");
             }
 
-            void addInputObserver(InputObserver *observer)
+            void addInputObserver(std::weak_ptr<InputObserver> observer)
             {
-                m_inputObserver = observer;
+                inputObserver = observer;
             }
 
         private:
-            Receiver &m_receiver;
-            InputObserver *m_inputObserver;
+            Receiver receiver;
+            std::weak_ptr<InputObserver> inputObserver;
         };
     }
 }
