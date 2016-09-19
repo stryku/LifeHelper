@@ -16,7 +16,7 @@ namespace P2
             using InputPropagator = Input::InputPropagator;
             using View = View::QtView<InputPropagator>;
             using SocketInputPropagatorSender = Input::SocketInputPropagatorSender<Common::Communication::PublisherChannel>;
-            using Controller = Controller::Controller<SocketInputPropagatorSender>;
+            using Controller = Controller::Controller<SocketInputPropagatorSender, View>;
             using ProgramInternals = ProgramInternals<Controller>;
         };
 

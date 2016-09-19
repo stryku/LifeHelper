@@ -14,7 +14,7 @@ namespace P2
     namespace Controller
     {
         template <typename InputObserver, typename View>
-        class Controller : public P2::Input::InputHandler, public P2::Model::ModelObserver
+        class Controller
         {
         public:
             void decrementSum()
