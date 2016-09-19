@@ -4,9 +4,13 @@
 #include "Communication/messages/SignalType.hpp"
 #include "Communication/messages/MessageType.hpp"
 
+#include "program2internals/communication/MessageType.hpp"
+
 #include <boost/variant.hpp>
 
 #include <string>
+
+
 
 namespace God
 {
@@ -18,7 +22,7 @@ namespace God
             struct InternalMessage
             {
                 using VariantType = boost::variant<Args...>;
-                using SubprogramMsgType = Type;
+                using BasicMessageType = Common::Communication::Messages::MessageType::Type;
 
                 boost::variant<Common::Communication::SignalType::Type, Type> typeVariant;
                 VariantType variant;
@@ -38,7 +42,7 @@ namespace God
                 }
 
                 template <typename T,
-                          typename = std::enable_if_t<std::is_same<T, MessageType::Type>::value ||
+                          typename = std::enable_if_t<std::is_same<T, BasicMessageType>::value ||
                                                       std::is_same<T, Type>::value>>
                 T getType() noexcept
                 {
@@ -46,8 +50,8 @@ namespace God
                 }
 
                 template <typename T, 
-                          typename = std::enable_if_t<std::is_same<T, MessageType::Type>::value ||
-                          std::is_same<T, Type>::value>>
+                          typename = std::enable_if_t<std::is_same<T, BasicMessageType>::value ||
+                                                      std::is_same<T, Type>::value>>
                 void setType(T type)
                 {
                     boost::get<T>(typeVariant) = type;
@@ -57,12 +61,16 @@ namespace God
             template <typename Type, typename ...Args>
             struct Message
             {
+                using SubprogramMsgType = Type;
+
                 Common::Communication::Messages::MessageType::Type type;
                 InternalMessage<Type, Args...> internalMessage;
             };
 
             using SubprogramSignal = Message<Common::Communication::SignalType::Type>;
-            using Program2Message = Message<int, std::string>;
+
+
+            using Program2Message = Message<P2::Communication::MessageType::Type, size_t>;
         }
     }
 }
