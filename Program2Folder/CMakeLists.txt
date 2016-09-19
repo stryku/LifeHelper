@@ -40,8 +40,8 @@ set (Program2Objects_inc ${internals_inc_dir}/ProgramInternals.h
                          ${internals_inc_dir}/controller/Controller.h
                          ${internals_inc_dir}/input/Input.h
                          ${internals_inc_dir}/input/InputHandler.h
-                         ${internals_inc_dir}/input/SocketInputObserverReceiver.h
-                         ${internals_inc_dir}/input/SocketInputObserverSender.hpp
+                         ${internals_inc_dir}/input/SocketInputPropagatorReceiver.hpp
+                         ${internals_inc_dir}/input/SocketInputPropagatorSender.hpp
                          ${internals_inc_dir}/input/InputObserver.h
                          ${internals_inc_dir}/model/Model.h
                          ${internals_inc_dir}/model/SocketModelObserverReceiver.hpp
@@ -50,6 +50,7 @@ set (Program2Objects_inc ${internals_inc_dir}/ProgramInternals.h
                          ${internals_inc_dir}/view/ConsoleView.h
                          ${internals_inc_dir}/view/QtView.h
                          ${internals_inc_dir}/view/View.h
+                         ${internals_inc_dir}/view/SocketView.hpp
                          ${internals_inc_dir}/view/detail/QtWidgetManager.h)
                      
 set (Program2_src   ${src_dir}/main.cpp
