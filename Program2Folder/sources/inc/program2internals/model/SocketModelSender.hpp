@@ -9,13 +9,19 @@ namespace P2
 {
     namespace Model
     {
-        template <typename ModelObserver, typename Sender, typename SenderFactory>
-        class SocketModel
+        template <typename Sender, typename SenderFactory>
+        class SocketModelSender
         {
         public:
-            SocketModel()
+            SocketModelSender()
                 : sender{ SenderFactory::create<Sender>() }
             {}
+
+            SocketModelSender(SocketModelSender&&) = default;
+            SocketModelSender& operator=(SocketModelSender&&) = default;
+
+            SocketModelSender(const SocketModelSender&) = delete;
+            SocketModelSender& operator=(const SocketModelSender&) = delete;
 
             void decrementSum()
             {
@@ -47,7 +53,6 @@ namespace P2
             }
 
         private:
-            std::vector<std::weak_ptr<ModelObserver>> modelObserver;
             Sender sender;
         };
     }
