@@ -1,7 +1,6 @@
 #pragma once
 
 #include "utils/log.hpp"
-#include "InputHandler.h"
 
 #include <memory>
 
@@ -9,6 +8,7 @@ namespace P2
 {
     namespace Input
     {
+        template <typename InputHandler>
         class InputPropagator
         {
         public:
