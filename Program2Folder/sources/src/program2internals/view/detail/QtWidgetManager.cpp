@@ -26,12 +26,13 @@ namespace P2
                 ui_labelSum->setText(str);
             }
 
-            void QtWidgetManager::connectWithInput(P2::Input::InputPropagator *input)
+            template <typename InputPropagator>
+            void QtWidgetManager::connectWithInput(InputPropagator &inputPropagator)
             {
                 LOG_FILE("QtWidgetManager::connectWithInput");
                 formWidget->connect(ui_pushButtonMinus,
                                     &QPushButton::clicked,
-                                    input->createDecrementSumCallback());
+                                    inputPropagator.createDecrementSumCallback());
             }
 
 

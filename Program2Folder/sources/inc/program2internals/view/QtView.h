@@ -9,7 +9,6 @@ namespace P2
 {
     namespace View
     {
-        template <typename InputPropagator>
         class QtView : public View
         {
         public:
@@ -24,7 +23,8 @@ namespace P2
                 widgetManager.setLabelSum( str );
             }
 
-            void connectWithInput(InputPropagator *input )
+            template <typename InputPropagator>
+            void connectWithInput(InputPropagator &input )
             {
                 LOG_FILE("InputPropagator::connectWithInput");
                 widgetManager.connectWithInput( input );
