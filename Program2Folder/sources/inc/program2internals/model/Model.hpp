@@ -29,12 +29,12 @@ namespace P2
 
                 for(auto &modelObserver : modelObservers)
                     if(auto ptr = modelObserver.lock())
-                        modelObserver->newSumValue( sum );
+                        ptr->newSumValue( sum );
             }
 
             void registerObserver(std::weak_ptr<ModelObserver> observer )
             {
-                LOG_FILE("Model::registerObserver( " << std::hex << observer << ")");
+                LOG_FILE("Model::registerObserver");
                 modelObservers.push_back( observer );
             }
 

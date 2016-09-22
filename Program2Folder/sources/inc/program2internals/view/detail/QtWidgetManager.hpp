@@ -1,8 +1,10 @@
 #ifndef P2QTWIDGETMANAGER_H
 #define P2QTWIDGETMANAGER_H
 
-#include "program2internals/input/InputHandler.h"
-#include "program2internals/input/Input.h"
+//#include "program2internals/input/InputHandler.h"
+//#include "program2internals/input/Input.h"
+#include "utils/log.hpp"
+
 
 #include <QWidget>
 #include <QLabel>
@@ -24,8 +26,16 @@ namespace P2
                 explicit QtWidgetManager( QWidget *parent, const QString &uiFilePath = "C:/moje/programowanie/LifeController/bin/programs/Program2/uiforms/Program2Form.ui" );
 
                 void setLabelSum( const QString &newString );
-                void updateLabel( const QString &str );
-                void connectWithInput( Input::InputPropagator *input );
+                void updateLabel( const QString &str ); 
+
+                template <typename InputPropagator>
+                void QtWidgetManager::connectWithInput(InputPropagator &inputPropagator)
+                {
+                    LOG_FILE("QtWidgetManager::connectWithInput");
+                    formWidget->connect(ui_pushButtonMinus,
+                                        &QPushButton::clicked,
+                                        inputPropagator.createDecrementSumCallback());
+                }
 
                 QWidget* getWidget();
 

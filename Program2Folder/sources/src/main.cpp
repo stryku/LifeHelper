@@ -15,7 +15,7 @@ int runQt( int argc, char *argv[] )
     LOG_FILE("Running qt");
 
 #ifdef WIN32 //todo
-    FreeConsole();
+    //FreeConsole();
 #endif
 
     QApplication a( argc, argv );
@@ -35,7 +35,7 @@ void runRemote(int argc, char *argv[])
     LOG_FILE("Running remote");
 
 #ifdef WIN32 //todo
-    FreeConsole();
+    //FreeConsole();
 #endif
 }
 

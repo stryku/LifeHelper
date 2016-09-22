@@ -4,8 +4,8 @@
 #include "utils/log.hpp"
 #include "program2internals/view/View.h"
 #include "program2internals/controller/Controller.h"
-#include "program2internals/model/Model.h"
-#include "program2internals/input/Input.h"
+//#include "program2internals/model/Model.h"
+//#include "program2internals/input/Input.h"
 
 #include <vector>
 #include <memory>
@@ -16,7 +16,7 @@ namespace P2
     class ProgramInternals
     {
     public:
-        ProgramInternals(std::weak_ptr<Controller> controller) :
+        /*ProgramInternals(std::weak_ptr<Controller> controller) :
             controller{ controller }
         {}
 
@@ -40,11 +40,11 @@ namespace P2
             if (auto ptr = input.lock())
                 if(auto controllerPtr = controller.lock())
                     ptr->setInputHandler(controllerPtr);
-        }
+        }*/
 
     private:
-        std::vector<std::weak_ptr<P2::Input::InputPropagator>> inputs;
-        std::weak_ptr<Controller> controller;
+        //std::vector<std::weak_ptr<P2::Input::InputPropagator>> inputs;
+        //std::weak_ptr<Controller> controller;
     };
 }
 #endif // PROGRAMINTERNALS_H

@@ -13,12 +13,12 @@ namespace ProgramInternalsCreators
     {
         LOG("creating local qt internals");
 
-        using Model = P2::Model::Model;
+       /* using Model = P2::Model::Model;
         using Controller = P2::Controller::Controller<Model>;
         using InputPropagator = P2::Input::InputPropagator;
         using View = P2::View::QtView<InputPropagator>;
         using Internals = P2::ProgramInternals<Controller>;
-        using Instance = Creator::LocalQtInstance;
+        using Instance = Creator::LocalQtInstance;*/
 
 
 
@@ -39,7 +39,7 @@ namespace ProgramInternalsCreators
         //internals.addInputPropagator( inputPropagator );
         //internals.addView( view );
 
-        return Instance{ qtViewWidgetParent };
+        return LocalQtInstance{ qtViewWidgetParent };
     }
    /* P2::ProgramInternals createRemoteModelQt(QWidget *qtViewWidgetParent)
     {
@@ -85,9 +85,9 @@ namespace ProgramInternalsCreators
         return internals;
     }
 */
-
+/*
     Creator::RemoteInstance Creator::createRemote()
     {
         return RemoteInstance{nullptr};
-    }
+    }*/
 }

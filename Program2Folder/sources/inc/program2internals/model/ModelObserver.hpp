@@ -12,6 +12,10 @@ namespace P2
         class ModelObserver
         {
         public:
+            ModelObserver() = default;
+            ModelObserver(ModelObserver&&) = default;
+            ModelObserver& operator=(ModelObserver&&) = default;
+
             ModelObserver(const ModelObserver&) = delete;
             ModelObserver& operator=(const ModelObserver&) = delete;
 

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "utils/log.hpp"
+
 namespace P2
 {
     namespace Input
@@ -14,7 +16,10 @@ namespace P2
 
             void decrementSum() 
             {
-                model.decrementSum();
+                if (auto ptr = model.lock())
+                    ptr->decrementSum();
+                else
+                    LOG_FILE("InputHandler::model expired");
             }
 
         private:

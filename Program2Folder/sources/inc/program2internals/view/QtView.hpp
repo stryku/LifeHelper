@@ -1,15 +1,16 @@
 #ifndef P2QTVIEW_H
 #define P2QTVIEW_H
 
-#include <program2internals/input/Input.h>
-#include <program2internals/view/View.h>
-#include <program2internals/view/detail/QtWidgetManager.h>
+//#include <program2internals/input/Input.h>
+//#include <program2internals/view/View.h>
+#include "program2internals/view/detail/QtWidgetManager.hpp"
+#include "utils/log.hpp"
 
 namespace P2
 {
     namespace View
     {
-        class QtView : public View
+        class QtView
         {
         public:
             QtView( QWidget *widgetParent, const QString &uiFilePath ="C:/moje/programowanie/LifeController/bin/programs/Program2/uiforms/Program2Form.ui" ) :

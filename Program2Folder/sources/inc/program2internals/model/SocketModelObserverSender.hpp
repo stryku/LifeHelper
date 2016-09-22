@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ModelObserver.h"
+#include "ModelObserver.hpp"
 
 #include "Communication/OneWayChannel.hpp"
 #include "Communication/messages/XmlMessageBuilder.hpp"
@@ -12,7 +12,7 @@ namespace P2
 {
     namespace Model
     {
-        class SocketModelObserverSender : public ModelObserver
+        class SocketModelObserverSender
         {
         private:
             using Sender = Common::Communication::PublisherChannel;
@@ -22,9 +22,7 @@ namespace P2
                 m_sender(sender)
             {}
 
-            virtual ~SocketModelObserverSender() {}
-
-            virtual void newSumValue(size_t newSum) override
+            void newSumValue(size_t newSum)
             {
                 using Elem = Common::Communication::MessageBuilders::Xml::Element<std::string>;
 

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "program2internals/input/InputObserver.h"
+#include "program2internals/input/InputObserver.hpp"
 
 #include "communication/OneWayChannel.hpp"
 #include "Communication/messages/XmlMessageBuilder.hpp"
@@ -14,7 +14,7 @@ namespace P2
     namespace Input
     {
         template <typename Sender>
-        class SocketInputPropagatorSender : public P2::Input::InputHandler
+        class SocketInputPropagatorSender
         {
         public:
             template <typename Factory>

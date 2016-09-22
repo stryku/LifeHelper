@@ -25,7 +25,7 @@ namespace P2
             }
 
         private:
-            std::weak_ptr<ModelObserver> modelObserver
+            std::weak_ptr<ModelObserver> modelObserver;
         };
     }
 }
