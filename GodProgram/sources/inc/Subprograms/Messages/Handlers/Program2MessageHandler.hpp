@@ -7,8 +7,9 @@
 #include "Communication/ChannelFactory.hpp"
 #include "Communication/OneWayChannel.hpp"
 
-#include "program2internals/controller/Controller.h"
-#include "program2internals/model/SocketModel.hpp"
+//#include "program2internals/controller/Controller.h"
+#include "program2internals/model/SocketModelReceiver.hpp"
+#include "program2internals/ProgramInfo.hpp"
 
 #include <string>
 #include <memory>
@@ -24,10 +25,8 @@ namespace God
                 class Program2 : public MessageHandler<Program2, Parsers::Program2>
                 {
                 public:
-                    using ControllerType = P2::Info::TypesPack::Controller;
-                    using Model = P2::Model::SocketModel<ControllerType, 
-                                                         Common::Communication::PublisherChannel,
-                                                         Common::Communication::ChannelFactory>;
+                    //using ControllerType = P2::Info::TypesPack::Controller;
+                    using Model = P2::Info::TypesPack::ModelReceiver;
 
                     Program2() = default;
                     Program2(std::weak_ptr<SignalsHandler> handler, std::weak_ptr<Model> model) noexcept :

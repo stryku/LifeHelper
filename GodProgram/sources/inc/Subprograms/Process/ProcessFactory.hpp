@@ -36,7 +36,7 @@ namespace God
                     std::string address = "tcp://127.0.0.1:1512";
                     std::string modelId = utils::toString(id);
 
-                    return programPath + " qt " +
+                    return programPath + " remote " +
                            address + " " +
                            modelId;
                 }

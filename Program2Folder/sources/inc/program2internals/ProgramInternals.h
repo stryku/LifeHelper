@@ -2,8 +2,8 @@
 #define PROGRAMINTERNALS_H
 
 #include "utils/log.hpp"
-#include "program2internals/view/View.h"
-#include "program2internals/controller/Controller.h"
+//#include "program2internals/view/View.h"
+//#include "program2internals/controller/Controller.h"
 //#include "program2internals/model/Model.h"
 //#include "program2internals/input/Input.h"
 

@@ -13,8 +13,9 @@ namespace P2
         class SocketModelSender
         {
         public:
-            SocketModelSender()
+            SocketModelSender(const std::string &publishString)
                 : sender{ SenderFactory::create<Sender>() }
+                , publishString{ publishString }
             {}
 
             SocketModelSender(SocketModelSender&&) = default;
@@ -31,7 +32,8 @@ namespace P2
 
                 Common::Communication::MessageBuilders::Xml::Builder builder;
 
-                builder.addElement(Elem{ "msg.type", "decrementSum" });
+                builder.addElement(Elem{ "msg.type", "decrementSum" })
+                       .addPublishString(publishString);
 
                 sender.send(builder.build());
             }
@@ -54,6 +56,7 @@ namespace P2
 
         private:
             Sender sender;
+            std::string publishString;
         };
     }
 }
