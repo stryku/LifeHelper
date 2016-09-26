@@ -22,7 +22,8 @@ set (Common_inc ${inc_dir}/utils/log.hpp
 				${inc_dir}/Communication/messages/SignalsFactory.hpp)
 				
 				
-set (Common_src ${src_dir}/Communication/ChannelFactory.cpp)
+set (Common_src ${src_dir}/Communication/ChannelFactory.cpp
+			    ${src_dir}/utils/ToString.cpp)
 
 add_library (CommonObjects OBJECT 
     ${Common_src}

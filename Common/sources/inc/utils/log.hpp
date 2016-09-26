@@ -15,6 +15,7 @@ namespace details
     };
 }
 
-#define LOG(x) std::cout<<x
+#define LOG(x) std::cout<<x<<"\n"
 
-#define LOG_FILE(x) details::S::getFile() << x<<"\n"
+#define LOG_FILE(x) LOG(x)
+//#define LOG_FILE(x) details::S::getFile() << x<<"\n"

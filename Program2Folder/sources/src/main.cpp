@@ -15,7 +15,7 @@ int runQt( int argc, char *argv[] )
     LOG_FILE("Running qt");
 
 #ifdef WIN32 //todo
-    FreeConsole();
+    //FreeConsole();
 #endif
 
     QApplication a( argc, argv );
@@ -23,7 +23,7 @@ int runQt( int argc, char *argv[] )
 
     auto internalWidgetParent = w.getWidgetContainer();
 
-    auto internals = ProgramInternalsCreators::createLocalQt( internalWidgetParent );
+    auto internals = ProgramInternalsCreators::Creator::createLocalQt( internalWidgetParent );
 
     w.show();
 
@@ -35,7 +35,7 @@ void runRemote(int argc, char *argv[])
     LOG_FILE("Running remote");
 
 #ifdef WIN32 //todo
-    FreeConsole();
+    //FreeConsole();
 #endif
 }
 

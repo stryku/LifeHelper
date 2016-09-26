@@ -38,19 +38,20 @@ set (Program2Objects_src ${internals_dir}/view/ConsoleView.cpp
 set (Program2Objects_inc ${internals_inc_dir}/ProgramInternals.h
                          ${internals_inc_dir}/ProgramInfo.hpp
                          ${internals_inc_dir}/controller/Controller.h
-                         ${internals_inc_dir}/input/Input.h
-                         ${internals_inc_dir}/input/InputHandler.h
-                         ${internals_inc_dir}/input/SocketInputObserverReceiver.h
-                         ${internals_inc_dir}/input/SocketInputObserverSender.hpp
-                         ${internals_inc_dir}/input/InputObserver.h
-                         ${internals_inc_dir}/model/Model.h
+                         ${internals_inc_dir}/input/InputPropagator.hpp
+                         ${internals_inc_dir}/input/InputHandler.hpp
+                         ${internals_inc_dir}/input/SocketInputPropagatorReceiver.hpp
+                         ${internals_inc_dir}/input/SocketInputPropagatorSender.hpp
+                         ${internals_inc_dir}/input/InputObserver.hpp
+                         ${internals_inc_dir}/model/Model.hpp
                          ${internals_inc_dir}/model/SocketModelObserverReceiver.hpp
                          ${internals_inc_dir}/model/SocketModelObserverSender.hpp
-                         ${internals_inc_dir}/model/ModelObserver.h
+                         ${internals_inc_dir}/model/ModelObserver.hpp
                          ${internals_inc_dir}/view/ConsoleView.h
-                         ${internals_inc_dir}/view/QtView.h
-                         ${internals_inc_dir}/view/View.h
-                         ${internals_inc_dir}/view/detail/QtWidgetManager.h)
+                         ${internals_inc_dir}/view/QtView.hpp
+                         ${internals_inc_dir}/view/View.hpp
+                         ${internals_inc_dir}/view/SocketView.hpp
+                         ${internals_inc_dir}/view/detail/QtWidgetManager.hpp)
                      
 set (Program2_src   ${src_dir}/main.cpp
                     ${src_dir}/mainwindow.cpp

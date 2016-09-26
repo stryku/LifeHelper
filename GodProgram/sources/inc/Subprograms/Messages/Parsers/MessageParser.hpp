@@ -35,7 +35,7 @@ namespace God
                             return msg;
                         }
                         else
-                            return static_cast<ConcreteParser*>(this)->parse_internal(msg);
+                            return static_cast<ConcreteParser*>(this)->parse_internal(tree, msg);
                     }
 
                 private:

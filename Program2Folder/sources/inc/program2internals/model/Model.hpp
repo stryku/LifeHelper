@@ -2,42 +2,45 @@
 #define P2MODEL_H
 
 #include "utils/log.hpp"
-#include "program2internals/input/InputObserver.h"
-#include "program2internals/model/ModelObserver.h"
+#include "program2internals/model/ModelObserver.hpp"
 
-#include <stdint.h>
 #include <vector>
+#include <memory>
 
 namespace P2
 {
     namespace Model
     {
-        class Model : public P2::Input::InputObserver
+        template <typename ModelObserver>
+        class Model
         {
         public:
             void decrementSum()
             {
                 LOG_FILE("Model::decrementSum");
                 --sum;
+
                 notifySumChange();
             }
 
             void notifySumChange()
             {
                 LOG_FILE("Model::notifySumChange");
-                for( auto &modelObserver : modelObservers )
-                    modelObserver->newSumValue( sum );
+
+                for(auto &modelObserver : modelObservers)
+                    if(auto ptr = modelObserver.lock())
+                        ptr->newSumValue( sum );
             }
 
-            void registerObserver( ModelObserver *observer )
+            void registerObserver(std::weak_ptr<ModelObserver> observer )
             {
-                LOG_FILE("Model::registerObserver( " << std::hex << observer << ")");
+                LOG_FILE("Model::registerObserver");
                 modelObservers.push_back( observer );
             }
 
         private:
             size_t sum = 0;
-            std::vector<ModelObserver*> modelObservers;
+            std::vector<std::weak_ptr<ModelObserver>> modelObservers;
         };
     }
 }

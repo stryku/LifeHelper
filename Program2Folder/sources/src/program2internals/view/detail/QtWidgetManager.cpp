@@ -1,4 +1,4 @@
-#include "program2internals/view/detail/QtWidgetManager.h"
+#include "program2internals/view/detail/QtWidgetManager.hpp"
 #include "utils/log.hpp"
 
 using namespace P2::View::detail;
@@ -26,13 +26,7 @@ namespace P2
                 ui_labelSum->setText(str);
             }
 
-            void QtWidgetManager::connectWithInput(P2::Input::InputPropagator *input)
-            {
-                LOG_FILE("QtWidgetManager::connectWithInput");
-                formWidget->connect(ui_pushButtonMinus,
-                                    &QPushButton::clicked,
-                                    input->createDecrementSumCallback());
-            }
+            
 
 
             QWidget* QtWidgetManager::getWidget()

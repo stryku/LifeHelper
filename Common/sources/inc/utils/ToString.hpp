@@ -27,9 +27,5 @@ namespace utils
         return value.toString();
     }
 
-    std::string toString(bool value)
-    {
-        return value ? "true" : "false";
-    }
-
+    std::string toString(bool value);
 }

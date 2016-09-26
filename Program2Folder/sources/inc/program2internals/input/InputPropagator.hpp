@@ -1,7 +1,6 @@
 #pragma once
 
 #include "utils/log.hpp"
-#include "InputHandler.h"
 
 #include <memory>
 
@@ -9,9 +8,21 @@ namespace P2
 {
     namespace Input
     {
+        template <typename InputHandler>
         class InputPropagator
         {
         public:
+            InputPropagator() = default;
+            InputPropagator(std::weak_ptr<InputHandler> handler)
+                : inputHandler{ handler }
+            {}
+
+            InputPropagator(InputPropagator&&) = delete;
+            InputPropagator& operator=(InputPropagator&&) = delete;
+
+            InputPropagator(const InputPropagator&) = delete;
+            InputPropagator& operator=(const InputPropagator&) = delete;
+
             void notifyDecrementSum()
             {
                 LOG_FILE("InputPropagator::notifyDecrementSum");

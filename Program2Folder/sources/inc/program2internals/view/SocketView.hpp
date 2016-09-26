@@ -1,28 +1,28 @@
 #pragma once
 
-#include "ModelObserver.hpp"
-
 #include "Communication/OneWayChannel.hpp"
 #include "Communication/messages/XmlMessageBuilder.hpp"
 #include "utils/ToString.hpp"
 
-#include <stdint.h>
-
 namespace P2
 {
-    namespace Model
+    namespace View
     {
-        class SocketModelObserverSender
+        template <typename Sender>
+        class SocketView
         {
-        private:
-            using Sender = Common::Communication::PublisherChannel;
-
         public:
-            SocketModelObserverSender(Sender &sender) :
-                m_sender(sender)
+            SocketView(Sender &&sender) :
+                sender{ std::move(sender) }
             {}
 
-            void newSumValue(size_t newSum)
+            SocketView(SocketView&&) = default;
+            SocketView& operator=(SocketView&&) = default;
+
+            SocketView(const SocketView&) = delete;
+            SocketView& operator=(const SocketView&) = delete;
+
+            void updateSum(size_t newSum)
             {
                 using Elem = Common::Communication::MessageBuilders::Xml::Element<std::string>;
 
@@ -36,11 +36,11 @@ namespace P2
 
                 builder.addElements(elements);
 
-                m_sender.send(builder.build());
+                sender.send(builder.build());
             }
 
         private:
-            Sender &m_sender;
+            Sender sender;
         };
     }
 }

@@ -1,10 +1,10 @@
 #ifndef P2CONTROLLER_H
 #define P2CONTROLLER_H
-
-#include <program2internals/input/InputHandler.h>
-#include <program2internals/model/ModelObserver.h>
-#include <program2internals/input/InputObserver.h>
-#include <program2internals/view/View.h>
+//
+//#include <program2internals/input/InputHandler.h>
+//#include <program2internals/model/ModelObserver.h>
+#include <program2internals/input/InputObserver.hpp>
+//#include <program2internals/view/View.h>
 
 #include <vector>
 #include <memory>
@@ -13,8 +13,8 @@ namespace P2
 {
     namespace Controller
     {
-        template <typename InputObserver>
-        class Controller : public P2::Input::InputHandler, public P2::Model::ModelObserver
+        template <typename InputObserver, typename View>
+        class Controller
         {
         public:
             void decrementSum()
@@ -32,7 +32,7 @@ namespace P2
                 inputObserver = observer;
             }
 
-            void registerView(std::weak_ptr<P2::View::View> view)
+            void registerView(std::weak_ptr<View> view)
             {
                 LOG_FILE("Controller::registerView");
 
@@ -50,7 +50,7 @@ namespace P2
 
         private:
             std::weak_ptr<InputObserver> inputObserver;
-            std::vector<std::weak_ptr<P2::View::View>> views;
+            std::vector<std::weak_ptr<View>> views;
         };
     }
 }

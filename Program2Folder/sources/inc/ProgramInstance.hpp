@@ -4,30 +4,33 @@
 
 namespace P2
 {
-    template <typename Controller,
-              typename View,
+    template <typename View,
               typename InputPropagator,
-              typename InputObserver,
-              typename Internals,
+              typename InputHandler,
+              typename Model,
+              typename ModelObserver,
+              //typename Internals,
               typename ParentPlaceholder>
     class Instance
     {
     public:
         Instance(ParentPlaceholder *parent) :
-            controller{ std::make_shared<Controller>() },
-            internals{ controller },
+            //internals{ controller },
             view{ std::make_shared<View>(parent, "C:/moje/programowanie/LifeController/bin/programs/Program2/uiforms/Program2Form.ui") },
             inputPropagator{ std::make_shared<InputPropagator>() },
-            inputObserver{ std::make_shared<InputObserver>() }
+            modelObserver { std::make_shared<ModelObserver>() },
+            model{ std::make_shared<Model>() },
+            inputHandler { std::make_shared<InputHandler>(model) }
         {
-            view->connectWithInput(inputPropagator.get());
-            inputObserver->registerObserver(controller.get());
-            controller->registerView(view);
-            controller->setInputObserver(inputObserver);
+            view->connectWithInput(*inputPropagator);
+            model->registerObserver(modelObserver);
+            modelObserver->registerView(view);
+            inputPropagator->setInputHandler(inputHandler);
+            //inputHandler->setInputObserver(model);
 
             //internals.setController(controller);
-            internals.addInputPropagator(inputPropagator);
-            internals.addView(view);
+            //internals.addInputPropagator(inputPropagator);
+            //internals.addView(view);
         }
 
         Instance(const Instance&) = delete;
@@ -37,10 +40,12 @@ namespace P2
         Instance& operator=(Instance &&other) = default;
 
     private:
-        std::shared_ptr<Controller> controller;
-        ProgramInternals<Controller> internals;
+
+        //ProgramInternals<Controller> internals;
+        std::shared_ptr<ModelObserver> modelObserver;
+        std::shared_ptr<Model> model;
         std::shared_ptr<View> view;
         std::shared_ptr<InputPropagator> inputPropagator;
-        std::shared_ptr<InputObserver> inputObserver;
+        std::shared_ptr<InputHandler> inputHandler;
     };
 }
