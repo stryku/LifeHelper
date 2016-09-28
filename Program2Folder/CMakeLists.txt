@@ -56,8 +56,10 @@ set (Program2Objects_inc ${internals_inc_dir}/ProgramInternals.h
 set (Program2_src   ${src_dir}/main.cpp
                     ${src_dir}/mainwindow.cpp
                     ${src_dir}/ProgramInternalsCreators.cpp)
-                    
+
 set (Program2_inc   ${inc_dir}/mainwindow.h
+                    ${inc_dir}/ProgramInstance.hpp
+                    ${inc_dir}/ProgramRemoteInstance.hpp
                     ${inc_dir}/ProgramInternalsCreators.h)
                      
 set (Program2Objects_hdr ${inc_dir}/mainwindow.h)
