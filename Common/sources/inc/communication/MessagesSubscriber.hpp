@@ -6,9 +6,9 @@
 #include <functional>
 #include <memory>
 
-namespace God
+namespace Common
 {
-    namespace Subprograms
+    namespace Communication
     {
         template <typename MessageHandler, typename SocketFactory>
         class Subscriber
