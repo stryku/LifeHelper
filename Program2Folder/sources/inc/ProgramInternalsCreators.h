@@ -21,10 +21,34 @@
 #include "communication/OneWayChannel.hpp"
 #include "Communication/ChannelFactory.hpp"
 
+#include "program2internals/view/SocketView.hpp"
+
 #include <QTabWidget>
 
 namespace ProgramInternalsCreators
 {
+    namespace LocalQt
+    {
+        using View = P2::View::QtView;
+        using ModelObserver = P2::Model::ModelObserver<View>;
+        using Model = P2::Model::Model<ModelObserver>;
+        using InputHandler = P2::Input::InputHandler<Model>;
+        using InputPropagator = P2::Input::InputPropagator<InputHandler>;
+        using Instance = P2::Instance<View, InputPropagator, InputHandler, Model, ModelObserver>;
+    }
+
+    namespace Remote
+    {
+        using SocketViewSender = Common::Communication::PublisherChannel;
+        using View = P2::View::SocketView<SocketViewSender>;
+        using ModelObserver = P2::Model::ModelObserver<View>;
+        using Model = P2::Model::Model<ModelObserver>;
+        using InputHandler = P2::Input::InputHandler<Model>;
+        using InputPropagator = P2::Input::InputPropagator<InputHandler>;
+        using Instance = P2::Instance<View, InputPropagator, InputHandler, Model, ModelObserver>;
+    }
+
+
     class Creator
     {
         /*using LocalQtInstance = P2::Instance<
@@ -44,13 +68,20 @@ namespace ProgramInternalsCreators
             void
         >;*/
 
-        using View = P2::View::QtView;
+        /*using View = P2::View::QtView;
         using ModelObserver = P2::Model::ModelObserver<View>;
         using Model = P2::Model::Model<ModelObserver>;
         using InputHandler = P2::Input::InputHandler<Model>;
         using InputPropagator = P2::Input::InputPropagator<InputHandler>;
+        using LocalQtInstance = P2::Instance<View, InputPropagator, InputHandler, Model, ModelObserver, QWidget>;*/
 
-        using LocalQtInstance = P2::Instance<View, InputPropagator, InputHandler, Model, ModelObserver, QWidget>;
+        
+        /*using RemoteView = P2::View::SocketView<Common::Communication::PublisherChannel>;
+        using RemoteModelObserver = P2::Model::ModelObserver<View>;
+        using RemoteModel = P2::Model::Model<ModelObserver>;
+        using RemoteInputHandler = P2::Input::InputHandler<Model>;
+        using RemoteInputPropagator = P2::Input::InputPropagator<InputHandler>;
+        using RemoteViewInstance = P2::Instance<RemoteView, RemoteInputPropagator, RemoteInputHandler, RemoteModel, RemoteModelObserver, QWidget>;*/
 
         //using ModelSender = P2::Model::Model
         ////////using InputHandler = P2::Input::InputHandler<ModelSender>;
@@ -60,7 +91,8 @@ namespace ProgramInternalsCreators
         //using ModelReceiver = P2::Model::SocketModelReceiver<ModelObserver>;
 
     public:
-        static LocalQtInstance createLocalQt(QWidget *qtViewWidgetParent);
+        static LocalQt::Instance createLocalQt(QWidget *qtViewWidgetParent);
+        static Remote::Instance createRemote();
         //static RemoteInstance createRemote();
     };
     /*using RemoteInstance = P2::Instance<

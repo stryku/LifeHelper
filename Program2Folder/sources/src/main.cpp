@@ -37,6 +37,8 @@ void runRemote(int argc, char *argv[])
 #ifdef WIN32 //todo
     //FreeConsole();
 #endif
+
+
 }
 
 int main(int argc, char *argv[])
