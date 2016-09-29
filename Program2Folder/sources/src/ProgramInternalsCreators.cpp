@@ -82,19 +82,25 @@ namespace ProgramInternalsCreators
         return instance;
     }
 
-    Remote::Instance Creator::createRemote()
+    Remote::Instance Creator::createRemote(const std::string &address, const std::string &subscribeStr)
     {
         using ChannelFactory = Common::Communication::ChannelFactory;
 
         LOG("creating remote instance");
 
-        Remote::Instance instance;
+        Remote::BaseInstance baseInstance;
 
-        instance.view = std::make_shared<Remote::View>(ChannelFactory::create<Remote::SocketViewSender>());
-        instance.inputPropagator = std::make_shared<Remote::InputPropagator>();
-        instance.modelObserver = std::make_shared<Remote::ModelObserver>();
-        instance.model = std::make_shared<Remote::Model>();
-        instance.inputHandler = std::make_shared<Remote::InputHandler>(instance.model);
+        baseInstance.view = std::make_shared<Remote::View>(ChannelFactory::create<Remote::SocketViewSender>());
+        baseInstance.inputPropagator = std::make_shared<Remote::InputPropagator>();
+        baseInstance.modelObserver = std::make_shared<Remote::ModelObserver>();
+        baseInstance.model = std::make_shared<Remote::Model>();
+        baseInstance.inputHandler = std::make_shared<Remote::InputHandler>(baseInstance.model);
+
+        baseInstance.model->registerObserver(baseInstance.modelObserver);
+        baseInstance.modelObserver->registerView(baseInstance.view);
+        baseInstance.inputPropagator->setInputHandler(baseInstance.inputHandler);
+
+        Remote::Instance instance{ std::move(baseInstance), subscribeStr };
 
         return instance;
     }

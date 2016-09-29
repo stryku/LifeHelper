@@ -13,6 +13,7 @@ set (Common_inc ${inc_dir}/utils/log.hpp
 				${inc_dir}/Communication/OneWayChannel.hpp
 				${inc_dir}/Communication/ChannelFactory.hpp
 				${inc_dir}/Communication/ReceivedMessagesProxy.hpp
+				${inc_dir}/Communication/MessagesSubscriber.hpp
 				${inc_dir}/Communication/Proxy.hpp
 				${inc_dir}/Communication/ZmqFrontendBackendBinder.hpp
 				${inc_dir}/Communication/AddressProviders.hpp

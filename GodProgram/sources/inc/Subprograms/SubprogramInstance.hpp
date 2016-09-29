@@ -3,7 +3,7 @@
 #include "communication/OneWayChannel.hpp"
 
 #include "Subprograms/SubprogramSignalHandler.hpp"
-#include "Subprograms/SubprogramMessagesSubscriber.hpp"
+#include "Communication/MessagesSubscriber.hpp"
 #include "Subprograms/Messages/Handlers/Program2MessageHandler.hpp"
 #include "Subprograms/SubprogramSignalHandler.hpp"
 
@@ -53,6 +53,8 @@ namespace God
                 //controller->setInputObserver(socketInputObserverSender);
 
                 modelObserver->registerView(view);
+
+                establishConnection(pushAddress, subscribeAddress);
             }
 
             Instance(const Instance&) = delete;
@@ -65,7 +67,7 @@ namespace God
             void establishConnection(const std::string &pushAddress,
                                      const std::string &subscribeAddress)
             {
-                socketInputObserverSender->connect(pushAddress);
+                modelSender->connect(pushAddress);
                 messageSubscriber.connect(subscribeAddress);
             }
 
@@ -81,7 +83,7 @@ namespace God
 
             std::shared_ptr<SignalsHandler> signalsHandler;
             std::shared_ptr<MessageHandler> messageHandler;
-            Subscriber<MessageHandler, SocketFactory> messageSubscriber;
+            Common::Communication::Subscriber<MessageHandler, SocketFactory> messageSubscriber;
         };
     }
 }

@@ -1,6 +1,7 @@
 #pragma once
 
-#include <communication/OneWayChannel.hpp>
+#include "utils/log.hpp"
+#include "communication/OneWayChannel.hpp"
 
 #include <thread>
 #include <functional>
@@ -32,16 +33,20 @@ namespace Common
 
             auto connect(const std::string &addr)
             {
+                LOG_FILE("Subscriber::connect( " << addr << " )");
                 return subscriberChannel.connect(addr);
             }
 
             void interrupt()
             {
+                LOG_FILE("Subscriber::interrupt");
                 interrupted = true;
             }
 
             void startRecv()
             {
+                LOG_FILE("Subscriber::startRecv");
+
                 auto loop = [this]
                 {
                     zmq::message_t msg;
@@ -50,16 +55,28 @@ namespace Common
                     {
                         try
                         {
-                            auto ret = subscriberChannel.recvTimeout(msg, 500);
+                            LOG_FILE("Subscriber receiving...");
+                            auto ret = subscriberChannel.recvTimeout(msg);
 
-                            if (ret == EINTR)//todo add logs
+                            LOG_FILE("Subscriber received");
+
+                            if (ret == EINTR)
+                            {
+                                LOG_FILE("Subscriber interrupted");
                                 break;
+                            }
 
                             if (auto ptr = msgHandler.lock())
+                            {
+                                LOG_FILE("Subscriber passing message to handle");
                                 ptr->handle(msg.str());
+                            }
+                            else
+                                LOG_FILE("Subscriber msgHandler expired");
                         }
                         catch (const zmq::error_t& ex)
                         {
+                            LOG_FILE("Subscriber catched zmq::error_t: " << ex.what());
                             // recv() throws ETERM when the zmq context is destroyed,
                             //  as when AsyncZmqListener::Stop() is called
                             if (ex.num() != ETERM)
@@ -73,9 +90,13 @@ namespace Common
 
             void stop()
             {
+                LOG_FILE("Subscriber::stop");
+
                 interrupt();
                 if (recvThread.joinable())
                     recvThread.join();
+
+                LOG_FILE("Subscriber::stopped");
             }
 
         private:

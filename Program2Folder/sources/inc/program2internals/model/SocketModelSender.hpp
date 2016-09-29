@@ -24,6 +24,12 @@ namespace P2
             SocketModelSender(const SocketModelSender&) = delete;
             SocketModelSender& operator=(const SocketModelSender&) = delete;
 
+            void connect(const std::string &address)
+            {
+                //sender.connect("inproc://simandero:1111");
+                sender.connect(address);
+            }
+
             void decrementSum()
             {
                 LOG_FILE("Model::decrementSum");

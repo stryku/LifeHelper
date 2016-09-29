@@ -9,6 +9,8 @@
 #endif
 
 #include <iostream>
+#include <thread>
+#include <chrono>
 
 int runQt( int argc, char *argv[] )
 {
@@ -30,6 +32,20 @@ int runQt( int argc, char *argv[] )
     return a.exec();
 }
 
+struct RemoteArgs
+{
+    std::string address;
+    std::string modelId;
+};
+
+RemoteArgs parseRemoteArgs(int argc, char *argv[])
+{
+    return {
+        argv[2],
+        argv[3]
+    };
+}
+
 void runRemote(int argc, char *argv[])
 {
     LOG_FILE("Running remote");
@@ -37,6 +53,13 @@ void runRemote(int argc, char *argv[])
 #ifdef WIN32 //todo
     //FreeConsole();
 #endif
+    auto args = parseRemoteArgs(argc, argv);
+
+    auto instance = ProgramInternalsCreators::Creator::createRemote(args.address, args.modelId);
+    instance.startListening(args.address);
+
+    while (1)
+        std::this_thread::sleep_for(std::chrono::seconds(123));
 
 
 }

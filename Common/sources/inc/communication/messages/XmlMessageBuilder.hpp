@@ -61,7 +61,7 @@ namespace Common
                         std::ostringstream oss;
                         boost::property_tree::write_xml(oss, tree);
 
-                        return publishString + oss.str();
+                        return publishString + " " + oss.str();
                     }
 
                 private:

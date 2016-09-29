@@ -47,8 +47,8 @@ namespace God
                 using InstanceType = Instance<TypesPack, MessageHandler, Factory>;
 
                 InstanceType instance{ tab,
-                                       proxyGodToSubprogram.publisherAddress(),
-                                       proxySubprogramToGod.subscriberAddress(),
+                                       proxyGodToSubprogram.subscriberAddress(),
+                                       proxySubprogramToGod.publisherAddress(),
                                        getSubscribeString(modelId),
                                        createSignalHandler(modelId) };
 

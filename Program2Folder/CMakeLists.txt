@@ -38,6 +38,8 @@ set (Program2Objects_src ${internals_dir}/view/ConsoleView.cpp
 set (Program2Objects_inc ${internals_inc_dir}/ProgramInternals.h
                          ${internals_inc_dir}/ProgramInfo.hpp
                          ${internals_inc_dir}/controller/Controller.h
+                         ${internals_inc_dir}/communication/MessageHandler.hpp
+                         ${internals_inc_dir}/communication/MessageType.hpp
                          ${internals_inc_dir}/input/InputPropagator.hpp
                          ${internals_inc_dir}/input/InputHandler.hpp
                          ${internals_inc_dir}/input/SocketInputPropagatorReceiver.hpp

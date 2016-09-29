@@ -127,7 +127,7 @@ namespace Common
             SubscriberChannel(zmq::context_t &context, const std::string &subscribeStr) :
                 ReceiverChannel<ChannelType::Subscriber>(context)
             {
-                m_socket.setsockopt(ZMQ_SUBSCRIBE, subscribeStr.c_str(), 0);
+                m_socket.setsockopt(ZMQ_SUBSCRIBE, subscribeStr.c_str(), subscribeStr.length());
             }
 
             SubscriberChannel(SubscriberChannel&&) noexcept = default;
@@ -165,6 +165,28 @@ namespace Common
 
             xPublisherChannel(xPublisherChannel&&) noexcept = default;
             xPublisherChannel& operator=(xPublisherChannel&&) noexcept = default;
+        };
+
+        class PullerChannel : public ReceiverChannel<ChannelType::Puller>
+        {
+        public:
+            PullerChannel(zmq::context_t &context) :
+                ReceiverChannel<ChannelType::Puller>(context)
+            {}
+
+            PullerChannel(PullerChannel&&) noexcept = default;
+            PullerChannel& operator=(PullerChannel&&) noexcept = default;
+        };
+
+        class PusherChannel : public SenderChannel<ChannelType::Pusher>
+        {
+        public:
+            PusherChannel(zmq::context_t &context) :
+                SenderChannel<ChannelType::Pusher>(context)
+            {}
+
+            PusherChannel(PusherChannel&&) noexcept = default;
+            PusherChannel& operator=(PusherChannel&&) noexcept = default;
         };
     }
 }

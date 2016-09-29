@@ -1,5 +1,7 @@
 #pragma once
 
+#include "utils/log.hpp"
+
 #include <utility>
 
 namespace God
@@ -9,14 +11,17 @@ namespace God
         template <typename Sub,
                   typename Pub,
                   typename AddressProvider,
-                  typename FrontendBackendBinder>
+                  typename FrontendBackendBinder,
+                  typename Capturer = void>
         class Proxy
         {
         public:
             Proxy(Sub &&subscriber,
-                  Pub &&publisher) :
-                subscriber{ std::move(subscriber) },
-                publisher{ std::move(publisher) }
+                  Pub &&publisher,
+                  Capturer *capturer = nullptr)
+                : subscriber{ std::move(subscriber) }
+                , publisher{ std::move(publisher) }
+                , capturer{capturer}
             {}
 
             Proxy(Proxy&&) = default;
@@ -28,9 +33,17 @@ namespace God
 
             void startBindings()
             {
+                LOG_FILE("Proxy::startBindings subscriber: " << AddressProvider::subscriberAddress);
                 subscriber.bind(AddressProvider::subscriberAddress);
+
+                LOG_FILE("Proxy::startBindings publisher: " << AddressProvider::publisherAddress);
                 publisher.bind(AddressProvider::publisherAddress);
-                FrontendBackendBinder::bind(subscriber, publisher);
+                auto bindFunction = [this] 
+                {
+                    FrontendBackendBinder::bind(subscriber, publisher, capturer); 
+                };
+
+                thread = std::thread{ bindFunction };
             }
 
             constexpr auto subscriberAddress()
@@ -46,6 +59,8 @@ namespace God
         private:
             Sub subscriber;
             Pub publisher;
+            std::thread thread;
+            Capturer *capturer;
         };
     }
 }

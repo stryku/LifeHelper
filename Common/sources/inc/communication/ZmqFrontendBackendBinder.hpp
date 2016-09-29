@@ -14,11 +14,11 @@ namespace God
             {
             public:
                 template <typename Frontend, typename Backend>
-                static void bind(Frontend &frontend, Backend &backend)
+                static void bind(Frontend &frontend, Backend &backend, void *capturer = nullptr)
                 {
                     try
                     {
-                        zmq_proxy(&frontend.getSocket(), &backend.getSocket(), nullptr);
+                        zmq::proxy(static_cast<void*>(frontend.getSocket()), static_cast<void*>(backend.getSocket()), capturer);
                     }
                     catch (zmq::error_t &e)
                     {
