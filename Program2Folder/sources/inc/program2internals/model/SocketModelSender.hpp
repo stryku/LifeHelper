@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Communication/messages/XmlMessageBuilder.hpp"
+#include "program2internals/communication/MessageType.hpp"
 
 #include <memory>
 #include <vector>
@@ -38,7 +39,9 @@ namespace P2
 
                 Common::Communication::MessageBuilders::Xml::Builder builder;
 
-                builder.addElement(Elem{ "msg.type", "decrementSum" })
+                auto type = Communication::MessageType::FromGod::toString(Communication::MessageType::FromGod::Type::DECREMT_SUM);
+
+                builder.addElement(Elem{ "msg.type", type })
                        .addPublishString(publishString);
 
                 sender.send(builder.build());

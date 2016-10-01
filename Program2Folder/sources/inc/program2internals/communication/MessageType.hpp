@@ -9,27 +9,28 @@ namespace P2
     {
         namespace MessageType
         {
-            enum class Type
+            namespace ToGod
             {
-                UPDATE_SUM
-            };
-
-            std::string toString(Type type)
-            {
-                switch (type)
+                enum class Type
                 {
-                case Type::UPDATE_SUM: return "UPDATE_SUM";
+                    UPDATE_SUM
+                };
 
-                default:
-                    throw std::invalid_argument("MessageType::toString(<invalid argument>)");
-                }
+                std::string toString(Type type);
+
+                Type fromString(const std::string &str);
             }
 
-            Type fromString(const std::string &str)
+            namespace FromGod
             {
-                if (str == "UPDATE_SUM") return Type::UPDATE_SUM;
+                enum class Type
+                {
+                    DECREMT_SUM
+                };
 
-                throw std::invalid_argument("MessageType::toString( " + str + " )");
+                std::string toString(Type type);
+
+                Type fromString(const std::string &str);
             }
         }
     }

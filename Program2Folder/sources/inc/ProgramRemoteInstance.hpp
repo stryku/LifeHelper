@@ -11,9 +11,10 @@ namespace P2
     {
     public:
         ProgramRemoteInstance(BaseInstance &&baseInstance,
-                              const std::string &subscribeString)
+                              const std::string &subscribeString,
+                              std::shared_ptr<MessageHandler> messageHandler)
             : baseInstance{ std::move(baseInstance) }
-            , messageHandler{ std::make_shared<MessageHandler>() }
+            , messageHandler{ messageHandler }
             , messageSubscriber{subscribeString, messageHandler }
         {}
 

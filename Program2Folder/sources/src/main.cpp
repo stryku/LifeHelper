@@ -34,7 +34,8 @@ int runQt( int argc, char *argv[] )
 
 struct RemoteArgs
 {
-    std::string address;
+    std::string subscribeAddress;
+    std::string publishAddress;
     std::string modelId;
 };
 
@@ -42,7 +43,8 @@ RemoteArgs parseRemoteArgs(int argc, char *argv[])
 {
     return {
         argv[2],
-        argv[3]
+        argv[3],
+        argv[4]
     };
 }
 
@@ -55,8 +57,10 @@ void runRemote(int argc, char *argv[])
 #endif
     auto args = parseRemoteArgs(argc, argv);
 
-    auto instance = ProgramInternalsCreators::Creator::createRemote(args.address, args.modelId);
-    instance.startListening(args.address);
+    auto instance = ProgramInternalsCreators::Creator::createRemote(args.subscribeAddress, 
+                                                                    args.publishAddress, 
+                                                                    args.modelId);
+    instance.startListening(args.subscribeAddress);
 
     while (1)
         std::this_thread::sleep_for(std::chrono::seconds(123));

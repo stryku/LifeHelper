@@ -33,13 +33,15 @@ set (Program2Objects_src ${internals_dir}/view/ConsoleView.cpp
                          ${internals_dir}/view/detail/QtWidgetManager.cpp
                          ${internals_dir}/input/Input.cpp
                          ${internals_dir}/model/Model.cpp
-                         ${internals_dir}/controller/Controller.cpp)
+                         ${internals_dir}/controller/Controller.cpp
+                         ${internals_dir}/communication/MessageType.cpp)
                      
 set (Program2Objects_inc ${internals_inc_dir}/ProgramInternals.h
                          ${internals_inc_dir}/ProgramInfo.hpp
                          ${internals_inc_dir}/controller/Controller.h
                          ${internals_inc_dir}/communication/MessageHandler.hpp
                          ${internals_inc_dir}/communication/MessageType.hpp
+                         ${internals_inc_dir}/communication/MessageParser.hpp
                          ${internals_inc_dir}/input/InputPropagator.hpp
                          ${internals_inc_dir}/input/InputHandler.hpp
                          ${internals_inc_dir}/input/SocketInputPropagatorReceiver.hpp

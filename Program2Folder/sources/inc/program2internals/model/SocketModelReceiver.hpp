@@ -18,6 +18,8 @@ namespace P2
 
             void newSumValue(size_t sum)
             {
+                LOG_FILE("SocketModelReceiver::newSumValue( "<<sum<<" )");
+
                 if (auto ptr = modelObserver.lock())
                     ptr->newSumValue(sum);
                 else

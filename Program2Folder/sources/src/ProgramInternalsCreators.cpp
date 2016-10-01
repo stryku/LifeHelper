@@ -82,7 +82,9 @@ namespace ProgramInternalsCreators
         return instance;
     }
 
-    Remote::Instance Creator::createRemote(const std::string &address, const std::string &subscribeStr)
+    Remote::Instance Creator::createRemote(const std::string &subscribeAddress, 
+                                           const std::string &publishAddress, 
+                                           const std::string &modelId)
     {
         using ChannelFactory = Common::Communication::ChannelFactory;
 
@@ -99,8 +101,12 @@ namespace ProgramInternalsCreators
         baseInstance.model->registerObserver(baseInstance.modelObserver);
         baseInstance.modelObserver->registerView(baseInstance.view);
         baseInstance.inputPropagator->setInputHandler(baseInstance.inputHandler);
+        baseInstance.view->connect(publishAddress);
 
-        Remote::Instance instance{ std::move(baseInstance), subscribeStr };
+        auto messageHandler = std::make_shared<Remote::MessageHandler>();
+        messageHandler->connectWithInput(*baseInstance.inputPropagator);
+
+        Remote::Instance instance{ std::move(baseInstance), modelId, std::move(messageHandler) };
 
         return instance;
     }

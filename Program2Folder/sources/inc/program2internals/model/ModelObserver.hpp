@@ -28,7 +28,7 @@ namespace P2
 
             void newSumValue(size_t newSum)
             {
-                LOG_FILE("ModelObserver::newSumValue");
+                LOG_FILE("ModelObserver::newSumValue( "<< newSum << " )");
 
                 for (auto &weakView : views)
                     if (auto view = weakView.lock())

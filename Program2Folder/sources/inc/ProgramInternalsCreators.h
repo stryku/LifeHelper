@@ -24,6 +24,7 @@
 #include "program2internals/view/SocketView.hpp"
 #include "ProgramRemoteInstance.hpp"
 #include "program2internals/communication/MessageHandler.hpp"
+#include "program2internals/communication/MessageParser.hpp"
 
 #include <QTabWidget>
 
@@ -48,7 +49,7 @@ namespace ProgramInternalsCreators
         using InputHandler = P2::Input::InputHandler<Model>;
         using InputPropagator = P2::Input::InputPropagator<InputHandler>;
         using BaseInstance = P2::Instance<View, InputPropagator, InputHandler, Model, ModelObserver>;
-        using MessageHandler = P2::Communication::MessageHandler;
+        using MessageHandler = P2::Communication::MessageHandler<P2::Communication::MessageParser>;
         using Instance = P2::ProgramRemoteInstance<BaseInstance, MessageHandler>;
     }
 
@@ -96,7 +97,9 @@ namespace ProgramInternalsCreators
 
     public:
         static LocalQt::Instance createLocalQt(QWidget *qtViewWidgetParent);
-        static Remote::Instance createRemote(const std::string &address, const std::string &subscribeStr);
+        static Remote::Instance createRemote(const std::string &subscribeAddress,
+                                             const std::string &publishAddress,
+                                             const std::string &modelId);
         //static RemoteInstance createRemote();
     };
     /*using RemoteInstance = P2::Instance<

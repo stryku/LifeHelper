@@ -71,8 +71,6 @@ int main(int argc, char *argv[])
     LOG_FILE("sub2God.startBindings");
     sub2God.startBindings();
 
-    
-
     MainWindow w;
     God::Subprograms::SubprogramInstancesManager<ProxyGodToSubprogram, 
                                                  ProxySubprogramToGod> mngr{ w.getTabWidget(),
