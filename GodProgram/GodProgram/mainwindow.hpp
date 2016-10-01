@@ -1,9 +1,10 @@
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#pragma once
 
-#include <Tabs/TabsManager.hpp>
+#include "subprograms/helpers.hpp"
 
 #include <QMainWindow>
+
+#include <functional>
 
 namespace Ui {
 class MainWindow;
@@ -33,5 +34,3 @@ private:
 
     std::function<void(God::Subprograms::Type, QWidget*)> createNewInstanceCallback;
 };
-
-#endif // MAINWINDOW_H

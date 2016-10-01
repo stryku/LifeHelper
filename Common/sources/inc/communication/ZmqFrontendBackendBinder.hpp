@@ -18,7 +18,9 @@ namespace God
                 {
                     try
                     {
-                        zmq::proxy(static_cast<void*>(frontend.getSocket()), static_cast<void*>(backend.getSocket()), capturer);
+                        zmq::proxy(static_cast<void*>(frontend.getSocket()), 
+                                   static_cast<void*>(backend.getSocket()), 
+                                   capturer);
                     }
                     catch (zmq::error_t &e)
                     {

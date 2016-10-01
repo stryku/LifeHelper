@@ -26,16 +26,10 @@ include_directories (${inc_dir}
                      ${common_inc_dir}
                      ${Qt5UiTools_INCLUDE_DIRS})
 
-set (Program2Objects_src ${internals_dir}/view/ConsoleView.cpp
-                         ${internals_dir}/view/QtView.cpp
-                         ${internals_dir}/view/View.cpp
-                         ${internals_dir}/view/detail/QtWidgetManager.cpp
-                         
-                         ${internals_dir}/input/Input.cpp
-                         
-                         ${internals_dir}/model/Model.cpp
+set (Program2Objects_src ${internals_dir}/view/detail/QtWidgetManager.cpp
                          
                          ${internals_dir}/communication/MessageType.cpp)
+                         
                      
 set (Program2Objects_inc ${internals_inc_dir}/ProgramInfo.hpp
                          

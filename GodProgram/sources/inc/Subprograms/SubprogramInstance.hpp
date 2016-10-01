@@ -7,10 +7,6 @@
 #include "Subprograms/Messages/Handlers/Program2MessageHandler.hpp"
 #include "Subprograms/SubprogramSignalHandler.hpp"
 
-#include "program2internals/input/SocketInputPropagatorSender.hpp"
-
-#include <QTabWidget>
-
 #include <memory>
 
 namespace God

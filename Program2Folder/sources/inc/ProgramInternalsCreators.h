@@ -13,7 +13,6 @@
 //#include "program2internals/controller/Controller.h"
 #include "program2internals/input/InputHandler.hpp"
 #include "program2internals/input/InputPropagator.hpp"
-#include "program2internals/input/SocketInputPropagatorSender.hpp"
 #include "program2internals/model/SocketModelSender.hpp"
 #include "program2internals/model/SocketModelReceiver.hpp"
 //#include "program2internals/ProgramInternals.h"

@@ -2,14 +2,16 @@
 
 #include "program2internals/ProgramInfo.hpp"
 
-#include "Subprograms/SubprogramInstanceFactory.hpp"
 #include "communication/Proxy.hpp"
 #include "communication/AddressProviders.hpp"
 #include "communication/ZmqFrontendBackendBinder.hpp"
 #include "communication/ChannelFactory.hpp"
-#include "Subprograms/Process/ProcessFactory.hpp"
+#include "subprograms/Process/ProcessFactory.hpp"
+#include "subprograms/SubprogramInstance.hpp"
 
 #include "tiny_process_library/process.hpp"
+
+#include <QTabWidget>
 
 #include <boost/variant.hpp>
 

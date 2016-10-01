@@ -77,8 +77,6 @@ namespace Common
                         catch (const zmq::error_t& ex)
                         {
                             LOG_FILE("Subscriber catched zmq::error_t: " << ex.what());
-                            // recv() throws ETERM when the zmq context is destroyed,
-                            //  as when AsyncZmqListener::Stop() is called
                             if (ex.num() != ETERM)
                                 throw;
                         }

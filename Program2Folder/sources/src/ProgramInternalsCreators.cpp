@@ -1,12 +1,6 @@
 #include "ProgramInternalsCreators.h"
 #include "utils/log.hpp"
 
-//#include <program2internals/model/SocketModelObserverReceiver.hpp>
-#include "program2internals/model/SocketModelObserverSender.hpp"
-#include "program2internals/input/SocketInputPropagatorSender.hpp"
-//#include <program2internals/input/SocketInputObserverReceiver.h>
-
-
 namespace ProgramInternalsCreators
 {
 

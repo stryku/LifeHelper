@@ -1,12 +1,8 @@
-#include "Tabs/TabsManager.hpp"
 #include "Subprograms/SubprogramInstancesManager.hpp"
 #include "communication/Proxy.hpp"
 #include "communication/ChannelFactory.hpp"
 
 #include "mainwindow.hpp"
-
-#include "communication/ProxyCapturer.hpp"
-
 
 #include <QApplication>
 

@@ -38,9 +38,9 @@ namespace Common
         class OneWayChannel
         {
         public:
-            OneWayChannel(zmq::context_t &context) :
-                m_context(context),
-                m_socket(context, Type::socketType)
+            OneWayChannel(zmq::context_t &context)
+                : m_context(context)
+                , m_socket(context, Type::socketType)
             {}
             OneWayChannel(OneWayChannel&&) noexcept = default;
             OneWayChannel& operator=(OneWayChannel&&) noexcept = default;
@@ -69,12 +69,11 @@ namespace Common
         class ReceiverChannel : public OneWayChannel<Type>
         {
         public:
-            ReceiverChannel(zmq::context_t &context) :
-                OneWayChannel(context)
+            ReceiverChannel(zmq::context_t &context)
+                : OneWayChannel(context)
             {}
             ReceiverChannel(ReceiverChannel&&) = default;
             ReceiverChannel& operator=(ReceiverChannel&&) = default;
-            
 
             auto recv(zmq::message_t &message)
             {
@@ -104,8 +103,8 @@ namespace Common
         class SenderChannel : public OneWayChannel<Sender>
         {
         public:
-            SenderChannel(zmq::context_t &context) :
-                OneWayChannel<Sender>(context)
+            SenderChannel(zmq::context_t &context)
+                : OneWayChannel<Sender>(context)
             {}
             SenderChannel(SenderChannel&&) noexcept = default;
             SenderChannel& operator=(SenderChannel&&) noexcept = default;
@@ -124,8 +123,8 @@ namespace Common
         class SubscriberChannel : public ReceiverChannel<ChannelType::Subscriber>
         {
         public:
-            SubscriberChannel(zmq::context_t &context, const std::string &subscribeStr) :
-                ReceiverChannel<ChannelType::Subscriber>(context)
+            SubscriberChannel(zmq::context_t &context, const std::string &subscribeStr)
+                : ReceiverChannel<ChannelType::Subscriber>(context)
             {
                 m_socket.setsockopt(ZMQ_SUBSCRIBE, subscribeStr.c_str(), subscribeStr.length());
             }
@@ -137,8 +136,8 @@ namespace Common
         class xSubscriberChannel : public ReceiverChannel<ChannelType::xSubscriber>
         {
         public:
-            xSubscriberChannel(zmq::context_t &context) :
-                ReceiverChannel<ChannelType::xSubscriber>(context)
+            xSubscriberChannel(zmq::context_t &context)
+                : ReceiverChannel<ChannelType::xSubscriber>(context)
             {}
 
             xSubscriberChannel(xSubscriberChannel&&) noexcept = default;
@@ -148,8 +147,8 @@ namespace Common
         class PublisherChannel : public SenderChannel<ChannelType::Publisher>
         {
         public:
-            PublisherChannel(zmq::context_t &context) :
-                SenderChannel<ChannelType::Publisher>(context)
+            PublisherChannel(zmq::context_t &context)
+                : SenderChannel<ChannelType::Publisher>(context)
             {}
 
             PublisherChannel(PublisherChannel&&) noexcept = default;
@@ -159,8 +158,8 @@ namespace Common
         class xPublisherChannel : public OneWayChannel<ChannelType::xPublisher>
         {
         public:
-            xPublisherChannel(zmq::context_t &context) :
-                OneWayChannel<ChannelType::xPublisher>(context)
+            xPublisherChannel(zmq::context_t &context)
+                : OneWayChannel<ChannelType::xPublisher>(context)
             {}
 
             xPublisherChannel(xPublisherChannel&&) noexcept = default;
@@ -170,8 +169,8 @@ namespace Common
         class PullerChannel : public ReceiverChannel<ChannelType::Puller>
         {
         public:
-            PullerChannel(zmq::context_t &context) :
-                ReceiverChannel<ChannelType::Puller>(context)
+            PullerChannel(zmq::context_t &context)
+                : ReceiverChannel<ChannelType::Puller>(context)
             {}
 
             PullerChannel(PullerChannel&&) noexcept = default;
@@ -181,8 +180,8 @@ namespace Common
         class PusherChannel : public SenderChannel<ChannelType::Pusher>
         {
         public:
-            PusherChannel(zmq::context_t &context) :
-                SenderChannel<ChannelType::Pusher>(context)
+            PusherChannel(zmq::context_t &context)
+                : SenderChannel<ChannelType::Pusher>(context)
             {}
 
             PusherChannel(PusherChannel&&) noexcept = default;

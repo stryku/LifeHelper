@@ -1,14 +1,11 @@
 #pragma once
 
 #include "view/QtView.hpp"
-//#include "controller/Controller.h"
 #include "input/InputHandler.hpp"
 #include "input/InputPropagator.hpp"
-#include "input/SocketInputPropagatorSender.hpp"
 #include "model/SocketModelSender.hpp"
 #include "model/SocketModelReceiver.hpp"
 #include "model/ModelObserver.hpp"
-//#include "ProgramInternals.h"
 #include "communication/OneWayChannel.hpp"
 #include "Communication/ChannelFactory.hpp"
 

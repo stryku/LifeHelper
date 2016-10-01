@@ -9,9 +9,6 @@ namespace utils
     {
         template<typename, typename T>
         struct hasToString {
-            /*static_assert(
-                std::integral_constant<T, false>::value,
-                "Second template parameter needs to be of function type.");*/
             static constexpr bool value = false;
         };
 

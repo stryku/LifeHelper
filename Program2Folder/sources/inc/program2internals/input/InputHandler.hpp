@@ -2,6 +2,8 @@
 
 #include "utils/log.hpp"
 
+#include "memory"
+
 namespace P2
 {
     namespace Input
