@@ -34,11 +34,13 @@ namespace God
                 static std::string createCommand(ModelId id)
                 {
                     std::string programPath = "C:\\moje\\programowanie\\LifeController\\bin\\programs\\Program2\\Program2.exe";
-                    std::string address = "tcp://127.0.0.1:1777";
+                    std::string subscribeAddress = "tcp://127.0.0.1:1777";
+                    std::string publishAddress = "tcp://127.0.0.1:1555";
                     std::string modelId = utils::toString(id);
 
                     return programPath + " remote " +
-                           address + " " +
+                           subscribeAddress + " " +
+                           publishAddress + " " +
                            modelId;
                 }
             };
