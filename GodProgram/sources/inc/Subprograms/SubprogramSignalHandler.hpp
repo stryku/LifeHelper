@@ -1,5 +1,6 @@
 #pragma once
 
+#include "communication/messages/SignalType.hpp"
 #include <Subprograms/HeartbeatController.hpp>
 
 #include <string>
@@ -52,15 +53,15 @@ namespace God
             {
                 switch (type)
                 {
-                case God::Subprograms::SignalType::HEARTBEAT_SIGNAL:
+                case Common::Communication::SignalType::Type::HEARTBEAT_SIGNAL:
                     handleHeartbeat();
                     break;
 
-                case God::Subprograms::SignalType::ERROR_SIGNAL:
+                case Common::Communication::SignalType::Type::ERROR_SIGNAL:
                     handleError(std::forward<Args>(args)...);
                     break;
 
-                case God::Subprograms::SignalType::CLEAN_CLOSE_SIGNAL:
+                case Common::Communication::SignalType::Type::CLEAN_CLOSE_SIGNAL:
                     handleCleanClose();
                     break;
 
