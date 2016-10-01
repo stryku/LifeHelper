@@ -1,19 +1,68 @@
-#include <ProgramInternalsCreators.h>
+#include "ProgramInternalsCreators.h"
+#include "utils/log.hpp"
 
-#include <communication/CommunicationChannel.hpp>
+//#include <program2internals/model/SocketModelObserverReceiver.hpp>
+#include "program2internals/model/SocketModelObserverSender.hpp"
+#include "program2internals/input/SocketInputPropagatorSender.hpp"
+//#include <program2internals/input/SocketInputObserverReceiver.h>
 
-#include <internals/model/SocketModelObserverReceiver.hpp>
-#include <internals/model/SocketModelObserverSender.hpp>
-#include <internals/input/SocketInputObserverSender.hpp>
-#include <internals/input/SocketInputObserverReceiver.h>
-
-#include <internals/view/QtView.h>
 
 namespace ProgramInternalsCreators
 {
-    ProgramInternals createLocalQt( QWidget *qtViewWidgetParent )
+
+    //Instance(ParentPlaceholder *parent) :
+    //    //internals{ controller },
+    //    view{ std::make_shared<View>(parent, "C:/moje/programowanie/LifeController/bin/programs/Program2/uiforms/Program2Form.ui") },
+    //    inputPropagator{ std::make_shared<InputPropagator>() },
+    //    modelObserver { std::make_shared<ModelObserver>() },
+    //    model{ std::make_shared<Model>() },
+    //    inputHandler { std::make_shared<InputHandler>(model) }
+    //{
+    //    view->connectWithInput(*inputPropagator);
+    //    model->registerObserver(modelObserver);
+    //    modelObserver->registerView(view);
+    //    inputPropagator->setInputHandler(inputHandler);
+    //    //inputHandler->setInputObserver(model);
+
+    //    //internals.setController(controller);
+    //    //internals.addInputPropagator(inputPropagator);
+    //    //internals.addView(view);
+    //}
+    LocalQt::Instance Creator::createLocalQt(QWidget *qtViewWidgetParent)
     {
-        auto model = new P2::Model::Model();
+        LOG("creating local qt");
+
+        /*using View = P2::View::QtView;
+        using ModelObserver = P2::Model::ModelObserver<View>;
+        using Model = P2::Model::Model<ModelObserver>;
+        using InputHandler = P2::Input::InputHandler<Model>;
+        using InputPropagator = P2::Input::InputPropagator<InputHandler>;
+        using LocalQtInstance = P2::Instance<View, InputPropagator, InputHandler, Model, ModelObserver, QWidget>;*/
+
+        LocalQt::Instance instance;
+
+        instance.view = std::make_shared<LocalQt::View>(qtViewWidgetParent, "C:/moje/programowanie/LifeController/bin/programs/Program2/uiforms/Program2Form.ui");
+        instance.inputPropagator = std::make_shared<LocalQt::InputPropagator>();
+        instance.modelObserver = std::make_shared<LocalQt::ModelObserver>();
+        instance.model = std::make_shared<LocalQt::Model>();
+        instance.inputHandler = std::make_shared<LocalQt::InputHandler>(instance.model);
+
+        instance.view->connectWithInput(*instance.inputPropagator);
+        instance.model->registerObserver(instance.modelObserver);
+        instance.modelObserver->registerView(instance.view);
+        instance.inputPropagator->setInputHandler(instance.inputHandler);
+            
+
+       /* using Model = P2::Model::Model;
+        using Controller = P2::Controller::Controller<Model>;
+        using InputPropagator = P2::Input::InputPropagator;
+        using View = P2::View::QtView<InputPropagator>;
+        using Internals = P2::ProgramInternals<Controller>;
+        using Instance = Creator::LocalQtInstance;*/
+
+
+
+        /*auto model = new P2::Model::Model();
         auto controller = new P2::Controller::Controller();
         auto inputPropagator = new P2::Input::InputPropagator();
         auto view = new P2::View::QtView( qtViewWidgetParent );
@@ -21,19 +70,49 @@ namespace ProgramInternalsCreators
         view->connectWithInput( inputPropagator );
         model->registerObserver( controller );
         controller->registerView( view );
-        controller->setInputObserver( model );
+        controller->setInputObserver( model );*/
 
-        auto internals = ProgramInternals();
+        //auto internals = P2::ProgramInternals(controller);
 
 
-        internals.setController( controller );
-        internals.addInput( inputPropagator );
-        internals.addView( view );
+        //internals.setController( controller );
+        //internals.addInputPropagator( inputPropagator );
+        //internals.addView( view );
 
-        return internals;
+        return instance;
     }
 
-    ProgramInternals createRemoteModelQt(QWidget *qtViewWidgetParent)
+    Remote::Instance Creator::createRemote(const std::string &subscribeAddress, 
+                                           const std::string &publishAddress, 
+                                           const std::string &modelId)
+    {
+        using ChannelFactory = Common::Communication::ChannelFactory;
+
+        LOG("creating remote instance");
+
+        Remote::BaseInstance baseInstance;
+
+        baseInstance.view = std::make_shared<Remote::View>(ChannelFactory::create<Remote::SocketViewSender>());
+        baseInstance.inputPropagator = std::make_shared<Remote::InputPropagator>();
+        baseInstance.modelObserver = std::make_shared<Remote::ModelObserver>();
+        baseInstance.model = std::make_shared<Remote::Model>();
+        baseInstance.inputHandler = std::make_shared<Remote::InputHandler>(baseInstance.model);
+
+        baseInstance.model->registerObserver(baseInstance.modelObserver);
+        baseInstance.modelObserver->registerView(baseInstance.view);
+        baseInstance.inputPropagator->setInputHandler(baseInstance.inputHandler);
+        baseInstance.view->connect(publishAddress);
+
+        auto messageHandler = std::make_shared<Remote::MessageHandler>();
+        messageHandler->connectWithInput(*baseInstance.inputPropagator);
+
+        Remote::Instance instance{ std::move(baseInstance), modelId, std::move(messageHandler) };
+
+        return instance;
+    }
+
+
+   /* P2::ProgramInternals createRemoteModelQt(QWidget *qtViewWidgetParent)
     {
         zmq::context_t context{ 1 };
         Common::Communication::CommunicationChannel channel(context);
@@ -50,7 +129,7 @@ namespace ProgramInternalsCreators
         controller->registerView(view);
         controller->setInputObserver(inputObserver);
 
-        auto internals = ProgramInternals();
+        auto internals = P2::ProgramInternals(controller);
 
 
         internals.setController(controller);
@@ -58,9 +137,9 @@ namespace ProgramInternalsCreators
         internals.addView(view);
 
         return internals;
-    }
+    }*/
 
-    ProgramInternals createRemoteViewRemoteInputLocalModel()
+   /* P2::ProgramInternals createRemoteViewRemoteInputLocalModel()
     {
         zmq::context_t context{ 1 };
         Common::Communication::CommunicationChannel channel(context);
@@ -72,9 +151,14 @@ namespace ProgramInternalsCreators
         model->registerObserver(modelObserverSender);
         inputChangesObserver->addInputObserver(model);
 
-        auto internals = ProgramInternals();
+        auto internals = P2::ProgramInternals(controller);
 
         return internals;
     }
-
+*/
+/*
+    Creator::RemoteInstance Creator::createRemote()
+    {
+        return RemoteInstance{nullptr};
+    }*/
 }

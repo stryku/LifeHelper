@@ -1,5 +1,5 @@
 cmake_minimum_required (VERSION 2.8.12)
-project (GodProgram)
+project (LifeHelper)
 
 include(CheckCXXCompilerFlag)
 CHECK_CXX_COMPILER_FLAG("-std=c++14" COMPILER_SUPPORTS_CXX14)
@@ -34,10 +34,17 @@ include_directories (${Boost_INCLUDE_DIRS})
 
 set( CMAKE_PREFIX_PATH C:/Qt/Qt5.7.0/5.7/msvc2015/)
 
-include_directories (${CMAKE_CURRENT_SOURCE_DIR}/Common/sources/inc)
+set (common_inc_dir ${CMAKE_CURRENT_SOURCE_DIR}/Common/sources/inc)
+include_directories (${common_inc_dir})
 
 set (GodProgram_install_dir ${CMAKE_CURRENT_SOURCE_DIR}/bin)
 set (GodProgram_programs_install_dir ${GodProgram_install_dir}/programs)
 
+set (Program2Sources ${CMAKE_CURRENT_SOURCE_DIR}/Program2Folder/sources)
+set (ThirdPartyRoot ${CMAKE_CURRENT_SOURCE_DIR}/ThirdParty)
+
+
+add_subdirectory(ThirdParty)
 add_subdirectory(Common)
 add_subdirectory(Program2Folder)
+add_subdirectory(GodProgram)
