@@ -23,6 +23,7 @@ namespace God
             {
                 using VariantType = boost::variant<Args...>;
                 using BasicMessageType = Common::Communication::Messages::MessageType::Type;
+                using SignalType = Common::Communication::SignalType::Type;
 
                 boost::variant<Common::Communication::SignalType::Type, Type> typeVariant;
                 VariantType variant;
@@ -35,14 +36,21 @@ namespace God
                 }
 
                 template <typename T,
+                    typename = std::enable_if_t<utils::traits::is_any_of<T, Args>::value>>
+                const T& get() const noexcept
+                {
+                    return boost::get<T>(variant);
+                }
+
+                template <typename T,
                           typename = std::enable_if_t<utils::traits::is_any_of<T, Args>::value>>
                 void set(const T &value) noexcept
                 {
                     get<T>() = value;
                 }
-
-                template <typename T,
-                          typename = std::enable_if_t<std::is_same<T, BasicMessageType>::value ||
+                
+                template <typename T, 
+                          typename = std::enable_if_t<std::is_same<T, SignalType>::value ||
                                                       std::is_same<T, Type>::value>>
                 T getType() noexcept
                 {
@@ -50,11 +58,11 @@ namespace God
                 }
 
                 template <typename T, 
-                          typename = std::enable_if_t<std::is_same<T, BasicMessageType>::value ||
+                          typename = std::enable_if_t<std::is_same<T, SignalType>::value ||
                                                       std::is_same<T, Type>::value>>
                 void setType(T type)
                 {
-                    boost::get<T>(typeVariant) = type;
+                    typeVariant = type;
                 }
             };
 
@@ -70,7 +78,7 @@ namespace God
             using SubprogramSignal = Message<Common::Communication::SignalType::Type>;
 
 
-            using Program2Message = Message<P2::Communication::MessageType::Type, size_t>;
+            using Program2Message = Message<P2::Communication::MessageType::ToGod::Type, size_t>;
         }
     }
 }
