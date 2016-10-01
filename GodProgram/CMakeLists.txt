@@ -23,7 +23,8 @@ set (subprogramsIncludes ${Program2Sources}/inc/)
 include_directories (${inc_dir} 
                      ${inc_dir_qt}
                      ${subprogramsIncludes}
-                     ${Qt5UiTools_INCLUDE_DIRS})
+                     ${Qt5UiTools_INCLUDE_DIRS}
+                     ${ThirdPartyRoot})
            
 set (GodProgram_src_qt	${src_dir_qt}/main.cpp
                         ${src_dir_qt}/mainwindow.cpp)
@@ -37,8 +38,6 @@ set (GodProgram_src ${src_dir}/Tabs/TabCreators.cpp
 set (GodProgram_inc ${inc_dir}/Tabs/TabCreators.hpp 
 					${inc_dir}/Tabs/TabsManager.hpp
 					${inc_dir}/Subprograms/helpers.hpp
-					${inc_dir}/Subprograms/SignalType.hpp
-					${inc_dir}/Subprograms/SubprogramMessagesSubscriber.hpp
 					${inc_dir}/Subprograms/HeartbeatController.hpp
 					${inc_dir}/Subprograms/SubprogramSignalHandler.hpp
 					${inc_dir}/Subprograms/SubprogramInstance.hpp
@@ -48,7 +47,9 @@ set (GodProgram_inc ${inc_dir}/Tabs/TabCreators.hpp
 					${inc_dir}/Subprograms/Messages/Handlers/Program2MessageHandler.hpp
 					${inc_dir}/Subprograms/Messages/Handlers/MessageHandler.hpp
 					${inc_dir}/Subprograms/Messages/Handlers/ProgramMessageHandlerCreator.hpp
-					${inc_dir}/Subprograms/Messages/Parsers/Program2MessageParser.hpp)
+					${inc_dir}/Subprograms/Messages/Parsers/MessageParser.hpp
+					${inc_dir}/Subprograms/Messages/Parsers/Program2MessageParser.hpp
+					${inc_dir}/Subprograms/Process/ProcessFactory.hpp)
                      
                      
 set (GodProgramLib_hdr ${inc_dir_qt}/mainwindow.hpp)
@@ -72,7 +73,8 @@ add_executable(GodProgram ${GodProgram_src_qt}
 						  ${GodProgram_inc} 
 						  $<TARGET_OBJECTS:GodProgramMocObjects>
 						  $<TARGET_OBJECTS:CommonObjects>
-						  $<TARGET_OBJECTS:Program2Objects>)
+						  $<TARGET_OBJECTS:Program2Objects>
+						  $<TARGET_OBJECTS:tiny-process-library>)
 						  
 target_link_libraries (GodProgram Qt5::Widgets Qt5::UiTools ${ZMQ_LIBRARIES})
 

@@ -1,6 +1,6 @@
 #pragma once
 
-#include <program2internals/view/detail/QtWidgetManager.h>
+#include <program2internals/view/detail/QtWidgetManager.hpp>
 
 #include <QWidget>
 

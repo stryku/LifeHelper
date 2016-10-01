@@ -41,8 +41,10 @@ set (GodProgram_install_dir ${CMAKE_CURRENT_SOURCE_DIR}/bin)
 set (GodProgram_programs_install_dir ${GodProgram_install_dir}/programs)
 
 set (Program2Sources ${CMAKE_CURRENT_SOURCE_DIR}/Program2Folder/sources)
+set (ThirdPartyRoot ${CMAKE_CURRENT_SOURCE_DIR}/ThirdParty)
 
 
+add_subdirectory(ThirdParty)
 add_subdirectory(Common)
 add_subdirectory(Program2Folder)
 add_subdirectory(GodProgram)

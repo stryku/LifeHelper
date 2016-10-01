@@ -17,7 +17,7 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
-    void setCreateNewInstanceCallback(std::function<void(God::Subprograms::Type)> callback)
+    void setCreateNewInstanceCallback(std::function<void(God::Subprograms::Type, QWidget*)> callback)
     {
         createNewInstanceCallback = callback;
     }
@@ -31,7 +31,7 @@ private:
 
     Ui::MainWindow *ui;
 
-    std::function<void(God::Subprograms::Type)> createNewInstanceCallback;
+    std::function<void(God::Subprograms::Type, QWidget*)> createNewInstanceCallback;
 };
 
 #endif // MAINWINDOW_H

@@ -1,10 +1,15 @@
 #pragma once
 
-#include <Subprograms/Messages/Parsers/Program2MessageParser.hpp>
-#include <Subprograms/Messages/Handlers/MessageHandler.hpp>
-#include <Subprograms/SubprogramSignalHandler.hpp>
+#include "Subprograms/Messages/Parsers/Program2MessageParser.hpp"
+#include "Subprograms/Messages/Handlers/MessageHandler.hpp"
+#include "Subprograms/SubprogramSignalHandler.hpp"
 
-#include <program2internals/controller/Controller.h>
+#include "Communication/ChannelFactory.hpp"
+#include "Communication/OneWayChannel.hpp"
+
+//#include "program2internals/controller/Controller.h"
+#include "program2internals/model/SocketModelReceiver.hpp"
+#include "program2internals/ProgramInfo.hpp"
 
 #include <string>
 #include <memory>
@@ -20,12 +25,13 @@ namespace God
                 class Program2 : public MessageHandler<Program2, Parsers::Program2>
                 {
                 public:
-                    using ControllerType = P2::Controller::Controller;
+                    //using ControllerType = P2::Info::TypesPack::Controller;
+                    using Model = P2::Info::TypesPack::ModelReceiver;
 
                     Program2() = default;
-                    Program2(std::weak_ptr<SignalsHandler> handler, std::weak_ptr<ControllerType> controller) noexcept :
+                    Program2(std::weak_ptr<SignalsHandler> handler, std::weak_ptr<Model> model) noexcept :
                         MessageHandler{ handler },
-                        controller{ controller }
+                        model{ model }
                     {}
 
                     Program2(Program2 &&) = default;
@@ -36,10 +42,26 @@ namespace God
 
                     void handle_impl(const Program2Message &parsed)
                     {
+                        auto internals = parsed.internalMessage;
+
+                        auto type = internals.getType<Program2Message::SubprogramMsgType>();
+                        switch (type)
+                        {
+                            case Program2Message::SubprogramMsgType::UPDATE_SUM:
+                                updateSum(parsed);
+                            default:
+                                break;
+                        }
                     }
 
                 private:
-                    std::weak_ptr<ControllerType> controller;
+                    void updateSum(const Program2Message &parsed)
+                    {
+                        if (auto ptr = model.lock())
+                            ptr->newSumValue(parsed.internalMessage.get<size_t>());
+                    }
+
+                    std::weak_ptr<Model> model;
                 };
             }
         }

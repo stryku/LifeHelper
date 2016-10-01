@@ -3,8 +3,8 @@
 #include <Subprograms/helpers.hpp>
 #include <Subprograms/SubprogramInstance.hpp>
 
-#include <program2internals/ProgramInternals.h>
-#include <program2internals/view/QtView.h>
+//#include <program2internals/ProgramInternals.h>
+#include <program2internals/view/QtView.hpp>
 
 #include <QTabWidget>
 

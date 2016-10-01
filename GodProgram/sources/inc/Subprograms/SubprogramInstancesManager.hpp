@@ -1,8 +1,15 @@
 #pragma once
 
-#include <program2internals/ProgramInfo.hpp>
+#include "program2internals/ProgramInfo.hpp"
 
-#include <Subprograms/SubprogramInstanceFactory.hpp>
+#include "Subprograms/SubprogramInstanceFactory.hpp"
+#include "communication/Proxy.hpp"
+#include "communication/AddressProviders.hpp"
+#include "communication/ZmqFrontendBackendBinder.hpp"
+#include "communication/ChannelFactory.hpp"
+#include "Subprograms/Process/ProcessFactory.hpp"
+
+#include "tiny_process_library/process.hpp"
 
 #include <boost/variant.hpp>
 
@@ -14,108 +21,61 @@ namespace God
 {
     namespace Subprograms
     {
-        struct Proxy
-        {
-            std::string getPushAddr()
-            {
-                return "tcp://127.0.0.1:5252";
-            }
-
-            std::string getSubAddr()
-            {
-                return "12";
-            }
-
-            zmq::context_t& getContext()
-            {
-                static zmq::context_t ctx{ 1 };
-                return ctx;
-            }
-        };
-
+        template <typename ProxyGodToSubprogram, typename ProxySubprogramToGod>
         class SubprogramInstancesManager
         {
         private:
-            using Program2Instance = Instance<P2::Info::TypesPack, Messages::Handlers::Program2>;
+
+            using Program2Instance = Instance<P2::Info::TypesPack, 
+                                              Messages::Handlers::Program2, 
+                                              Common::Communication::ChannelFactory>;
 
             using InstanceVariant = boost::variant<Program2Instance, int>;
 
-            //struct InstanceWithHandler
-            //{
-            //    InstanceWithHandler(SignalsHandler &&handler, InstanceVariant &&instance) :
-            //        instance{ std::move(instance) },
-            //        handler{ std::move(handler) }
-            //    {}
-            //    InstanceWithHandler(const InstanceWithHandler&) = delete;
-            //    InstanceWithHandler& operator=(const InstanceWithHandler&) = delete;
-
-            //    InstanceWithHandler(InstanceWithHandler &&other) :
-            //        instance{ std::move(other.instance) },
-            //        handler{ std::move(other.handler) },
-            //        modelId{ std::move(other.modelId) }
-            //    {}
-
-            //    InstanceWithHandler& operator=(InstanceWithHandler &&other)
-            //    {
-            //        instance = std::move(other.instance);
-            //        handler = std::move(other.handler);
-            //        modelId = std::move(other.modelId);
-
-            //        return *this;
-            //    }
-
-            //    //InstanceVariant instance;
-            //    SignalsHandler handler;
-            //    ModelId modelId;
-            //};
-
-            template <typename TypesPack, typename MessageHandler, typename InstanceType = Instance<TypesPack, MessageHandler>>
-            class Builder
+            void createProgram2(QWidget *tab)
             {
-            public:
-
-            private:
-                InstanceType instance;
-            };     
-
-
-            void createProgram2()
-            {
-                instances.emplace(genericCreate<P2::Info::TypesPack, Messages::Handlers::Program2>());
-                //auto id = instance.modelId;
-
-                //instances[id] = std::move(instance);
+                auto modelId = generateModelId();
+                instances.emplace(genericCreate<P2::Info::TypesPack, Messages::Handlers::Program2, Common::Communication::ChannelFactory>(tab, modelId));
+                processess.emplace(std::make_pair(modelId, Process::Factory::create(modelId)));
             }
 
-            template <typename TypesPack, typename MessageHandler, typename InstanceType = Instance<TypesPack, MessageHandler>>
-            auto genericCreate()
+            template <typename TypesPack, 
+                      typename MessageHandler, 
+                      typename Factory>
+            auto genericCreate(QWidget *tab, ModelId modelId)
             {
-                
-                auto modelId = generateModelId();
-                InstanceType instance{ std::ref(tabWidget),
-                    proxy.getContext(),
-                    proxy.getPushAddr(),
-                    proxy.getSubAddr(),
+                using InstanceType = Instance<TypesPack, MessageHandler, Factory>;
 
-                    getSubscribeString(modelId),
-                    createSignalHandler(modelId)
-                };
+                InstanceType instance{ tab,
+                                       proxyGodToSubprogram.subscriberAddress(),
+                                       proxySubprogramToGod.publisherAddress(),
+                                       getSubscribeString(modelId),
+                                       createSignalHandler(modelId) };
 
                 return std::make_pair(modelId, std::move(instance));
             }
 
         public:
-            SubprogramInstancesManager(QTabWidget &tabWidget, Proxy &proxy) :
+            SubprogramInstancesManager(QTabWidget &tabWidget,
+                                       ProxyGodToSubprogram &&proxyGodToSubprogram,
+                                       ProxySubprogramToGod &&proxySubprogramToGod) :
                 tabWidget{ tabWidget },
-                proxy{ proxy }
+                proxyGodToSubprogram{ std::move(proxyGodToSubprogram) }, 
+                proxySubprogramToGod{ std::move(proxySubprogramToGod) }
             {}
+            ~SubprogramInstancesManager()
+            {
+                int a;
+                a = 2;;
+                a++;
+            }
 
-            void create(Type subprogramType)
+            void create(Type subprogramType, QWidget *tab)
             {
                 switch (subprogramType)
                 {
                 case God::Subprograms::Type::P2:
-                    createProgram2();
+                    createProgram2(tab);
                     break;
 
                 default:
@@ -126,7 +86,7 @@ namespace God
 
             auto getCreateNewInstanceCallback()
             {
-                return [this](Type subprogramType) { create(subprogramType); };
+                return [this](Type subprogramType, QWidget *tab) { create(subprogramType, tab); };
             }
 
 
@@ -161,9 +121,11 @@ namespace God
             {}
 
             std::unordered_map<ModelId, InstanceVariant> instances;
+            std::unordered_map<ModelId, tpl::Process> processess;
             QTabWidget &tabWidget;
 
-            Proxy &proxy;
+            ProxyGodToSubprogram proxyGodToSubprogram;
+            ProxySubprogramToGod proxySubprogramToGod;
         };
     }
 }

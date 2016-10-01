@@ -1,10 +1,11 @@
 #pragma once
 
+#include "utils/traits/traits.hpp"
+
 #include <zmq/zmq.hpp>
 
 #include <type_traits>
-
-#include <utils/traits/traits.hpp>
+#include <array>
 
 namespace Common
 {
@@ -21,16 +22,19 @@ namespace Common
             using Puller = Type<zmq::socket_type::pull>;
             using Pusher = Type<zmq::socket_type::push>;
             using Subscriber = Type<zmq::socket_type::sub>;
+            using xSubscriber = Type<zmq::socket_type::xsub>;
+            using Publisher = Type<zmq::socket_type::pub>;
+            using xPublisher = Type<zmq::socket_type::xpub>;
         };
 
         template <typename Type,
                   typename = std::enable_if_t<utils::traits::is_any_of_v<Type,
                                                                          ChannelType::Puller,
                                                                          ChannelType::Pusher,
-                                                                         ChannelType::Subscriber>>>
-                  /*typename = std::enable_if_t<std::is_same_v <Type, ChannelType::Puller> ||
-                                              std::is_same_v <Type, ChannelType::Pusher> ||
-                                              std::is_same_v <Type, ChannelType::Subscriber>>>*/
+                                                                         ChannelType::Subscriber,
+                                                                         ChannelType::xPublisher,
+                                                                         ChannelType::Publisher,
+                                                                         ChannelType::xSubscriber>>>
         class OneWayChannel
         {
         public:
@@ -51,6 +55,11 @@ namespace Common
                 return m_socket.connect(addr);
             }
 
+            auto &getSocket()
+            {
+                return m_socket;
+            }
+
         protected:
             zmq::context_t &m_context;
             zmq::socket_t m_socket;
@@ -63,21 +72,40 @@ namespace Common
             ReceiverChannel(zmq::context_t &context) :
                 OneWayChannel(context)
             {}
-            ReceiverChannel(ReceiverChannel&&) noexcept = default;
-            ReceiverChannel& operator=(ReceiverChannel&&) noexcept = default;
+            ReceiverChannel(ReceiverChannel&&) = default;
+            ReceiverChannel& operator=(ReceiverChannel&&) = default;
             
 
             auto recv(zmq::message_t &message)
             {
                 return m_socket.recv(&message);
             }
+
+            bool recvTimeout(zmq::message_t &message, long timeout = -1L)
+            {
+                zmq::poll(&pollarray[0], 1, timeout);
+
+                if (pollarray[0].revents & ZMQ_POLLIN)
+                {
+                    m_socket.recv(&message);
+                    return true;
+                }
+
+                return false;
+            }
+
+        private:
+            std::array<zmq::pollitem_t, 1> pollarray = {
+                { static_cast<void*>(m_socket), 0, ZMQ_POLLIN, 0 },
+            };
         };
 
-        class SenderChannel : public OneWayChannel<ChannelType::Pusher>
+        template <typename Sender>
+        class SenderChannel : public OneWayChannel<Sender>
         {
         public:
             SenderChannel(zmq::context_t &context) :
-                OneWayChannel<ChannelType::Pusher>(context)
+                OneWayChannel<Sender>(context)
             {}
             SenderChannel(SenderChannel&&) noexcept = default;
             SenderChannel& operator=(SenderChannel&&) noexcept = default;
@@ -99,11 +127,66 @@ namespace Common
             SubscriberChannel(zmq::context_t &context, const std::string &subscribeStr) :
                 ReceiverChannel<ChannelType::Subscriber>(context)
             {
-                m_socket.setsockopt(ZMQ_SUBSCRIBE, subscribeStr.c_str(), 0);
+                m_socket.setsockopt(ZMQ_SUBSCRIBE, subscribeStr.c_str(), subscribeStr.length());
             }
 
             SubscriberChannel(SubscriberChannel&&) noexcept = default;
             SubscriberChannel& operator=(SubscriberChannel&&) noexcept = default;
+        };
+
+        class xSubscriberChannel : public ReceiverChannel<ChannelType::xSubscriber>
+        {
+        public:
+            xSubscriberChannel(zmq::context_t &context) :
+                ReceiverChannel<ChannelType::xSubscriber>(context)
+            {}
+
+            xSubscriberChannel(xSubscriberChannel&&) noexcept = default;
+            xSubscriberChannel& operator=(xSubscriberChannel&&) noexcept = default;
+        };
+
+        class PublisherChannel : public SenderChannel<ChannelType::Publisher>
+        {
+        public:
+            PublisherChannel(zmq::context_t &context) :
+                SenderChannel<ChannelType::Publisher>(context)
+            {}
+
+            PublisherChannel(PublisherChannel&&) noexcept = default;
+            PublisherChannel& operator=(PublisherChannel&&) noexcept = default;
+        };
+
+        class xPublisherChannel : public OneWayChannel<ChannelType::xPublisher>
+        {
+        public:
+            xPublisherChannel(zmq::context_t &context) :
+                OneWayChannel<ChannelType::xPublisher>(context)
+            {}
+
+            xPublisherChannel(xPublisherChannel&&) noexcept = default;
+            xPublisherChannel& operator=(xPublisherChannel&&) noexcept = default;
+        };
+
+        class PullerChannel : public ReceiverChannel<ChannelType::Puller>
+        {
+        public:
+            PullerChannel(zmq::context_t &context) :
+                ReceiverChannel<ChannelType::Puller>(context)
+            {}
+
+            PullerChannel(PullerChannel&&) noexcept = default;
+            PullerChannel& operator=(PullerChannel&&) noexcept = default;
+        };
+
+        class PusherChannel : public SenderChannel<ChannelType::Pusher>
+        {
+        public:
+            PusherChannel(zmq::context_t &context) :
+                SenderChannel<ChannelType::Pusher>(context)
+            {}
+
+            PusherChannel(PusherChannel&&) noexcept = default;
+            PusherChannel& operator=(PusherChannel&&) noexcept = default;
         };
     }
 }

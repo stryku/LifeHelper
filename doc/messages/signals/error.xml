@@ -1,0 +1,15 @@
+<msg>
+    <type>
+        MODEL_SIGNAL
+    </type>
+    <internal>
+        <type>
+            ERROR_SIGNAL
+        </type>
+        <value>
+            <error_type>
+                error type
+            </error_type>
+        </value>
+    </internal>
+</msg>

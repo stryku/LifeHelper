@@ -1,10 +1,16 @@
 #pragma once
 
-#include "view/QtView.h"
-#include "controller/Controller.h"
-#include "input/Input.h"
-#include "input/SocketInputObserverSender.hpp"
-#include "ProgramInternals.h"
+#include "view/QtView.hpp"
+//#include "controller/Controller.h"
+#include "input/InputHandler.hpp"
+#include "input/InputPropagator.hpp"
+#include "input/SocketInputPropagatorSender.hpp"
+#include "model/SocketModelSender.hpp"
+#include "model/SocketModelReceiver.hpp"
+#include "model/ModelObserver.hpp"
+//#include "ProgramInternals.h"
+#include "communication/OneWayChannel.hpp"
+#include "Communication/ChannelFactory.hpp"
 
 namespace P2
 {
@@ -12,11 +18,19 @@ namespace P2
     {
         struct TypesPack
         {
-            using ProgramInternals = ProgramInternals;
+            /*using View = View::QtView<Input::InputPropagator>;
+            using SocketInputPropagatorSender = Input::SocketInputPropagatorSender<Common::Communication::PublisherChannel>;
+            using Controller = Controller::Controller<SocketInputPropagatorSender, View>;
+            using InputPropagator = Input::InputPropagator<Controller>;
+            using ProgramInternals = ProgramInternals<Controller>;*/
+
+            using ModelSender = Model::SocketModelSender<Common::Communication::PublisherChannel, 
+                                                         Common::Communication::ChannelFactory>;
+            using InputHandler = P2::Input::InputHandler<ModelSender>;
+            using InputPropagator = Input::InputPropagator<InputHandler>;
             using View = View::QtView;
-            using Controller = Controller::Controller;
-            using InputPropagator = Input::InputPropagator;
-            using SocketInputObserverSender = Input::SocketInputObserverSender;
+            using ModelObserver = P2::Model::ModelObserver<View>;
+            using ModelReceiver = P2::Model::SocketModelReceiver<ModelObserver>;
         };
 
         static constexpr auto programName = "Program2";

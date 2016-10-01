@@ -25,7 +25,11 @@ void MainWindow::on_tabWidget_tabBarClicked(int index)
 
 void MainWindow::createNewTab()
 {
-    createNewInstanceCallback(God::Subprograms::Type::P2);
+    auto newTab = new QWidget(ui->tabWidget);
+    auto plusTabIndex = ui->tabWidget->count() - 1;
+    ui->tabWidget->insertTab(plusTabIndex, newTab, tr("P2"));
+
+    createNewInstanceCallback(God::Subprograms::Type::P2, newTab);
 }
 
 
