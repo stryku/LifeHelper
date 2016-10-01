@@ -1,6 +1,9 @@
 #pragma once
 
-#include <Subprograms/SubprogramSignalHandler.hpp>
+#include "communication/messages/MessageType.hpp"
+#include "communication/messages/SignalType.hpp"
+#include "utils/log.hpp"
+#include "Subprograms/SubprogramSignalHandler.hpp"
 
 #include <functional>
 #include <memory>
@@ -27,11 +30,13 @@ namespace God
 
                     void handle(const std::string &strMsg)
                     {
-                        auto parsed = Parser::parse(strMsg);
+                        LOG("God::MessageHandler::handle:\n" << strMsg);
 
-                        if (parsed.type == Messages::SignalType::MODEL_SIGNAL)
+                        auto parsed = Parser().parse(strMsg);
+
+                        if (parsed.type == Common::Communication::Messages::MessageType::Type::MODEL_SIGNAL)
                         {
-                            auto signalType = parsed.internalMessage.getType<SignalType>();
+                            auto signalType = parsed.internalMessage.getType<Common::Communication::SignalType::Type>();
                             if(auto ptr = signalHandler.lock())
                                 ptr->signal(signalType, "");
                         }

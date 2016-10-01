@@ -42,9 +42,25 @@ namespace God
 
                     void handle_impl(const Program2Message &parsed)
                     {
+                        auto internals = parsed.internalMessage;
+
+                        auto type = internals.getType<Program2Message::SubprogramMsgType>();
+                        switch (type)
+                        {
+                            case Program2Message::SubprogramMsgType::UPDATE_SUM:
+                                updateSum(parsed);
+                            default:
+                                break;
+                        }
                     }
 
                 private:
+                    void updateSum(const Program2Message &parsed)
+                    {
+                        if (auto ptr = model.lock())
+                            ptr->newSumValue(parsed.internalMessage.get<size_t>());
+                    }
+
                     std::weak_ptr<Model> model;
                 };
             }
