@@ -56,7 +56,7 @@ namespace Common
                         try
                         {
                             LOG_FILE("Subscriber receiving...");
-                            auto ret = subscriberChannel.recvTimeout(msg);
+                            auto ret = subscriberChannel.recvTimeout(msg); 
 
                             LOG_FILE("Subscriber received");
 
@@ -69,7 +69,7 @@ namespace Common
                             if (auto ptr = msgHandler.lock())
                             {
                                 LOG_FILE("Subscriber passing message to handle");
-                                ptr->handle(msg.str());
+                                ptr->handle(eraseSubscriptionString(msg.str()));
                             }
                             else
                                 LOG_FILE("Subscriber msgHandler expired");
@@ -100,6 +100,12 @@ namespace Common
             }
 
         private:
+            std::string eraseSubscriptionString(const std::string &oryginalMsg)
+            {
+                auto pos = oryginalMsg.find(' ');
+                return oryginalMsg.substr(pos);
+            }
+
             SubChannel subscriberChannel;
             std::weak_ptr<MessageHandler> msgHandler;
 
