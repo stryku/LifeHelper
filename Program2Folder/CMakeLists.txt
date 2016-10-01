@@ -16,7 +16,6 @@ set (lib_dir ${src_root}/lib)
 set (install_dir ${src_root}/bin)
 set (resources_dir ${src_root}/resources)
 
-
 set (GodInstallDir ${GodProgram_programs_install_dir}/${program_name})
 
 message (${program_name} " will be installed in:")
@@ -31,30 +30,32 @@ set (Program2Objects_src ${internals_dir}/view/ConsoleView.cpp
                          ${internals_dir}/view/QtView.cpp
                          ${internals_dir}/view/View.cpp
                          ${internals_dir}/view/detail/QtWidgetManager.cpp
+                         
                          ${internals_dir}/input/Input.cpp
+                         
                          ${internals_dir}/model/Model.cpp
-                         ${internals_dir}/controller/Controller.cpp
+                         
                          ${internals_dir}/communication/MessageType.cpp)
                      
-set (Program2Objects_inc ${internals_inc_dir}/ProgramInternals.h
-                         ${internals_inc_dir}/ProgramInfo.hpp
-                         ${internals_inc_dir}/controller/Controller.h
+set (Program2Objects_inc ${internals_inc_dir}/ProgramInfo.hpp
+                         
+                         ${internals_inc_dir}/communication/MessageFromGod.hpp
                          ${internals_inc_dir}/communication/MessageHandler.hpp
                          ${internals_inc_dir}/communication/MessageType.hpp
                          ${internals_inc_dir}/communication/MessageParser.hpp
+                         
                          ${internals_inc_dir}/input/InputPropagator.hpp
                          ${internals_inc_dir}/input/InputHandler.hpp
-                         ${internals_inc_dir}/input/SocketInputPropagatorReceiver.hpp
-                         ${internals_inc_dir}/input/SocketInputPropagatorSender.hpp
                          ${internals_inc_dir}/input/InputObserver.hpp
+                         
                          ${internals_inc_dir}/model/Model.hpp
-                         ${internals_inc_dir}/model/SocketModelObserverReceiver.hpp
-                         ${internals_inc_dir}/model/SocketModelObserverSender.hpp
+                         ${internals_inc_dir}/model/SocketModelReceiver.hpp
+                         ${internals_inc_dir}/model/SocketModelSender.hpp
                          ${internals_inc_dir}/model/ModelObserver.hpp
-                         ${internals_inc_dir}/view/ConsoleView.h
+                         
                          ${internals_inc_dir}/view/QtView.hpp
-                         ${internals_inc_dir}/view/View.hpp
                          ${internals_inc_dir}/view/SocketView.hpp
+                         
                          ${internals_inc_dir}/view/detail/QtWidgetManager.hpp)
                      
 set (Program2_src   ${src_dir}/main.cpp
