@@ -22,6 +22,7 @@ namespace God
         {
         private:
             using Publisher = Common::Communication::PublisherChannel;
+            using Subscriber = Common::Communication::Subscriber<MessageHandler, SocketFactory>;
 
         public:
             Instance(QWidget *tabWidget,
@@ -41,7 +42,7 @@ namespace God
                 socketInputObserverSender{ std::make_shared<typename TypesPack::SocketInputPropagatorSender>(SocketFactory::create<Publisher>()) }*/,
                 signalsHandler{ std::make_shared<SignalsHandler>(std::move(signalsHandler)) },
                 messageHandler{ std::make_shared<MessageHandler>(this->signalsHandler, modelReceiver) },
-                messageSubscriber{ subscribeStr, messageHandler }
+                messageSubscriber{ std::make_unique<Subscriber>(subscribeStr, messageHandler) }
             {
                 //establishConnection(pushAddress, subscribeAddress);
                 //messageSubscriber.startRecv();
@@ -68,7 +69,8 @@ namespace God
                                      const std::string &subscribeAddress)
             {
                 modelSender->connect(pushAddress);
-                messageSubscriber.connect(subscribeAddress);
+                messageSubscriber->connect(subscribeAddress);
+                messageSubscriber->startRecv();
             }
 
             //Common::Communication::PublisherChannel internalPublisher;
@@ -83,7 +85,7 @@ namespace God
 
             std::shared_ptr<SignalsHandler> signalsHandler;
             std::shared_ptr<MessageHandler> messageHandler;
-            Common::Communication::Subscriber<MessageHandler, SocketFactory> messageSubscriber;
+            std::unique_ptr<Subscriber> messageSubscriber;
         };
     }
 }
