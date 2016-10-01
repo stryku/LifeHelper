@@ -27,28 +27,28 @@ namespace God
                         boost::property_tree::read_xml(iss, tree);
                         Message msg;
 
-                        msg.type = parseSignalType(tree);
+                        msg.type = parseMessageType(tree);
 
-                        if (msg.type == MesageType::Type::MODEL_SIGNAL)
+                        if (msg.type == Common::Communication::Messages::MessageType::Type::MODEL_SIGNAL)
                         {
-                            msg.internalMessage.setType<SignalType::Type>(parseSignalType(tree));
+                            msg.internalMessage.setType<Common::Communication::SignalType::Type>(parseSignalType(tree));
                             return msg;
                         }
                         else
-                            return static_cast<ConcreteParser*>(this)->parse_internal(tree, msg);
+                            return static_cast<const ConcreteParser*>(this)->parse_internal(tree, msg);
                     }
 
                 private:
                     Common::Communication::Messages::MessageType::Type parseMessageType(boost::property_tree::ptree &tree) const
                     {
                         auto strType = tree.get<std::string>("msg.type");
-                        return MesageType::fromString(strType);
+                        return Common::Communication::Messages::MessageType::fromString(strType);
                     }
 
                     Common::Communication::SignalType::Type parseSignalType(boost::property_tree::ptree &tree) const
                     {
                         auto strType = tree.get<std::string>("msg.internal");
-                        return SignalType::fromString(strType);
+                        return Common::Communication::SignalType::fromString(strType);
                     }
                 };
             }

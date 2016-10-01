@@ -14,14 +14,14 @@ namespace God
         {
             namespace Parsers
             {
-                class Program2 : MessageParser<Program2, Program2Message>
+                class Program2 : public MessageParser<Program2, Program2Message>
                 {
                 private:
-                    using MessageType = P2::Communication::MessageType::Type;
+                    using MessageType = P2::Communication::MessageType::ToGod::Type;
 
                 public:
                     Messages::Program2Message parse_internal(boost::property_tree::ptree &tree,
-                                                             Program2Message &msg) noexcept
+                                                             Program2Message &msg) const noexcept 
                     {
                         msg.internalMessage.setType<Program2Message::SubprogramMsgType>(parseType(tree));
                         msg.internalMessage.set<size_t>(parseValue(tree));
@@ -29,13 +29,13 @@ namespace God
                     }
 
                 private:
-                    Program2Message::SubprogramMsgType parseType(boost::property_tree::ptree &tree)
+                    Program2Message::SubprogramMsgType parseType(boost::property_tree::ptree &tree) const noexcept
                     {
                         auto strType = tree.get<std::string>("msg.internal.type");
-                        return P2::Communication::MessageType::fromString(strType);
+                        return P2::Communication::MessageType::ToGod::fromString(strType);
                     }
 
-                    size_t parseValue(boost::property_tree::ptree &tree)
+                    size_t parseValue(boost::property_tree::ptree &tree) const noexcept
                     {
                         auto strValue = tree.get<std::string>("msg.internal.value.new_sum");
                         
