@@ -26,9 +26,6 @@ namespace P2
                 ui_labelSum->setText(str);
             }
 
-            
-
-
             QWidget* QtWidgetManager::getWidget()
             {
                 LOG_FILE("QtWidgetManager::addView");

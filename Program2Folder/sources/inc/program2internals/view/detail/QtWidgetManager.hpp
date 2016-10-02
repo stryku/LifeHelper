@@ -1,8 +1,5 @@
-#ifndef P2QTWIDGETMANAGER_H
-#define P2QTWIDGETMANAGER_H
+#pragma once
 
-//#include "program2internals/input/InputHandler.h"
-//#include "program2internals/input/Input.h"
 #include "utils/log.hpp"
 
 
@@ -50,5 +47,3 @@ namespace P2
         }
     }
 }
-
-#endif // P2QTWIDGETMANAGER_H

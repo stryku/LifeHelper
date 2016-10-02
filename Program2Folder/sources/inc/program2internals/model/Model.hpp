@@ -1,5 +1,4 @@
-#ifndef P2MODEL_H
-#define P2MODEL_H
+#pragma once
 
 #include "utils/log.hpp"
 #include "program2internals/model/ModelObserver.hpp"
@@ -39,9 +38,8 @@ namespace P2
             }
 
         private:
-            size_t sum = 0;
+            size_t sum{ 0 };
             std::vector<std::weak_ptr<ModelObserver>> modelObservers;
         };
     }
 }
-#endif // P2MODEL_H

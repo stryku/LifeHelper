@@ -15,12 +15,6 @@ namespace P2
     {
         struct TypesPack
         {
-            /*using View = View::QtView<Input::InputPropagator>;
-            using SocketInputPropagatorSender = Input::SocketInputPropagatorSender<Common::Communication::PublisherChannel>;
-            using Controller = Controller::Controller<SocketInputPropagatorSender, View>;
-            using InputPropagator = Input::InputPropagator<Controller>;
-            using ProgramInternals = ProgramInternals<Controller>;*/
-
             using ModelSender = Model::SocketModelSender<Common::Communication::PublisherChannel, 
                                                          Common::Communication::ChannelFactory>;
             using InputHandler = P2::Input::InputHandler<ModelSender>;

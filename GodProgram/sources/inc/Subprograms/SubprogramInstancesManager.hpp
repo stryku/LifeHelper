@@ -65,12 +65,6 @@ namespace God
                 proxyGodToSubprogram{ std::move(proxyGodToSubprogram) }, 
                 proxySubprogramToGod{ std::move(proxySubprogramToGod) }
             {}
-            ~SubprogramInstancesManager()
-            {
-                int a;
-                a = 2;;
-                a++;
-            }
 
             void create(Type subprogramType, QWidget *tab)
             {
@@ -90,7 +84,6 @@ namespace God
             {
                 return [this](Type subprogramType, QWidget *tab) { create(subprogramType, tab); };
             }
-
 
         private:
 
