@@ -14,33 +14,10 @@ namespace P2
               typename InputPropagator,
               typename InputHandler,
               typename Model,
-              typename ModelObserver
-              //typename Internals,
-              /*typename ParentPlaceholder*/>
+              typename ModelObserver>
     class Instance
     {
-        friend class ProgramInternalsCreators::Creator;
-
     public:
-        //Instance(ParentPlaceholder *parent) :
-        //    //internals{ controller },
-        //    view{ std::make_shared<View>(parent, "C:/moje/programowanie/LifeController/bin/programs/Program2/uiforms/Program2Form.ui") },
-        //    inputPropagator{ std::make_shared<InputPropagator>() },
-        //    modelObserver { std::make_shared<ModelObserver>() },
-        //    model{ std::make_shared<Model>() },
-        //    inputHandler { std::make_shared<InputHandler>(model) }
-        //{
-        //    view->connectWithInput(*inputPropagator);
-        //    model->registerObserver(modelObserver);
-        //    modelObserver->registerView(view);
-        //    inputPropagator->setInputHandler(inputHandler);
-        //    //inputHandler->setInputObserver(model);
-
-        //    //internals.setController(controller);
-        //    //internals.addInputPropagator(inputPropagator);
-        //    //internals.addView(view);
-        //}
-
         Instance(const Instance&) = delete;
         Instance& operator=(const Instance&) = delete;
 
@@ -48,9 +25,10 @@ namespace P2
         Instance& operator=(Instance &&other) = default;
 
     private:
+        friend class ProgramInternalsCreators::Creator;
+
         Instance() = default;
 
-        //ProgramInternals<Controller> internals;
         std::shared_ptr<ModelObserver> modelObserver;
         std::shared_ptr<Model> model;
         std::shared_ptr<View> view;

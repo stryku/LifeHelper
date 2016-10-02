@@ -63,20 +63,3 @@ namespace P2
         };
     }
 }
-
-/*
-<msg>
-    <type>
-        MODEL_CHANGE
-    </type>
-    <internal>
-        <type>
-            UPDATE_SUM
-        </type>
-        <value>
-            <new_sum>
-                sum value
-            </new_sum>
-        </value>
-    </internal>
-</msg>*/

@@ -27,7 +27,6 @@ namespace P2
 
             void connect(const std::string &address)
             {
-                //sender.connect("inproc://simandero:1111");
                 sender.connect(address);
             }
 
@@ -55,13 +54,6 @@ namespace P2
                     if(auto ptr = modelObserver.lock())
                         ptr->newSumValue(sum);
             }
-/*
-            void registerObserver(std::weak_ptr<ModelObserver> modelObserver)
-            {
-                LOG_FILE("Model::registerObserver()");
-
-                modelObservers.push_back(observer);
-            }*/
 
         private:
             Sender sender;

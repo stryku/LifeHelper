@@ -1,8 +1,5 @@
-#ifndef P2QTVIEW_H
-#define P2QTVIEW_H
+#pragma once
 
-//#include <program2internals/input/Input.h>
-//#include <program2internals/view/View.h>
 #include "program2internals/view/detail/QtWidgetManager.hpp"
 #include "utils/log.hpp"
 
@@ -42,5 +39,3 @@ namespace P2
         };
     }
 }
-
-#endif // P2QTVIEW_H

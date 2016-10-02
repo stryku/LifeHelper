@@ -40,7 +40,6 @@ set (Program2Objects_inc ${internals_inc_dir}/ProgramInfo.hpp
                          
                          ${internals_inc_dir}/input/InputPropagator.hpp
                          ${internals_inc_dir}/input/InputHandler.hpp
-                         ${internals_inc_dir}/input/InputObserver.hpp
                          
                          ${internals_inc_dir}/model/Model.hpp
                          ${internals_inc_dir}/model/SocketModelReceiver.hpp

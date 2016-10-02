@@ -48,7 +48,7 @@ RemoteArgs parseRemoteArgs(int argc, char *argv[])
     };
 }
 
-void runRemote(int argc, char *argv[])
+int runRemote(int argc, char *argv[])
 {
     LOG_FILE("Running remote");
 
@@ -65,7 +65,7 @@ void runRemote(int argc, char *argv[])
     while (1)
         std::this_thread::sleep_for(std::chrono::seconds(123));
 
-
+    return 0;
 }
 
 int main(int argc, char *argv[])
