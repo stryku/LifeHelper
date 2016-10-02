@@ -1,0 +1,10 @@
+<msg>
+    <type>
+        MODEL_SIGNAL
+    </type>
+    <internal>
+        <type>
+            CLEAN_CLOSE_SIGNAL
+        </type>
+    </internal>
+</msg>
